@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\CMakeFiles\427b236add9940a94ed2e71b469f86ac\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3F240039-FD97-395D-B5FA-C18175DAC588}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

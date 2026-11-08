@@ -1,0 +1,13 @@
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\core\version.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\version.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\core\status.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\status.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\allocator.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\allocator.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\memory_pool.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\memory_pool.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\memory_manager.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\memory_manager.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\statistics_manager.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\statistics_manager.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\windows_memory.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\windows_memory.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\buffer.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\buffer.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\virtual_memory.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\virtual_memory.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\c_api_memory.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\c_api_memory.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\thread\thread.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\thread.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\thread\thread_pool.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\thread_pool.obj
+C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\thread\c_api_thread.cpp;C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\ArctixC.dir\Debug\c_api_thread.obj

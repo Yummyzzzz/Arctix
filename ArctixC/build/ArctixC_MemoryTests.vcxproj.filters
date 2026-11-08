@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\tests\test_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E84D7DC4-102A-3FCC-A95B-B07A978A0B59}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

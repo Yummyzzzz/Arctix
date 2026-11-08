@@ -1,0 +1,89 @@
+Start testing: Nov 08 12:01 Mitteleuropäische Zeit
+----------------------------------------------------------
+1/4 Testing: MemoryTests
+1/4 Test: MemoryTests
+Command: "C:/Users/spamt/Desktop/win/Arctix/ArctixC/build/Release/ArctixC_MemoryTests.exe"
+Directory: C:/Users/spamt/Desktop/win/Arctix/ArctixC/build
+"MemoryTests" start time: Nov 08 12:01 Mitteleuropäische Zeit
+Output:
+----------------------------------------------------------
+MEMORY-TESTS-OK
+<end of output>
+Test time =   0.53 sec
+----------------------------------------------------------
+Test Passed.
+"MemoryTests" end time: Nov 08 12:01 Mitteleuropäische Zeit
+"MemoryTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/4 Testing: ThreadTests
+2/4 Test: ThreadTests
+Command: "C:/Users/spamt/Desktop/win/Arctix/ArctixC/build/Release/ArctixC_ThreadTests.exe"
+Directory: C:/Users/spamt/Desktop/win/Arctix/ArctixC/build
+"ThreadTests" start time: Nov 08 12:01 Mitteleuropäische Zeit
+Output:
+----------------------------------------------------------
+THREAD-TESTS-OK
+<end of output>
+Test time =   0.63 sec
+----------------------------------------------------------
+Test Passed.
+"ThreadTests" end time: Nov 08 12:01 Mitteleuropäische Zeit
+"ThreadTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/4 Testing: ExtendedTests
+3/4 Test: ExtendedTests
+Command: "C:/Users/spamt/Desktop/win/Arctix/ArctixC/build/Release/ArctixC_ExtendedTests.exe"
+Directory: C:/Users/spamt/Desktop/win/Arctix/ArctixC/build
+"ExtendedTests" start time: Nov 08 12:01 Mitteleuropäische Zeit
+Output:
+----------------------------------------------------------
+EXTENDED-TESTS-OK
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"ExtendedTests" end time: Nov 08 12:01 Mitteleuropäische Zeit
+"ExtendedTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/4 Testing: CApiCheckBuild
+4/4 Test: CApiCheckBuild
+Command: "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe" "--build" "C:/Users/spamt/Desktop/win/Arctix/ArctixC/build" "--target" "ArctixC_CApiCheck"
+Directory: C:/Users/spamt/Desktop/win/Arctix/ArctixC/build
+"CApiCheckBuild" start time: Nov 08 12:01 Mitteleuropäische Zeit
+Output:
+----------------------------------------------------------
+MSBuild-Version 18.9.1+a81b43525 fÃ¼r .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/spamt/Desktop/win/Arctix/ArctixC/CMakeLists.txt
+  version.cpp
+  status.cpp
+  allocator.cpp
+  memory_pool.cpp
+  memory_manager.cpp
+  statistics_manager.cpp
+  windows_memory.cpp
+  buffer.cpp
+  virtual_memory.cpp
+  c_api_memory.cpp
+  thread.cpp
+  thread_pool.cpp
+  c_api_thread.cpp
+  Generating Code...
+     Creating library C:/Users/spamt/Desktop/win/Arctix/ArctixC/build/Debug/ArctixC.lib and object C:/Users/spamt/Desktop/win/Arctix/ArctixC/build/Debug/ArctixC.exp
+  ArctixC.vcxproj -> C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\Debug\ArctixC.dll
+  Building Custom Rule C:/Users/spamt/Desktop/win/Arctix/ArctixC/CMakeLists.txt
+  c_api_check.c
+  ArctixC_CApiCheck.vcxproj -> C:\Users\spamt\Desktop\win\Arctix\ArctixC\build\Debug\ArctixC_CApiCheck.lib
+<end of output>
+Test time =   6.87 sec
+----------------------------------------------------------
+Test Passed.
+"CApiCheckBuild" end time: Nov 08 12:01 Mitteleuropäische Zeit
+"CApiCheckBuild" time elapsed: 00:00:06
+----------------------------------------------------------
+
+End testing: Nov 08 12:01 Mitteleuropäische Zeit

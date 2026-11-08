@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\core\version.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\core\status.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\allocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\memory_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\memory_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\statistics_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\windows_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\virtual_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\memory\c_api_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\thread\thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\thread\thread_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\src\thread\c_api_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\spamt\Desktop\win\Arctix\ArctixC\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E84D7DC4-102A-3FCC-A95B-B07A978A0B59}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

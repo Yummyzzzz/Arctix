@@ -1,0 +1,10 @@
+^C:\USERS\SPAMT\DESKTOP\WIN\ARCTIX\ARCTIXC\BUILD\CMAKEFILES\427B236ADD9940A94ED2E71B469F86AC\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/spamt/Desktop/win/Arctix/ArctixC -BC:/Users/spamt/Desktop/win/Arctix/ArctixC/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/spamt/Desktop/win/Arctix/ArctixC/build/ArctixC.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
