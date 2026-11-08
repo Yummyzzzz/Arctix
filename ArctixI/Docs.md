@@ -14,7 +14,7 @@ Installs versioned Arctix components on a developer machine:
 - Supports side-by-side versions; never overwrites a loaded DLL in place.
 - Verifies hashes of official binaries before installing.
 
-## What it will install (from ArctixC v0.2.0)
+## What it will install (from ArctixC v0.1.1)
 
 - `arctixc.dll` + `arctixc.lib` (everything: foundation, allocator, pool, buffer, virtual memory, thread, thread pool, C ABIs)
 - `include/arctixc/**/*.hpp` + `include/arctixc/c_api/*.h` public SDK headers
