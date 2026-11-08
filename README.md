@@ -126,7 +126,7 @@ Arctix/
     Docs.md                 Short pointer to both manual files
     build.ps1               Configure, build, and test in one step
 
-  ArctixI/                  Planned: versioned installer for SDK binaries
+  ArctixI/                  Setup wizard (ArctixI.exe), arctix helper, uninstall.exe
   ArctixCLI/                Planned: command-line front-end and benchmarks
   ArctixS/                  Planned: graphical workspace and statistics viewer
 ```
@@ -155,7 +155,7 @@ This keeps the version consistent across the project and makes version updates a
 
 The companion projects are at different stages of development:
 
-- **ArctixI** — planned versioned installer for SDK binaries.
+- **ArctixI** — setup wizard installing SDK binaries, the `arctix` command and the uninstaller.
 - **ArctixCLI** — planned command-line front-end and benchmarking tools.
 - **ArctixS** — planned graphical workspace and statistics viewer.
 

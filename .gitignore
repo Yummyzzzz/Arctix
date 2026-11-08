@@ -2,6 +2,9 @@
 build/
 out/
 
+# Shippable setup folder assembled by ArctixI/build.ps1
+dist/
+
 # MSVC / CMake byproducts that can leak outside build trees
 *.ilk
 *.pdb

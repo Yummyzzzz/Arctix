@@ -1,17 +1,26 @@
+param([switch]$NoTests)
+
 $ErrorActionPreference = "Stop"
 
-# ArctixI build script -> produces ArctixI.exe (Arctix Installer).
+# ArctixI build script -> produces the three installer programs (Release):
+#   ArctixI.exe    the setup wizard (pure Win32 GUI, requires admin)
+#   arctix.exe     the installed `arctix <command>` helper
+#   uninstall.exe  the installed remover (requires admin)
 #
-# Status in this task: ArctixI is a DOCUMENTATION PLACEHOLDER. Its real
-# implementation is out of scope, so this script builds it only once a real
-# CMake target exists. If CMakeLists.txt already defines a project, a normal
-# Release build runs; otherwise the script reports the placeholder status
-# and exits 0 without failing.
+# Plus tests (ctest) and a ready-to-ship dist/ folder:
+#   ArctixI/dist/ArctixI.exe, arctix.exe, uninstall.exe, LICENSE.md,
+#   binaries/ (copied from ArctixC/binaries/).
+#
+# Usage:
+#   powershell -ExecutionPolicy Bypass -File ArctixI\build.ps1
+#   powershell -ExecutionPolicy Bypass -File ArctixI\build.ps1 -NoTests
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $BuildDir = Join-Path $Root "build"
+$DistDir = Join-Path $Root "dist"
 $CmakeBin = "cmake"
 
+# Prefer Visual Studio bundled CMake (has Ninja alongside).
 $VsCmake = "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe"
 $VsNinjaDir = "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja"
 if ((Test-Path $VsCmake) -and (Test-Path (Join-Path $VsNinjaDir "ninja.exe"))) {
@@ -40,21 +49,14 @@ function Ensure-Msvc {
             }
         }
         Remove-Item $tmp -ErrorAction SilentlyContinue
+    } else {
+        Write-Host "WARNING: vcvars64.bat not found at $vcvars" -ForegroundColor Yellow
+    }
+    if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue)) {
+        Write-Host "WARNING: cl.exe still not on PATH" -ForegroundColor Yellow
     }
 }
 Ensure-Msvc
-
-$cmakeLists = Join-Path $Root "CMakeLists.txt"
-$hasProject = $false
-if (Test-Path $cmakeLists) {
-    $hasProject = (Select-String -Path $cmakeLists -Pattern "^\s*project\s*\(" -Quiet) -eq $true
-}
-
-if (-not $hasProject) {
-    Write-Host "ArctixI is a documentation placeholder in this task - nothing to build yet." -ForegroundColor Yellow
-    Write-Host "Real implementation will produce ArctixI.exe (installer packaging the ArctixC SDK)."
-    exit 0
-}
 
 if (-not (Test-Path (Join-Path $BuildDir "build.ninja"))) {
     Write-Host "Configuring ArctixI (CMake + Ninja, Release) ..."
@@ -68,10 +70,49 @@ Write-Host "Building ArctixI ..."
 & $CmakeBin --build $BuildDir --config Release
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-$exe = Get-ChildItem -Path $BuildDir -Recurse -Filter "ArctixI.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
-if (-not $exe) {
-    Write-Host "Build finished but ArctixI.exe was not found in $BuildDir" -ForegroundColor Yellow
-    exit 1
+foreach ($exe in @("ArctixI.exe", "arctix.exe", "uninstall.exe")) {
+    $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $found) {
+        Write-Host ("ERROR: expected output " + $exe + " was not produced") -ForegroundColor Red
+        exit 1
+    }
+    Write-Host ("  " + $found.FullName)
+}
+
+if (-not $NoTests) {
+    Write-Host ""
+    Write-Host "Running tests (ctest) ..."
+    Push-Location $BuildDir
+    try {
+        & ctest --output-on-failure
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    } finally {
+        Pop-Location
+    }
+}
+
+# Assemble dist/: everything the setup wizard needs next to it.
+Write-Host ""
+Write-Host "Assembling dist/ ..."
+if (Test-Path $DistDir) { Remove-Item -Recurse -Force $DistDir }
+New-Item -ItemType Directory -Path $DistDir | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $DistDir "binaries") | Out-Null
+foreach ($exe in @("ArctixI.exe", "arctix.exe", "uninstall.exe")) {
+    $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1
+    Copy-Item $found.FullName (Join-Path $DistDir $exe)
+}
+Copy-Item (Join-Path (Split-Path -Parent $Root) "LICENSE.md") (Join-Path $DistDir "LICENSE.md")
+# Only the payload the wizard installs (matches kDependencies in
+# ArctixI/src/common.hpp) - no READMEs, no static build byproducts.
+$BinSrc = Join-Path (Split-Path -Parent $Root) "ArctixC\binaries"
+$BinDst = Join-Path $DistDir "binaries"
+$Payload = @("arctixc.dll", "arctixc.lib", "arctixc.exp", "ArctixC_ExtendedTests.exe", "ArctixC_MemoryTests.exe", "ArctixC_ThreadTests.exe", "Example_Extended.exe", "Example_MemoryAndThread.exe", "Example_MemoryOnly.exe", "Example_ThreadOnly.exe")
+foreach ($f in $Payload) {
+    $src = Join-Path $BinSrc $f
+    if (Test-Path $src) { Copy-Item $src $BinDst -Force }
+    else { Write-Host ("WARNING: payload file missing: " + $src) -ForegroundColor Yellow }
 }
 Write-Host ""
-Write-Host ("OK: " + $exe.FullName) -ForegroundColor Green
+Write-Host "OK: ArctixI build complete." -ForegroundColor Green
+Write-Host ("Ship the whole folder: " + $DistDir)
+Write-Host "It contains ArctixI.exe + arctix.exe + uninstall.exe + LICENSE.md + binaries/."
