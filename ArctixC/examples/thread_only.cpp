@@ -1,5 +1,5 @@
 // Example: thread consumer.
-// Links ArctixC::ArctixC. Ships with the single ArctixC.dll.
+// Links ArctixC::ArctixC. Ships with the single arctixc.dll.
 
 #include <arctixc/thread/thread.hpp>
 
@@ -18,7 +18,7 @@ void Worker(void* userData)
 
 int main()
 {
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     int counter = 0;
 
     if (!thread.Start(Worker, &counter))

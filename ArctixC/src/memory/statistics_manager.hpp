@@ -7,7 +7,7 @@
 
 #include <cstddef>
 
-namespace arctix
+namespace arctixs::Memory
 {
 
 // Tracks allocation totals. The owner (Allocator / Pool) is responsible
@@ -30,4 +30,4 @@ private:
     ArctixStats stats_;
 };
 
-} // namespace arctix
+} // namespace arctixs::Memory

@@ -5,7 +5,7 @@
 // (that .cpp includes this header).
 //
 // Owns N worker threads fed by a FIFO task queue. Tasks are the same
-// void(*)(void*) worker signature as arctix::Thread, so thread code and
+// void(*)(void*) worker signature as arctixs::Thread::Thread, so thread code and
 // pool code share worker functions. Worker exceptions are caught at the
 // worker boundary and counted (see FailedTasks()); they never escape.
 //
@@ -19,7 +19,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace arctix
+namespace arctixs::Thread
 {
 
 // Opaque internal state. Defined privately in src/thread/.
@@ -80,4 +80,4 @@ private:
 // propagated, and do not stop the remaining indices.
 ARCTIXC_THREAD_API bool ParallelFor(std::size_t begin, std::size_t end, void (*function)(std::size_t index, void* userData), void* userData, std::size_t threadCount = 0);
 
-} // namespace arctix
+} // namespace arctixs::Thread

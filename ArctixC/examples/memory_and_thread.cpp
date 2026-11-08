@@ -1,5 +1,5 @@
 // Example: combined consumer using both Memory and Thread.
-// Links ArctixC::ArctixC. Ships with the single ArctixC.dll.
+// Links ArctixC::ArctixC. Ships with the single arctixc.dll.
 // Proves the subsystems compose: a worker allocates from a pool.
 
 #include <arctixc/memory/memory_pool.hpp>
@@ -12,7 +12,7 @@ namespace
 
 void Worker(void* userData)
 {
-    arctix::MemoryPool* pool = static_cast<arctix::MemoryPool*>(userData);
+    arctixs::Memory::MemoryPool* pool = static_cast<arctixs::Memory::MemoryPool*>(userData);
     void* block = pool->Allocate();
     if (block != nullptr)
     {
@@ -24,13 +24,13 @@ void Worker(void* userData)
 
 int main()
 {
-    arctix::MemoryPool pool;
+    arctixs::Memory::MemoryPool pool;
     if (!pool.Create(128, 8))
     {
         return 1;
     }
 
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     if (!thread.Start(Worker, &pool))
     {
         return 1;

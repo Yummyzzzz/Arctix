@@ -8,7 +8,7 @@
 
 Installs versioned Arctix components on a developer machine:
 
-- Copies the single `ArctixC.dll` plus its `ArctixC.lib` import library and the `include/arctixc/` SDK headers.
+- Copies the single `arctixc.dll` plus its `arctixc.lib` import library and the `include/arctixc/` SDK headers.
 - Installs the exported CMake package (`ArctixCConfig.cmake`, `ArctixCTargets.cmake`) so consumers can `find_package(ArctixC)`.
 - Registers install location and version for ArctixCLI / ArctixS to find.
 - Supports side-by-side versions; never overwrites a loaded DLL in place.
@@ -16,7 +16,7 @@ Installs versioned Arctix components on a developer machine:
 
 ## What it will install (from ArctixC v0.2.0)
 
-- `ArctixC.dll` + `ArctixC.lib` (everything: foundation, allocator, pool, buffer, virtual memory, thread, thread pool, C ABIs)
+- `arctixc.dll` + `arctixc.lib` (everything: foundation, allocator, pool, buffer, virtual memory, thread, thread pool, C ABIs)
 - `include/arctixc/**/*.hpp` + `include/arctixc/c_api/*.h` public SDK headers
 - CMake package files under `lib/cmake/ArctixC/`
 

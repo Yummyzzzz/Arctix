@@ -8,4 +8,4 @@
 - a searchable, clickable list of **all 118 functions** across Foundation, Allocator, Memory Pool, Buffer, Memory Utils, Virtual Memory, Thread, Thread Pool and both C ABIs,
 - every function shown as **Name / Args (with types) / Returns (with type) / Example call / Explanation**, with syntax-highlighted code.
 
-Build: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (from the `Arctix/` root). Output: single `ArctixC.dll` + `ArctixC.lib` in `ArctixC/build/Release/`.
+Build: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (from the `Arctix/` root). Output: single `arctixc.dll` + `arctixc.lib` in `ArctixC/build/Release/`.

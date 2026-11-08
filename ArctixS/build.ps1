@@ -52,7 +52,7 @@ if (Test-Path $cmakeLists) {
 
 if (-not $hasProject) {
     Write-Host "ArctixS is a documentation placeholder in this task - nothing to build yet." -ForegroundColor Yellow
-    Write-Host "Real implementation will produce ArctixS.exe (Studio GUI over ArctixC.dll targets)."
+    Write-Host "Real implementation will produce ArctixS.exe (Studio GUI over arctixc.dll targets)."
     exit 0
 }
 

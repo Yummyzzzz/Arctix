@@ -1,6 +1,6 @@
 #include "memory/memory_manager.hpp"
 
-namespace arctix
+namespace arctixs::Memory
 {
 
 MemoryManager::MemoryManager()
@@ -88,4 +88,4 @@ ArctixStats MemoryManager::GetStatistics() const
     return stats_.Snapshot();
 }
 
-} // namespace arctix
+} // namespace arctixs::Memory

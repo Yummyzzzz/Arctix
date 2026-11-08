@@ -1,9 +1,9 @@
 #pragma once
 
-// ArctixC - DLL export / import macro for the single ArctixC.dll.
+// ArctixC - DLL export / import macro for the single arctixc.dll.
 //
-// Build ArctixC.dll with ARCTIXC_CORE_BUILD defined (done by CMake).
-// SDK consumers link ArctixC.lib and include the SDK headers WITHOUT
+// Build arctixc.dll with ARCTIXC_CORE_BUILD defined (done by CMake).
+// SDK consumers link arctixc.lib and include the SDK headers WITHOUT
 // defining ARCTIXC_CORE_BUILD.
 //
 // All subsystems (core, memory, thread) ship in this one DLL, so CMake

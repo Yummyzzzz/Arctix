@@ -37,12 +37,12 @@ static void ThrowWorker(void*)
 
 static void SleepyWorker(void*)
 {
-    arctix::ThreadSleepFor(50);
+    arctixs::Thread::ThreadSleepFor(50);
 }
 
 static void TestStartJoin()
 {
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     CHECK(!thread.IsJoinable());
     CHECK(!thread.Join());   // invalid lifecycle: join before start fails
     CHECK(!thread.Detach()); // invalid lifecycle: detach before start fails
@@ -59,7 +59,7 @@ static void TestStartJoin()
 
 static void TestUserData()
 {
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     std::atomic<int> counter{ 0 };
     CHECK(thread.Start(AddToCounter, &counter));
     CHECK(thread.Join());
@@ -70,7 +70,7 @@ static void TestUserData()
 
 static void TestDetach()
 {
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     std::atomic<bool> ran{ false };
     CHECK(thread.Start(SetFlag, &ran));
     CHECK(thread.Detach());
@@ -79,33 +79,33 @@ static void TestDetach()
     // Detached thread may still be running; poll briefly for completion.
     for (int i = 0; i < 100 && !ran.load(); ++i)
     {
-        arctix::ThreadSleepFor(10);
+        arctixs::Thread::ThreadSleepFor(10);
     }
     CHECK(ran.load());
 }
 
 static void TestIdsAndConcurrency()
 {
-    std::thread::id mainId = arctix::CurrentThreadId();
+    std::thread::id mainId = arctixs::Thread::CurrentThreadId();
     CHECK(mainId != std::thread::id{});
 
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     std::atomic<bool> ran{ false };
     CHECK(thread.Start(SetFlag, &ran));
     CHECK(thread.GetId() != std::thread::id{});
     CHECK(thread.GetId() != mainId);
     CHECK(thread.Join());
 
-    arctix::ThreadYield(); // must not crash
-    arctix::ThreadSleepFor(1);
-    (void)arctix::HardwareConcurrency(); // informational, no assert on value
+    arctixs::Thread::ThreadYield(); // must not crash
+    arctixs::Thread::ThreadSleepFor(1);
+    (void)arctixs::Thread::HardwareConcurrency(); // informational, no assert on value
 }
 
 static void TestConcurrentThreads()
 {
     constexpr int kThreads = 8;
     std::atomic<int> counter{ 0 };
-    std::vector<arctix::Thread> threads(kThreads);
+    std::vector<arctixs::Thread::Thread> threads(kThreads);
     for (int i = 0; i < kThreads; ++i)
     {
         CHECK(threads[i].Start(AddToCounter, &counter));
@@ -119,14 +119,14 @@ static void TestConcurrentThreads()
 
 static void TestIsRunning()
 {
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     CHECK(!thread.IsRunning());
     CHECK(thread.Start(SleepyWorker, nullptr));
     // Worker sleeps 50ms; running flag should be observable. Poll briefly.
     bool observed = thread.IsRunning();
     for (int i = 0; i < 50 && !observed; ++i)
     {
-        arctix::ThreadSleepFor(1);
+        arctixs::Thread::ThreadSleepFor(1);
         observed = thread.IsRunning();
     }
     CHECK(observed);
@@ -136,7 +136,7 @@ static void TestIsRunning()
 
 static void TestExceptionBoundary()
 {
-    arctix::Thread thread;
+    arctixs::Thread::Thread thread;
     CHECK(thread.Start(ThrowWorker, nullptr));
     CHECK(thread.Join()); // must not terminate the process
     CHECK(thread.HasThrown());
@@ -145,9 +145,9 @@ static void TestExceptionBoundary()
 static void TestMoveSemantics()
 {
     std::atomic<bool> ran{ false };
-    arctix::Thread a;
+    arctixs::Thread::Thread a;
     CHECK(a.Start(SetFlag, &ran));
-    arctix::Thread b(std::move(a)); // ownership transfers
+    arctixs::Thread::Thread b(std::move(a)); // ownership transfers
     CHECK(!a.IsJoinable());
     CHECK(b.IsJoinable());
     CHECK(b.Join());

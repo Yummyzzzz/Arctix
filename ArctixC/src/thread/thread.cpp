@@ -5,7 +5,7 @@
 #include <mutex>
 #include <utility>
 
-namespace arctix
+namespace arctixs::Thread
 {
 
 // Private state for Thread (opaque to SDK users).
@@ -153,4 +153,4 @@ unsigned int HardwareConcurrency()
     return std::thread::hardware_concurrency();
 }
 
-} // namespace arctix
+} // namespace arctixs::Thread

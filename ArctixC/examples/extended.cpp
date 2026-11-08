@@ -1,5 +1,5 @@
-// Example: tour of the v0.3.0 additions - Buffer, virtual memory,
-// ThreadPool and ParallelFor, all from the single ArctixC.dll.
+// Example: tour of the v0.1.1 additions - Buffer, virtual memory,
+// ThreadPool and ParallelFor, all from the single arctixc.dll.
 
 #include <arctixc/memory/buffer.hpp>
 #include <arctixc/memory/virtual_memory.hpp>
@@ -21,8 +21,8 @@ void PrintSquare(std::size_t index, void* userData)
 int main()
 {
     // Buffer: stage bytes, hash them, wipe them.
-    arctix::Buffer buf;
-    if (!buf.CopyFrom("ArctixC", 7) || !buf.Append(" v0.3.0", 7))
+    arctixs::Buffer::Buffer buf;
+    if (!buf.CopyFrom("ArctixC", 7) || !buf.Append(" v0.1.1", 7))
     {
         return 1;
     }
@@ -31,21 +31,21 @@ int main()
     buf.SecureWipe();
 
     // Virtual memory: reserve two pages, commit, write, release.
-    const std::size_t page = arctix::VirtualPageSize();
-    void* region = arctix::VirtualReserve(page * 2);
-    if (region == nullptr || !arctix::VirtualCommit(region, page * 2))
+    const std::size_t page = arctixs::Memory::VirtualPageSize();
+    void* region = arctixs::Memory::VirtualReserve(page * 2);
+    if (region == nullptr || !arctixs::Memory::VirtualCommit(region, page * 2))
     {
         return 1;
     }
     static_cast<char*>(region)[0] = 'A';
     std::printf("virtual memory: page=%zu first byte=%c\n", page, static_cast<char*>(region)[0]);
-    if (!arctix::VirtualRelease(region, page * 2))
+    if (!arctixs::Memory::VirtualRelease(region, page * 2))
     {
         return 1;
     }
 
     // Thread pool + parallel loop.
-    if (!arctix::ParallelFor(0, 5, PrintSquare, nullptr, 2))
+    if (!arctixs::Thread::ParallelFor(0, 5, PrintSquare, nullptr, 2))
     {
         return 1;
     }

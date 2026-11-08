@@ -16,7 +16,7 @@
 // memory functions declared in include/arctixc/memory/virtual_memory.hpp.
 // No matching private header.
 
-namespace arctix
+namespace arctixs::Memory
 {
 
 std::size_t VirtualPageSize()
@@ -141,4 +141,4 @@ bool VirtualProtectMemory(void* address, std::size_t size, MemoryProtection prot
 #endif
 }
 
-} // namespace arctix
+} // namespace arctixs::Memory

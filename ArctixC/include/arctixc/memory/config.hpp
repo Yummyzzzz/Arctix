@@ -5,7 +5,7 @@
 
 #include <cstddef>
 
-namespace arctix
+namespace arctixs::Memory
 {
 
 // Configuration passed to Allocator::Initialize().
@@ -31,4 +31,4 @@ inline ArctixConfig DefaultConfig()
     return ArctixConfig{};
 }
 
-} // namespace arctix
+} // namespace arctixs::Memory

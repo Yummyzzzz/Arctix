@@ -17,7 +17,7 @@
 
 #include <cstddef>
 
-namespace arctix
+namespace arctixs::Memory
 {
 
 // Desired access for VirtualProtectMemory(). Not every combination is
@@ -66,4 +66,4 @@ ARCTIXC_MEMORY_API bool VirtualRelease(void* address, std::size_t size);
 // args / OS refusal (existing protection is left unchanged).
 ARCTIXC_MEMORY_API bool VirtualProtectMemory(void* address, std::size_t size, MemoryProtection protection);
 
-} // namespace arctix
+} // namespace arctixs::Memory

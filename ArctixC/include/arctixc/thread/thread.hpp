@@ -27,7 +27,7 @@
 #include <cstdint>
 #include <thread>
 
-namespace arctix
+namespace arctixs::Thread
 {
 
 // Worker function invoked on the new thread. userData is the pointer
@@ -96,4 +96,4 @@ ARCTIXC_THREAD_API void ThreadSleepFor(std::uint64_t milliseconds);
 // Number of hardware threads reported by the implementation (0 = unknown).
 ARCTIXC_THREAD_API unsigned int HardwareConcurrency();
 
-} // namespace arctix
+} // namespace arctixs::Thread

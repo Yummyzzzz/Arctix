@@ -9,12 +9,12 @@
 #include <utility>
 #include <vector>
 
-// Private implementation-only translation unit: implements arctix::ThreadPool
-// and arctix::ParallelFor declared in include/arctixc/thread/thread_pool.hpp.
+// Private implementation-only translation unit: implements arctixs::Thread::ThreadPool
+// and arctixs::Thread::ParallelFor declared in include/arctixc/thread/thread_pool.hpp.
 // No matching private header. Worker exceptions are caught per task and
 // counted via FailedTasks(); they never escape the worker thread.
 
-namespace arctix
+namespace arctixs::Thread
 {
 
 namespace
@@ -314,4 +314,4 @@ bool ParallelFor(std::size_t begin, std::size_t end, void (*function)(std::size_
     return pool.WaitIdle();
 }
 
-} // namespace arctix
+} // namespace arctixs::Thread

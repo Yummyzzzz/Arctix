@@ -1,6 +1,6 @@
 #pragma once
 
-// ArctixC.Memory - stable C ABI for ArctixC.Memory.dll.
+// ArctixC.Memory - stable C ABI for arctixc.dll.
 //
 // This header is genuinely C-compatible: it only uses C types and can be
 // included from a .c file. Function names keep the historical Arctix_*
@@ -25,7 +25,7 @@ typedef struct ArctixAllocatorHandle ArctixAllocatorHandle;
 typedef struct ArctixPoolHandle ArctixPoolHandle;
 typedef struct ArctixBufferHandle ArctixBufferHandle;
 
-// C-compatible configuration (mirrors arctix::ArctixConfig).
+// C-compatible configuration (mirrors arctixs::Memory::ArctixConfig).
 // Use 0/1 for threadSafe and enableStatistics.
 typedef struct ArctixConfigC
 {
@@ -34,7 +34,7 @@ typedef struct ArctixConfigC
     size_t defaultAlignment;
 } ArctixConfigC;
 
-// C-compatible statistics snapshot (mirrors arctix::ArctixStats).
+// C-compatible statistics snapshot (mirrors arctixs::Memory::ArctixStats).
 typedef struct ArctixStatsC
 {
     size_t totalAllocatedBytes;
@@ -146,7 +146,7 @@ ARCTIXC_MEMORY_API int ArctixC_VirtualRelease(void* address, size_t size);
 ARCTIXC_MEMORY_API int ArctixC_VirtualProtect(void* address, size_t size, int protection);
 
 // --- Version ---
-// Returns e.g. "0.3.0". Never returns NULL.
+// Returns e.g. "0.1.1". Never returns NULL.
 ARCTIXC_MEMORY_API const char* Arctix_GetVersionString(void);
 
 #ifdef __cplusplus

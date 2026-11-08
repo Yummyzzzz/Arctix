@@ -15,7 +15,7 @@
 #include <cstdint>
 #include <string>
 
-namespace arctix
+namespace arctixs::Buffer
 {
 
 // Opaque internal state. Defined privately in src/memory/.
@@ -85,4 +85,4 @@ private:
     BufferImpl* impl_;
 };
 
-} // namespace arctix
+} // namespace arctixs::Buffer

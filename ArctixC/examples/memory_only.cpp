@@ -1,5 +1,5 @@
 // Example: memory consumer.
-// Links ArctixC::ArctixC. Ships with the single ArctixC.dll.
+// Links ArctixC::ArctixC. Ships with the single arctixc.dll.
 
 #include <arctixc/memory/allocator.hpp>
 #include <arctixc/memory/memory_pool.hpp>
@@ -8,8 +8,8 @@
 
 int main()
 {
-    arctix::Allocator allocator;
-    if (!allocator.Initialize(arctix::DefaultConfig()))
+    arctixs::Memory::Allocator allocator;
+    if (!allocator.Initialize(arctixs::Memory::DefaultConfig()))
     {
         return 1;
     }
@@ -22,7 +22,7 @@ int main()
     allocator.Deallocate(block);
     allocator.Shutdown();
 
-    arctix::MemoryPool pool;
+    arctixs::Memory::MemoryPool pool;
     if (!pool.Create(64, 16))
     {
         return 1;

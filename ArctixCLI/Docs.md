@@ -15,7 +15,7 @@ Command-line front-end over the ArctixC SDK for users and CI pipelines:
 
 ## Relationship to ArctixC
 
-ArctixCLI will contain no allocator or thread logic itself; it will consume the ArctixC SDK via `find_package(ArctixC)` and link only the targets it needs (e.g. `ArctixC::Thread` for thread diagnostics). All behavior lives in `ArctixC.dll`, `ArctixC.Memory.dll` and `ArctixC.Thread.dll`.
+ArctixCLI will contain no allocator or thread logic itself; it will consume the ArctixC SDK via `find_package(ArctixC)` and link only the targets it needs (e.g. `ArctixC::Thread` for thread diagnostics). All behavior lives in `arctixc.dll`, `arctixc.dll` and `arctixc.dll`.
 
 ## Build
 

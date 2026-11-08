@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(ArctixC VERSION 0.3.0 LANGUAGES CXX C)
+# Single source of truth for the version: the generated
+# arctixc/core/version.hpp macros AND the arctixc.dll VERSIONINFO
+# resource (ProductVersion etc.) are both configured from this.
+project(ArctixC VERSION 0.1.1 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,13 +19,35 @@ if(MSVC)
     add_compile_options(/W4 /permissive-)
 endif()
 
+# Generated version header (single-source version: project VERSION above).
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/arctixc/core/version.hpp.in
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/arctixc/core/version.hpp
+    @ONLY
+)
+
+# Generated Windows VERSIONINFO resource: embeds CompanyName,
+# FileDescription, FileVersion, InternalName, OriginalFilename,
+# ProductName (arctixc.dll), ProductVersion and LegalCopyright
+# into arctixc.dll. Version numbers track project VERSION above.
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/resources/arctixc.rc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/arctixc.rc
+    @ONLY
+)
+
+if(WIN32)
+    set(ARCTIXC_VERSION_RESOURCE ${CMAKE_CURRENT_BINARY_DIR}/generated/arctixc.rc)
+endif()
+
 # ---------------------------------------------------------------------------
-# ArctixC - ONE standalone DLL (ArctixC.dll + ArctixC.lib).
+# ArctixC - ONE standalone DLL (arctixc.dll + arctixc.lib, all lowercase).
 # Every subsystem (foundation, memory, buffer, virtual memory, thread,
 # thread pool, C ABIs) lives in this single binary. There are no
 # ArctixC.Memory / ArctixC.Thread DLLs: a consumer ships exactly one DLL
 # plus this repo's include/ headers. All three export macros resolve to
 # dllexport when building this target (all three *_BUILD defines are set).
+# The CMake target stays ArctixC::ArctixC; only the file name is lowercase.
 # ---------------------------------------------------------------------------
 add_library(ArctixC SHARED
     src/core/version.cpp
@@ -38,6 +63,7 @@ add_library(ArctixC SHARED
     src/thread/thread.cpp
     src/thread/thread_pool.cpp
     src/thread/c_api_thread.cpp
+    ${ARCTIXC_VERSION_RESOURCE}
 )
 add_library(ArctixC::ArctixC ALIAS ArctixC)
 
@@ -49,6 +75,7 @@ target_compile_definitions(ArctixC PRIVATE
 
 target_include_directories(ArctixC
     PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
@@ -56,7 +83,7 @@ target_include_directories(ArctixC
 )
 
 set_target_properties(ArctixC PROPERTIES
-    OUTPUT_NAME "ArctixC"
+    OUTPUT_NAME "arctixc"
     VERSION ${PROJECT_VERSION}
     SOVERSION 0
 )
@@ -108,6 +135,13 @@ endif()
 install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/arctixc
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/arctixc
+    PATTERN "version.hpp.in" EXCLUDE
+)
+
+# Generated single-source version header installs where version.hpp is expected.
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/generated/arctixc/core/version.hpp
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/arctixc/core
 )
 
 install(

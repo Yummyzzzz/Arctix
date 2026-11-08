@@ -1,8 +1,10 @@
+param([switch]$NoTests)
+
 $ErrorActionPreference = "Stop"
 
 # ArctixC build script.
 # Configures + builds the single standalone SDK binary (Release):
-#   ArctixC.dll + ArctixC.lib   (everything: core, memory, buffer,
+#   arctixc.dll + arctixc.lib   (everything: core, memory, buffer,
 #                                 virtual memory, thread, pool, C ABIs)
 # plus tests and examples. The DLL lands next to the test/example exes so
 # they run without extra PATH setup. There are no ArctixC.Memory /
@@ -11,8 +13,6 @@ $ErrorActionPreference = "Stop"
 # Usage:
 #   powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1
 #   powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1 -NoTests
-
-param([switch]$NoTests)
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $BuildDir = Join-Path $Root "build"
@@ -76,10 +76,10 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
 Write-Host "Build outputs:" -ForegroundColor Green
-Get-ChildItem -Path $BuildDir -Recurse -Include "ArctixC.dll", "ArctixC.lib" -ErrorAction SilentlyContinue |
+Get-ChildItem -Path $BuildDir -Recurse -Include "arctixc.dll", "arctixc.lib" -ErrorAction SilentlyContinue |
     ForEach-Object { Write-Host ("  " + $_.FullName) }
 
-foreach ($dll in @("ArctixC.dll")) {
+foreach ($dll in @("arctixc.dll")) {
     $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $dll -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $found) {
         Write-Host ("ERROR: expected output " + $dll + " was not produced") -ForegroundColor Red
@@ -88,7 +88,7 @@ foreach ($dll in @("ArctixC.dll")) {
 }
 
 # Fail the build if the old split DLLs are ever produced again.
-$stale = Get-ChildItem -Path $BuildDir -Recurse -Include "ArctixC.Memory.dll", "ArctixC.Thread.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+$stale = Get-ChildItem -Path $BuildDir -Recurse -Include "*Memory*.dll", "*Thread*.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($stale) {
     Write-Host ("ERROR: stale split DLL still produced: " + $stale.FullName) -ForegroundColor Red
     exit 1
@@ -109,4 +109,4 @@ if (-not $NoTests) {
 
 Write-Host ""
 Write-Host "OK: ArctixC build complete." -ForegroundColor Green
-Write-Host "Ship ArctixC.dll + ArctixC.lib + include/arctixc/ - nothing else."
+Write-Host "Ship arctixc.dll + arctixc.lib + include/arctixc/ - nothing else."
