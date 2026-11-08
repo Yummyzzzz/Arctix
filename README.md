@@ -120,10 +120,10 @@ Arctix/
     resources/              Windows VERSIONINFO template for arctixc.dll
     cmake/                  CMake package config template (find_package support)
     Documentation.html      Complete offline manual: 121 functions
-    Documentation.md       Markdown version of the manual
+    Documentation.md        Markdown version of the manual
     generate-docs-md.js     Regenerates Documentation.md from Documentation.html
     Docs.md                 Short pointer to both manual files
-    build.ps1                Configure, build, and test in one step
+    build.ps1               Configure, build, and test in one step
 
   ArctixI/                  Planned: versioned installer for SDK binaries
   ArctixCLI/                Planned: command-line front-end and benchmarks
@@ -174,7 +174,7 @@ Arctix genuinely appreciates people who take the time to share ideas, suggest im
 
 ## Credits
 
-Arctix is owned and developed by **Yummyzzzz**.
+Arctix is developed by **Whitepoint Software Development**, an independent Whitepoint currently consisting solely of **Yummyzzzz**. Whitepoint Software Development is a team name, not a registered company or separate legal entity. **Yummyzzzz** is the individual developer and current rights holder of Arctix.
 
 GitHub: [https://github.com/Yummyzzzz](https://github.com/Yummyzzzz)
 
