@@ -9,7 +9,7 @@
 #include <mutex>
 #include <unordered_map>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 // Records pointer -> size for every live Allocate() so Deallocate()
@@ -41,4 +41,4 @@ private:
     StatisticsManager stats_;
 };
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

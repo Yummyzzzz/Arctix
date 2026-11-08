@@ -23,17 +23,17 @@ static int g_failures = 0;
 
 static void TestAllocatorBasic()
 {
-    arctixs::Memory::Allocator alloc;
+    arctix::Memory::Allocator alloc;
     CHECK(!alloc.IsInitialized());
     CHECK(alloc.Allocate(64) == nullptr); // not initialized -> nullptr
-    CHECK(alloc.Initialize(arctixs::Memory::DefaultConfig()));
-    CHECK(!alloc.Initialize(arctixs::Memory::DefaultConfig())); // double init fails
+    CHECK(alloc.Initialize(arctix::Memory::DefaultConfig()));
+    CHECK(!alloc.Initialize(arctix::Memory::DefaultConfig())); // double init fails
 
     void* p = alloc.Allocate(128, 16);
     CHECK(p != nullptr);
     CHECK((reinterpret_cast<std::uintptr_t>(p) % 16) == 0); // alignment respected
 
-    arctixs::Memory::ArctixStats stats = alloc.GetStatistics();
+    arctix::Memory::ArctixStats stats = alloc.GetStatistics();
     CHECK(stats.allocationCount == 1);
     CHECK(stats.currentUsageBytes >= 128);
 
@@ -54,8 +54,8 @@ static void TestAllocatorBasic()
 
 static void TestAllocatorAlignment()
 {
-    arctixs::Memory::Allocator alloc;
-    CHECK(alloc.Initialize(arctixs::Memory::DefaultConfig()));
+    arctix::Memory::Allocator alloc;
+    CHECK(alloc.Initialize(arctix::Memory::DefaultConfig()));
     const std::size_t alignments[] = { 1, 2, 4, 8, 16, 32, 64 };
     for (std::size_t a : alignments)
     {
@@ -74,7 +74,7 @@ static void TestAllocatorAlignment()
 
 static void TestMemoryPool()
 {
-    arctixs::Memory::MemoryPool pool;
+    arctix::Memory::MemoryPool pool;
     CHECK(!pool.IsCreated());
     CHECK(pool.Allocate() == nullptr); // not created -> nullptr
     CHECK(!pool.Create(0, 8));         // invalid args fail

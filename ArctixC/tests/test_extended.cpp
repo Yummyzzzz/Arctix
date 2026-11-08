@@ -46,14 +46,14 @@ void SquareIndex(std::size_t index, void* userData)
 
 static void TestBuffer()
 {
-    arctixs::Buffer::Buffer empty;
+    arctix::Buffer::Buffer empty;
     CHECK(empty.Empty());
     CHECK(empty.Size() == 0);
     CHECK(empty.Data() == nullptr);
     CHECK(empty.Checksum() == 0);
     CHECK(empty.HexEncode().empty());
 
-    arctixs::Buffer::Buffer buf(4, 0xAB);
+    arctix::Buffer::Buffer buf(4, 0xAB);
     CHECK(buf.Size() == 4);
     CHECK(buf.Capacity() >= 4);
     CHECK(buf.Data()[0] == 0xAB && buf.Data()[3] == 0xAB);
@@ -68,7 +68,7 @@ static void TestBuffer()
     CHECK(buf.Size() == 11);
     CHECK(std::memcmp(buf.Data(), "hello world", 11) == 0);
 
-    arctixs::Buffer::Buffer other;
+    arctix::Buffer::Buffer other;
     CHECK(other.CopyFrom("hello world", 11));
     CHECK(buf.Equals(other));
     CHECK(buf.Checksum() == other.Checksum());
@@ -89,7 +89,7 @@ static void TestBuffer()
 
     // Move semantics.
     CHECK(other.CopyFrom("moveme", 6));
-    arctixs::Buffer::Buffer moved(std::move(other));
+    arctix::Buffer::Buffer moved(std::move(other));
     CHECK(moved.Size() == 6);
     CHECK(std::memcmp(moved.Data(), "moveme", 6) == 0);
 
@@ -98,7 +98,7 @@ static void TestBuffer()
     CHECK(!buf.Append(nullptr, 8));
 
     // SecureWipe zeroes and empties.
-    arctixs::Buffer::Buffer secret(16, 0xFF);
+    arctix::Buffer::Buffer secret(16, 0xFF);
     secret.SecureWipe();
     CHECK(secret.Empty());
 }
@@ -106,43 +106,43 @@ static void TestBuffer()
 static void TestMemUtils()
 {
     unsigned char data[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-    CHECK(arctixs::Memory::MemEqual(data, data, 8));
+    CHECK(arctix::Memory::MemEqual(data, data, 8));
     unsigned char same[8] = {1, 2, 3, 4, 5, 6, 7, 8};
     unsigned char diff[8] = {1, 2, 3, 4, 5, 6, 7, 9};
-    CHECK(arctixs::Memory::MemEqual(data, same, 8));
-    CHECK(!arctixs::Memory::MemEqual(data, diff, 8));
-    CHECK(arctixs::Memory::MemEqual(nullptr, nullptr, 0));
-    CHECK(!arctixs::Memory::MemEqual(nullptr, data, 8));
+    CHECK(arctix::Memory::MemEqual(data, same, 8));
+    CHECK(!arctix::Memory::MemEqual(data, diff, 8));
+    CHECK(arctix::Memory::MemEqual(nullptr, nullptr, 0));
+    CHECK(!arctix::Memory::MemEqual(nullptr, data, 8));
 
-    const std::uint64_t h1 = arctixs::Memory::Fnv1aHash64(data, 8);
-    const std::uint64_t h2 = arctixs::Memory::Fnv1aHash64(same, 8);
-    const std::uint64_t h3 = arctixs::Memory::Fnv1aHash64(diff, 8);
+    const std::uint64_t h1 = arctix::Memory::Fnv1aHash64(data, 8);
+    const std::uint64_t h2 = arctix::Memory::Fnv1aHash64(same, 8);
+    const std::uint64_t h3 = arctix::Memory::Fnv1aHash64(diff, 8);
     CHECK(h1 != 0 && h1 == h2 && h1 != h3);
-    CHECK(arctixs::Memory::Fnv1aHash64(nullptr, 0) == 0);
+    CHECK(arctix::Memory::Fnv1aHash64(nullptr, 0) == 0);
 
-    arctixs::Memory::SecureZero(data, sizeof(data));
+    arctix::Memory::SecureZero(data, sizeof(data));
     for (unsigned char b : data)
     {
         CHECK(b == 0);
     }
-    arctixs::Memory::SecureZero(nullptr, 0); // must not crash
+    arctix::Memory::SecureZero(nullptr, 0); // must not crash
 }
 
 static void TestVirtualMemory()
 {
-    const std::size_t page = arctixs::Memory::VirtualPageSize();
+    const std::size_t page = arctix::Memory::VirtualPageSize();
     CHECK(page >= 4096);
-    CHECK(arctixs::Memory::RoundUpToPageSize(1) == page);
-    CHECK(arctixs::Memory::RoundUpToPageSize(page) == page);
-    CHECK(arctixs::Memory::RoundUpToPageSize(page + 1) == page * 2);
-    CHECK(arctixs::Memory::RoundUpToPageSize(0) == 0);
+    CHECK(arctix::Memory::RoundUpToPageSize(1) == page);
+    CHECK(arctix::Memory::RoundUpToPageSize(page) == page);
+    CHECK(arctix::Memory::RoundUpToPageSize(page + 1) == page * 2);
+    CHECK(arctix::Memory::RoundUpToPageSize(0) == 0);
 
-    void* region = arctixs::Memory::VirtualReserve(page * 2);
+    void* region = arctix::Memory::VirtualReserve(page * 2);
     CHECK(region != nullptr);
-    CHECK(arctixs::Memory::IsPageAligned(region));
-    CHECK(!arctixs::Memory::IsPageAligned(nullptr));
+    CHECK(arctix::Memory::IsPageAligned(region));
+    CHECK(!arctix::Memory::IsPageAligned(nullptr));
 
-    CHECK(arctixs::Memory::VirtualCommit(region, page * 2));
+    CHECK(arctix::Memory::VirtualCommit(region, page * 2));
     auto* bytes = static_cast<unsigned char*>(region);
     for (std::size_t i = 0; i < page * 2; ++i)
     {
@@ -152,26 +152,26 @@ static void TestVirtualMemory()
     bytes[page * 2 - 1] = 0x24;
     CHECK(bytes[0] == 0x42 && bytes[page * 2 - 1] == 0x24);
 
-    CHECK(arctixs::Memory::VirtualProtectMemory(region, page * 2, arctixs::Memory::MemoryProtection::ReadOnly));
-    CHECK(arctixs::Memory::VirtualProtectMemory(region, page * 2, arctixs::Memory::MemoryProtection::ReadWrite));
-    CHECK(!arctixs::Memory::VirtualProtectMemory(nullptr, page, arctixs::Memory::MemoryProtection::ReadWrite));
+    CHECK(arctix::Memory::VirtualProtectMemory(region, page * 2, arctix::Memory::MemoryProtection::ReadOnly));
+    CHECK(arctix::Memory::VirtualProtectMemory(region, page * 2, arctix::Memory::MemoryProtection::ReadWrite));
+    CHECK(!arctix::Memory::VirtualProtectMemory(nullptr, page, arctix::Memory::MemoryProtection::ReadWrite));
 
-    CHECK(arctixs::Memory::VirtualDecommit(region, page * 2));
+    CHECK(arctix::Memory::VirtualDecommit(region, page * 2));
     // Recommit after decommit must work with the same reservation.
-    CHECK(arctixs::Memory::VirtualCommit(region, page));
+    CHECK(arctix::Memory::VirtualCommit(region, page));
     static_cast<unsigned char*>(region)[0] = 0x11;
 
-    CHECK(arctixs::Memory::VirtualRelease(region, page * 2));
+    CHECK(arctix::Memory::VirtualRelease(region, page * 2));
 
     // Invalid args.
-    CHECK(arctixs::Memory::VirtualReserve(0) == nullptr);
-    CHECK(!arctixs::Memory::VirtualCommit(nullptr, page));
-    CHECK(!arctixs::Memory::VirtualRelease(nullptr, page));
+    CHECK(arctix::Memory::VirtualReserve(0) == nullptr);
+    CHECK(!arctix::Memory::VirtualCommit(nullptr, page));
+    CHECK(!arctix::Memory::VirtualRelease(nullptr, page));
 }
 
 static void TestThreadPool()
 {
-    arctixs::Thread::ThreadPool pool(4);
+    arctix::Thread::ThreadPool pool(4);
     CHECK(pool.IsRunning());
     CHECK(pool.ThreadCount() == 4);
     CHECK(pool.PendingTasks() == 0);
@@ -205,7 +205,7 @@ static void TestThreadPool()
     pool.Shutdown(); // idempotent
 
     // Default construction uses hardware threads (at least 1).
-    arctixs::Thread::ThreadPool autoPool;
+    arctix::Thread::ThreadPool autoPool;
     CHECK(autoPool.IsRunning());
     CHECK(autoPool.ThreadCount() >= 1);
 }
@@ -214,20 +214,20 @@ static void TestParallelFor()
 {
     constexpr std::size_t kCount = 1000;
     unsigned long long squares[kCount] = {};
-    CHECK(arctixs::Thread::ParallelFor(0, kCount, SquareIndex, squares, 4));
+    CHECK(arctix::Thread::ParallelFor(0, kCount, SquareIndex, squares, 4));
     for (std::size_t i = 0; i < kCount; ++i)
     {
         CHECK(squares[i] == i * i);
     }
     // Empty range is a no-op success.
-    CHECK(arctixs::Thread::ParallelFor(5, 5, SquareIndex, squares, 2));
+    CHECK(arctix::Thread::ParallelFor(5, 5, SquareIndex, squares, 2));
     // Invalid args.
-    CHECK(!arctixs::Thread::ParallelFor(0, 10, nullptr, squares, 2));
-    CHECK(!arctixs::Thread::ParallelFor(10, 0, SquareIndex, squares, 2));
+    CHECK(!arctix::Thread::ParallelFor(0, 10, nullptr, squares, 2));
+    CHECK(!arctix::Thread::ParallelFor(10, 0, SquareIndex, squares, 2));
 
     // ParallelFor works alongside the allocator in one process.
-    arctixs::Memory::Allocator allocator;
-    CHECK(allocator.Initialize(arctixs::Memory::DefaultConfig()));
+    arctix::Memory::Allocator allocator;
+    CHECK(allocator.Initialize(arctix::Memory::DefaultConfig()));
     void* block = allocator.Allocate(64, 16);
     CHECK(block != nullptr);
     allocator.Deallocate(block);

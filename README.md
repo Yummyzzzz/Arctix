@@ -11,7 +11,7 @@ Arctix is released under the **Arctix License**, allowing use in both open-sourc
 ## What You Get
 
 - **One standalone DLL.** All compiled functionality lives in `arctixc.dll` (currently version 0.1.1), with the corresponding import library and headers. The build is configured to prevent split-module DLLs from being produced.
-- **A modern, namespaced C++ API.** Functions follow a consistent structure, such as `arctixs::Memory::Allocator::Allocate` and `arctixs::Thread::ParallelFor`.
+- **A modern, namespaced C++ API.** Functions follow a consistent structure, such as `arctix::Memory::Allocator::Allocate` and `arctix::Thread::ParallelFor`.
 - **A stable C ABI.** The same core functionality is accessible from pure C through headers such as `arctixc/c_api/memory.h` and `arctixc/c_api/thread.h`, including NULL-safe handles.
 - **Embedded version information.** The DLL includes ProductName, ProductVersion, CompanyName, and copyright information in its Windows VERSIONINFO resource. The version is defined once in CMake and automatically propagated to the headers and DLL.
 - **Complete API documentation.** `ArctixC/Documentation.html` is a standalone, offline manual documenting all 121 functions with their signatures, arguments, return values, example calls, and explanations. It also includes a searchable index.
@@ -20,14 +20,14 @@ Arctix is released under the **Arctix License**, allowing use in both open-sourc
 
 | Area | C++ API | Highlights |
 |------|---------|------------|
-| Foundation | `arctixs::Core::` | Version queries and shared `Status` codes |
-| Allocator | `arctixs::Memory::Allocator` | Aligned allocation, statistics, and resettable counters |
-| Memory pool | `arctixs::Memory::MemoryPool` | Fixed-size O(1) blocks for frequently used objects |
-| Buffer | `arctixs::Buffer::Buffer` | Owning, resizable byte array with CopyFrom, Append, Resize, Checksum, and HexEncode |
-| Memory utilities | `arctixs::Memory::` | `SecureZero`, `MemEqual`, and `Fnv1aHash64` (header-only) |
-| Virtual memory | `arctixs::Memory::` | Reserve, Commit, Decommit, Release, ProtectMemory, and page helpers |
-| Thread | `arctixs::Thread::Thread` | Move-only thread with caught worker exceptions |
-| Thread pool | `arctixs::Thread::ThreadPool` | FIFO task execution, WaitIdle, per-task exception counts, and `ParallelFor` |
+| Foundation | `arctix::Core::` | Version queries and shared `Status` codes |
+| Allocator | `arctix::Memory::Allocator` | Aligned allocation, statistics, and resettable counters |
+| Memory pool | `arctix::Memory::MemoryPool` | Fixed-size O(1) blocks for frequently used objects |
+| Buffer | `arctix::Buffer::Buffer` | Owning, resizable byte array with CopyFrom, Append, Resize, Checksum, and HexEncode |
+| Memory utilities | `arctix::Memory::` | `SecureZero`, `MemEqual`, and `Fnv1aHash64` (header-only) |
+| Virtual memory | `arctix::Memory::` | Reserve, Commit, Decommit, Release, ProtectMemory, and page helpers |
+| Thread | `arctix::Thread::Thread` | Move-only thread with caught worker exceptions |
+| Thread pool | `arctix::Thread::ThreadPool` | FIFO task execution, WaitIdle, per-task exception counts, and `ParallelFor` |
 | C ABI | `Arctix_*` / `ArctixC_*` | Core functionality for C consumers |
 
 ## Quick Start — C++
@@ -38,8 +38,8 @@ Arctix is released under the **Arctix License**, allowing use in both open-sourc
 #include <arctixc/thread/thread_pool.hpp>
 
 // Aligned allocation with statistics.
-arctixs::Memory::Allocator alloc;
-alloc.Initialize(arctixs::Memory::DefaultConfig());
+arctix::Memory::Allocator alloc;
+alloc.Initialize(arctix::Memory::DefaultConfig());
 
 void* p = alloc.Allocate(256, 16);
 
@@ -49,13 +49,13 @@ alloc.Deallocate(p);
 alloc.Shutdown();
 
 // An owning byte buffer.
-arctixs::Buffer::Buffer buf(1024);
+arctix::Buffer::Buffer buf(1024);
 buf.CopyFrom(packet, packetSize);
 
 uint64_t fingerprint = buf.Checksum();
 
 // Run work on a thread pool.
-arctixs::Thread::ThreadPool pool(4);
+arctix::Thread::ThreadPool pool(4);
 pool.Submit(Work, &job);
 pool.WaitIdle();
 pool.Shutdown();

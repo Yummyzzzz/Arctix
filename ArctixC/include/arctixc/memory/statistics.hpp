@@ -5,7 +5,7 @@
 
 #include <cstddef>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 // Snapshot of allocator activity. Returned by value; safe to read
@@ -31,4 +31,4 @@ struct ArctixStats
     unsigned long long freeCount = 0;
 };
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

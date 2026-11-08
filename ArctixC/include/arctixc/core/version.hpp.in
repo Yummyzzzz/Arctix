@@ -42,13 +42,13 @@ ARCTIXC_CORE_API void ArctixC_GetVersion(int* major, int* minor, int* patch);
 #ifdef __cplusplus
 } // extern "C"
 
-namespace arctixs
+namespace arctix
 {
 namespace Core
 {
 
 // C++ wrappers for the C ABI above, so every version query reads
-// arctixs::Core::<func>. Header-only: they forward to the DLL exports.
+// arctix::Core::<func>. Header-only: they forward to the DLL exports.
 inline const char* GetVersionString() { return ::ArctixC_GetVersionString(); }
 inline void GetVersion(int* major, int* minor, int* patch) { ::ArctixC_GetVersion(major, minor, patch); }
 inline int GetVersionMajor() { int m = 0; ::ArctixC_GetVersion(&m, nullptr, nullptr); return m; }
@@ -56,6 +56,6 @@ inline int GetVersionMinor() { int m = 0; ::ArctixC_GetVersion(nullptr, &m, null
 inline int GetVersionPatch() { int p = 0; ::ArctixC_GetVersion(nullptr, nullptr, &p); return p; }
 
 } // namespace Core
-} // namespace arctixs
+} // namespace arctix
 
 #endif

@@ -14,9 +14,9 @@
 namespace
 {
 
-arctixs::Memory::ArctixConfig ToCppConfig(const ArctixConfigC* config)
+arctix::Memory::ArctixConfig ToCppConfig(const ArctixConfigC* config)
 {
-    arctixs::Memory::ArctixConfig out{};
+    arctix::Memory::ArctixConfig out{};
     if (config == nullptr)
     {
         return out;
@@ -27,7 +27,7 @@ arctixs::Memory::ArctixConfig ToCppConfig(const ArctixConfigC* config)
     return out;
 }
 
-void ToCStats(const arctixs::Memory::ArctixStats& in, ArctixStatsC* out)
+void ToCStats(const arctix::Memory::ArctixStats& in, ArctixStatsC* out)
 {
     if (out == nullptr)
     {
@@ -45,17 +45,17 @@ void ToCStats(const arctixs::Memory::ArctixStats& in, ArctixStatsC* out)
 
 struct ArctixAllocatorHandle
 {
-    arctixs::Memory::Allocator allocator;
+    arctix::Memory::Allocator allocator;
 };
 
 struct ArctixPoolHandle
 {
-    arctixs::Memory::MemoryPool pool;
+    arctix::Memory::MemoryPool pool;
 };
 
 struct ArctixBufferHandle
 {
-    arctixs::Buffer::Buffer buffer;
+    arctix::Buffer::Buffer buffer;
 };
 
 extern "C"
@@ -259,27 +259,27 @@ ARCTIXC_MEMORY_API size_t Arctix_BufferSize(const ArctixBufferHandle* handle)
 
 ARCTIXC_MEMORY_API size_t ArctixC_VirtualPageSize(void)
 {
-    return arctixs::Memory::VirtualPageSize();
+    return arctix::Memory::VirtualPageSize();
 }
 
 ARCTIXC_MEMORY_API void* ArctixC_VirtualReserve(size_t size)
 {
-    return arctixs::Memory::VirtualReserve(size);
+    return arctix::Memory::VirtualReserve(size);
 }
 
 ARCTIXC_MEMORY_API int ArctixC_VirtualCommit(void* address, size_t size)
 {
-    return arctixs::Memory::VirtualCommit(address, size) ? 1 : 0;
+    return arctix::Memory::VirtualCommit(address, size) ? 1 : 0;
 }
 
 ARCTIXC_MEMORY_API int ArctixC_VirtualDecommit(void* address, size_t size)
 {
-    return arctixs::Memory::VirtualDecommit(address, size) ? 1 : 0;
+    return arctix::Memory::VirtualDecommit(address, size) ? 1 : 0;
 }
 
 ARCTIXC_MEMORY_API int ArctixC_VirtualRelease(void* address, size_t size)
 {
-    return arctixs::Memory::VirtualRelease(address, size) ? 1 : 0;
+    return arctix::Memory::VirtualRelease(address, size) ? 1 : 0;
 }
 
 ARCTIXC_MEMORY_API int ArctixC_VirtualProtect(void* address, size_t size, int protection)
@@ -288,7 +288,7 @@ ARCTIXC_MEMORY_API int ArctixC_VirtualProtect(void* address, size_t size, int pr
     {
         return 0;
     }
-    return arctixs::Memory::VirtualProtectMemory(address, size, static_cast<arctixs::Memory::MemoryProtection>(protection)) ? 1 : 0;
+    return arctix::Memory::VirtualProtectMemory(address, size, static_cast<arctix::Memory::MemoryProtection>(protection)) ? 1 : 0;
 }
 
 ARCTIXC_MEMORY_API const char* Arctix_GetVersionString(void)

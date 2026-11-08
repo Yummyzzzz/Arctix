@@ -25,7 +25,7 @@ typedef struct ArctixAllocatorHandle ArctixAllocatorHandle;
 typedef struct ArctixPoolHandle ArctixPoolHandle;
 typedef struct ArctixBufferHandle ArctixBufferHandle;
 
-// C-compatible configuration (mirrors arctixs::Memory::ArctixConfig).
+// C-compatible configuration (mirrors arctix::Memory::ArctixConfig).
 // Use 0/1 for threadSafe and enableStatistics.
 typedef struct ArctixConfigC
 {
@@ -34,7 +34,7 @@ typedef struct ArctixConfigC
     size_t defaultAlignment;
 } ArctixConfigC;
 
-// C-compatible statistics snapshot (mirrors arctixs::Memory::ArctixStats).
+// C-compatible statistics snapshot (mirrors arctix::Memory::ArctixStats).
 typedef struct ArctixStatsC
 {
     size_t totalAllocatedBytes;

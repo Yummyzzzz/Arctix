@@ -9,7 +9,7 @@
 // "out of memory" without guessing.
 //
 // The enum lives at global scope (not inside a namespace) so the same
-// header compiles from both C and C++. From C++, the arctixs::Core::Status
+// header compiles from both C and C++. From C++, the arctix::Core::Status
 // alias may be used for brevity.
 
 #include "arctixc/core/export.hpp"
@@ -40,20 +40,20 @@ ARCTIXC_CORE_API const char* ArctixC_StatusToString(int status);
 #ifdef __cplusplus
 } // extern "C"
 
-namespace arctixs
+namespace arctix
 {
 namespace Core
 {
 
 // C++ alias for the global status enum, so status code reads go through
-// arctixs::Core::Status.
+// arctix::Core::Status.
 using Status = ::ArctixCStatus;
 
 // C++ wrapper for the C ABI above: same value, namespaced call spelling
-// (arctixs::Core::StatusToString) instead of the global C symbol.
+// (arctix::Core::StatusToString) instead of the global C symbol.
 inline const char* StatusToString(int status) { return ::ArctixC_StatusToString(status); }
 
 } // namespace Core
-} // namespace arctixs
+} // namespace arctix
 
 #endif

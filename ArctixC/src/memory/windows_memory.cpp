@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 namespace platform
 {
@@ -50,4 +50,4 @@ void AlignedFree(void* pointer)
 }
 
 } // namespace platform
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

@@ -5,7 +5,7 @@
 #include <mutex>
 #include <vector>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 // Private state for MemoryPool (opaque to SDK users).
@@ -141,4 +141,4 @@ std::size_t MemoryPool::UsedCount() const
     return impl_->blockCount - impl_->freeList.size();
 }
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

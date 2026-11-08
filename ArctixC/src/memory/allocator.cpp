@@ -5,7 +5,7 @@
 
 #include <mutex>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 // Private state for Allocator (opaque to SDK users).
@@ -95,4 +95,4 @@ void Allocator::ResetStatistics()
     impl_->manager.ResetStatistics();
 }
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

@@ -11,12 +11,12 @@
 
 struct ArctixC_ThreadHandle
 {
-    arctixs::Thread::Thread thread;
+    arctix::Thread::Thread thread;
 };
 
 struct ArctixC_ThreadPoolHandle
 {
-    arctixs::Thread::ThreadPool* pool = nullptr;
+    arctix::Thread::ThreadPool* pool = nullptr;
 };
 
 static unsigned long long HashThreadId(const std::thread::id& id)
@@ -102,22 +102,22 @@ ARCTIXC_THREAD_API unsigned long long ArctixC_ThreadGetId(const ArctixC_ThreadHa
 
 ARCTIXC_THREAD_API unsigned long long ArctixC_ThreadCurrentId(void)
 {
-    return HashThreadId(arctixs::Thread::CurrentThreadId());
+    return HashThreadId(arctix::Thread::CurrentThreadId());
 }
 
 ARCTIXC_THREAD_API void ArctixC_ThreadYield(void)
 {
-    arctixs::Thread::ThreadYield();
+    arctix::Thread::ThreadYield();
 }
 
 ARCTIXC_THREAD_API void ArctixC_ThreadSleepMs(unsigned long long milliseconds)
 {
-    arctixs::Thread::ThreadSleepFor(static_cast<std::uint64_t>(milliseconds));
+    arctix::Thread::ThreadSleepFor(static_cast<std::uint64_t>(milliseconds));
 }
 
 ARCTIXC_THREAD_API unsigned int ArctixC_ThreadHardwareConcurrency(void)
 {
-    return arctixs::Thread::HardwareConcurrency();
+    return arctix::Thread::HardwareConcurrency();
 }
 
 ARCTIXC_THREAD_API ArctixC_ThreadPoolHandle* ArctixC_PoolCreate(unsigned long long threadCount)
@@ -127,7 +127,7 @@ ARCTIXC_THREAD_API ArctixC_ThreadPoolHandle* ArctixC_PoolCreate(unsigned long lo
     {
         return nullptr;
     }
-    handle->pool = new (std::nothrow) arctixs::Thread::ThreadPool(static_cast<std::size_t>(threadCount));
+    handle->pool = new (std::nothrow) arctix::Thread::ThreadPool(static_cast<std::size_t>(threadCount));
     if (handle->pool == nullptr || !handle->pool->IsRunning())
     {
         delete handle->pool;

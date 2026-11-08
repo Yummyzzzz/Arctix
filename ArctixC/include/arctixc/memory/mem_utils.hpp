@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 // Overwrites `size` bytes at `data` with zeros through a volatile
@@ -68,4 +68,4 @@ inline std::uint64_t Fnv1aHash64(const void* data, std::size_t size)
     return hash;
 }
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

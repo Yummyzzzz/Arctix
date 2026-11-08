@@ -1,20 +1,20 @@
 # ArctixC v0.1.1 - SDK Documentation
 
-One standalone `arctixc.dll` + `arctixc.lib` - `arctixs::Memory` - `arctixs::Buffer` - `arctixs::Thread` - `arctixs::Core`
+One standalone `arctixc.dll` + `arctixc.lib` - `arctix::Memory` - `arctix::Buffer` - `arctix::Thread` - `arctix::Core`
 
 This file mirrors `ArctixC/Documentation.html` (same content, same 121 functions).
 Regenerate it any time with `node ArctixC/generate-docs-md.js` from the `Arctix/` root.
 
 ## Dashboard
 
-ArctixC ships as **one** independent binary - `arctixc.dll` with `arctixc.lib` and the `include/arctixc/` headers. There is a single DLL to ship - no split modules - and every subsystem below lives in it. C++ consumers call `arctixs::Memory::`, `arctixs::Buffer::`, `arctixs::Thread::` and `arctixs::Core::` functions; C consumers use the flat `Arctix_*` / `ArctixC_*` ABI from `arctixc/c_api/*.h` (genuinely C-compilable headers).
+ArctixC ships as **one** independent binary - `arctixc.dll` with `arctixc.lib` and the `include/arctixc/` headers. There is a single DLL to ship - no split modules - and every subsystem below lives in it. C++ consumers call `arctix::Memory::`, `arctix::Buffer::`, `arctix::Thread::` and `arctix::Core::` functions; C consumers use the flat `Arctix_*` / `ArctixC_*` ABI from `arctixc/c_api/*.h` (genuinely C-compilable headers).
 
 ### Categories
 
-- **Foundation** - `arctixs::Core` version queries + `ArctixCStatus` codes shared by every subsystem. Zero dependencies.
-- **Memory** - Aligned `arctixs::Memory::Allocator` with statistics, O(1) `MemoryPool`, owning `arctixs::Buffer::Buffer`, header-only wipes, compares and hashes.
-- **Virtual memory** - Direct OS page control under `arctixs::Memory`: `VirtualReserve` -> `VirtualCommit` -> `VirtualDecommit` -> `VirtualRelease`, plus `VirtualProtectMemory`.
-- **Threads** - Move-only `arctixs::Thread::Thread` with caught worker exceptions, a FIFO `ThreadPool`, and `ParallelFor` index loops.
+- **Foundation** - `arctix::Core` version queries + `ArctixCStatus` codes shared by every subsystem. Zero dependencies.
+- **Memory** - Aligned `arctix::Memory::Allocator` with statistics, O(1) `MemoryPool`, owning `arctix::Buffer::Buffer`, header-only wipes, compares and hashes.
+- **Virtual memory** - Direct OS page control under `arctix::Memory`: `VirtualReserve` -> `VirtualCommit` -> `VirtualDecommit` -> `VirtualRelease`, plus `VirtualProtectMemory`.
+- **Threads** - Move-only `arctix::Thread::Thread` with caught worker exceptions, a FIFO `ThreadPool`, and `ParallelFor` index loops.
 
 ### Use it - C++
 
@@ -38,11 +38,11 @@ Arctix is developed by **Whitepoint Software Development** - independent Whitepo
 
 ## Foundation (7)
 
-### arctixs::Core::GetVersionString
+### arctix::Core::GetVersionString
 
 Signature:
 ```cpp
-const char* arctixs::Core::GetVersionString();
+const char* arctix::Core::GetVersionString();
 ```
 
 Arguments: takes no arguments.
@@ -51,16 +51,16 @@ Returns: const char* - e.g. "0.1.1". Never NULL.
 
 Example call:
 ```cpp
-const char* v = arctixs::Core::GetVersionString();
+const char* v = arctix::Core::GetVersionString();
 ```
 
 Explanation: Returns the SDK version string. Valid forever (points at static storage); compare it at startup to fail fast on DLL mix-ups.
 
-### arctixs::Core::GetVersion
+### arctix::Core::GetVersion
 
 Signature:
 ```cpp
-void arctixs::Core::GetVersion(int* major, int* minor, int* patch);
+void arctix::Core::GetVersion(int* major, int* minor, int* patch);
 ```
 
 Arguments:
@@ -75,16 +75,16 @@ Returns: void
 
 Example call:
 ```cpp
-int mj, mn, p; arctixs::Core::GetVersion(&mj, &mn, &p);
+int mj, mn, p; arctix::Core::GetVersion(&mj, &mn, &p);
 ```
 
 Explanation: Numeric form of the version for range checks (e.g. require minor >= 3). Every out-parameter is optional.
 
-### arctixs::Core::StatusToString
+### arctix::Core::StatusToString
 
 Signature:
 ```cpp
-const char* arctixs::Core::StatusToString(int status);
+const char* arctix::Core::StatusToString(int status);
 ```
 
 Arguments:
@@ -97,16 +97,16 @@ Returns: const char* - e.g. "Ok", "Exhausted". Never NULL; unknown codes map to 
 
 Example call:
 ```cpp
-puts(arctixs::Core::StatusToString(ArctixCStatus_Exhausted));
+puts(arctix::Core::StatusToString(ArctixCStatus_Exhausted));
 ```
 
 Explanation: Human-readable name for a status code, for logs and error messages. Pure lookup, no allocation, thread-safe.
 
-### arctixs::Core::GetVersionMajor
+### arctix::Core::GetVersionMajor
 
 Signature:
 ```cpp
-int arctixs::Core::GetVersionMajor();
+int arctix::Core::GetVersionMajor();
 ```
 
 Arguments: takes no arguments.
@@ -115,16 +115,16 @@ Returns: int - major version.
 
 Example call:
 ```cpp
-int major = arctixs::Core::GetVersionMajor(); // 0
+int major = arctix::Core::GetVersionMajor(); // 0
 ```
 
 Explanation: Major version as a plain int for range checks. Header-only wrapper around ArctixC_GetVersion.
 
-### arctixs::Core::GetVersionMinor
+### arctix::Core::GetVersionMinor
 
 Signature:
 ```cpp
-int arctixs::Core::GetVersionMinor();
+int arctix::Core::GetVersionMinor();
 ```
 
 Arguments: takes no arguments.
@@ -133,16 +133,16 @@ Returns: int - minor version.
 
 Example call:
 ```cpp
-int minor = arctixs::Core::GetVersionMinor(); // 1
+int minor = arctix::Core::GetVersionMinor(); // 1
 ```
 
 Explanation: Minor version as a plain int. Header-only wrapper around ArctixC_GetVersion.
 
-### arctixs::Core::GetVersionPatch
+### arctix::Core::GetVersionPatch
 
 Signature:
 ```cpp
-int arctixs::Core::GetVersionPatch();
+int arctix::Core::GetVersionPatch();
 ```
 
 Arguments: takes no arguments.
@@ -151,7 +151,7 @@ Returns: int - patch version.
 
 Example call:
 ```cpp
-printf("%d\n", arctixs::Core::GetVersionPatch());
+printf("%d\n", arctix::Core::GetVersionPatch());
 ```
 
 Explanation: Patch version as a plain int. Header-only wrapper around ArctixC_GetVersion.
@@ -172,15 +172,15 @@ Example call:
 if (pool.Create(0, 8)) { /* ... */ }
 ```
 
-Explanation: Shared result codes. Memory keeps historical bool returns; newer APIs (Thread, ThreadPool, virtual memory) use bools today and these codes document the failure vocabulary. From C++ the arctixs::Core::Status alias may be used.
+Explanation: Shared result codes. Memory keeps historical bool returns; newer APIs (Thread, ThreadPool, virtual memory) use bools today and these codes document the failure vocabulary. From C++ the arctix::Core::Status alias may be used.
 
 ## Allocator (10)
 
-### arctixs::Memory::ArctixConfig (struct)
+### arctix::Memory::ArctixConfig (struct)
 
 Signature:
 ```cpp
-struct arctixs::Memory::ArctixConfig { bool threadSafe = true; bool enableStatistics = true; std::size_t defaultAlignment = 16; };
+struct arctix::Memory::ArctixConfig { bool threadSafe = true; bool enableStatistics = true; std::size_t defaultAlignment = 16; };
 ```
 
 Arguments:
@@ -191,11 +191,11 @@ Arguments:
 | `bool` | `enableStatistics` | Track GetStatistics() counters. Disable for minimum overhead. |
 | `size_t` | `defaultAlignment` | Power-of-two alignment used when Allocate() is called with 0. |
 
-Returns: n/a - plain struct, built with arctixs::Memory::DefaultConfig() then tweaked.
+Returns: n/a - plain struct, built with arctix::Memory::DefaultConfig() then tweaked.
 
 Example call:
 ```cpp
-arctixs::Memory::ArctixConfig c = arctixs::Memory::DefaultConfig(); c.threadSafe = false;
+arctix::Memory::ArctixConfig c = arctix::Memory::DefaultConfig(); c.threadSafe = false;
 ```
 
 Explanation: Allocator configuration. Copy it, tweak fields, pass to Initialize(). Header-only: no DLL call involved.
@@ -204,25 +204,25 @@ Explanation: Allocator configuration. Copy it, tweak fields, pass to Initialize(
 
 Signature:
 ```cpp
-arctixs::Memory::ArctixConfig arctixs::Memory::DefaultConfig();
+arctix::Memory::ArctixConfig arctix::Memory::DefaultConfig();
 ```
 
 Arguments: takes no arguments.
 
-Returns: arctixs::Memory::ArctixConfig - { threadSafe:true, enableStatistics:true, defaultAlignment:16 }.
+Returns: arctix::Memory::ArctixConfig - { threadSafe:true, enableStatistics:true, defaultAlignment:16 }.
 
 Example call:
 ```cpp
-allocator.Initialize(arctixs::Memory::DefaultConfig());
+allocator.Initialize(arctix::Memory::DefaultConfig());
 ```
 
 Explanation: Returns a sane default configuration. Inline helper, costs nothing; prefer it over hand-filling the struct.
 
-### arctixs::Memory::ArctixStats (struct)
+### arctix::Memory::ArctixStats (struct)
 
 Signature:
 ```cpp
-struct arctixs::Memory::ArctixStats { size_t totalAllocatedBytes, totalFreedBytes, currentUsageBytes, peakUsageBytes; unsigned long long allocationCount, freeCount; };
+struct arctix::Memory::ArctixStats { size_t totalAllocatedBytes, totalFreedBytes, currentUsageBytes, peakUsageBytes; unsigned long long allocationCount, freeCount; };
 ```
 
 Arguments: takes no arguments.
@@ -231,38 +231,38 @@ Returns: n/a - snapshot returned by value from GetStatistics().
 
 Example call:
 ```cpp
-arctixs::Memory::ArctixStats s = allocator.GetStatistics();
+arctix::Memory::ArctixStats s = allocator.GetStatistics();
 ```
 
 Explanation: Allocator telemetry. currentUsageBytes = allocated - freed; peakUsageBytes = high-water mark since Initialize()/ResetStatistics(). Read freely on the calling thread after GetStatistics().
 
-### arctixs::Memory::Allocator::Initialize
+### arctix::Memory::Allocator::Initialize
 
 Signature:
 ```cpp
-bool arctixs::Memory::Allocator::Initialize(const arctixs::Memory::ArctixConfig& config);
+bool arctix::Memory::Allocator::Initialize(const arctix::Memory::ArctixConfig& config);
 ```
 
 Arguments:
 
 | Type | Name | Description |
 |------|------|-------------|
-| `arctixs::Memory::ArctixConfig&` | `config` | Threading/statistics/alignment setup (see DefaultConfig). |
+| `arctix::Memory::ArctixConfig&` | `config` | Threading/statistics/alignment setup (see DefaultConfig). |
 
 Returns: bool - true on success, false if already initialized.
 
 Example call:
 ```cpp
-arctixs::Memory::Allocator a; a.Initialize(arctixs::Memory::DefaultConfig());
+arctix::Memory::Allocator a; a.Initialize(arctix::Memory::DefaultConfig());
 ```
 
 Explanation: Brings the allocator to life. Call exactly once before Allocate(); a second call fails instead of leaking. Pair with Shutdown().
 
-### arctixs::Memory::Allocator::Shutdown
+### arctix::Memory::Allocator::Shutdown
 
 Signature:
 ```cpp
-void arctixs::Memory::Allocator::Shutdown();
+void arctix::Memory::Allocator::Shutdown();
 ```
 
 Arguments: takes no arguments.
@@ -276,11 +276,11 @@ a.Shutdown();
 
 Explanation: Releases internal state. Every outstanding block must be Deallocate()d first. After Shutdown the object may be Initialize()d again.
 
-### arctixs::Memory::Allocator::IsInitialized
+### arctix::Memory::Allocator::IsInitialized
 
 Signature:
 ```cpp
-bool arctixs::Memory::Allocator::IsInitialized() const;
+bool arctix::Memory::Allocator::IsInitialized() const;
 ```
 
 Arguments: takes no arguments.
@@ -294,11 +294,11 @@ if (!a.IsInitialized()) return;
 
 Explanation: Lifecycle query. All other methods (except Initialize/Shutdown) require a prior successful Initialize().
 
-### arctixs::Memory::Allocator::Allocate
+### arctix::Memory::Allocator::Allocate
 
 Signature:
 ```cpp
-void* arctixs::Memory::Allocator::Allocate(std::size_t size, std::size_t alignment = 0);
+void* arctix::Memory::Allocator::Allocate(std::size_t size, std::size_t alignment = 0);
 ```
 
 Arguments:
@@ -317,11 +317,11 @@ void* p = a.Allocate(256, 16);
 
 Explanation: General-purpose aligned allocation with statistics. Free every success with Deallocate() on the same instance.
 
-### arctixs::Memory::Allocator::Deallocate
+### arctix::Memory::Allocator::Deallocate
 
 Signature:
 ```cpp
-void arctixs::Memory::Allocator::Deallocate(void* pointer);
+void arctix::Memory::Allocator::Deallocate(void* pointer);
 ```
 
 Arguments:
@@ -339,16 +339,16 @@ a.Deallocate(p);
 
 Explanation: Returns a block. Only pass pointers this instance handed out; anything else is undefined behaviour.
 
-### arctixs::Memory::Allocator::GetStatistics
+### arctix::Memory::Allocator::GetStatistics
 
 Signature:
 ```cpp
-arctixs::Memory::ArctixStats arctixs::Memory::Allocator::GetStatistics() const;
+arctix::Memory::ArctixStats arctix::Memory::Allocator::GetStatistics() const;
 ```
 
 Arguments: takes no arguments.
 
-Returns: arctixs::Memory::ArctixStats - snapshot copy (see arctixs::Memory::ArctixStats struct).
+Returns: arctix::Memory::ArctixStats - snapshot copy (see arctix::Memory::ArctixStats struct).
 
 Example call:
 ```cpp
@@ -358,11 +358,11 @@ auto s = a.GetStatistics(); printf("%zu
 
 Explanation: Point-in-time telemetry. Cheap; call it in debug overlays, leak checks and benchmarks.
 
-### arctixs::Memory::Allocator::ResetStatistics
+### arctix::Memory::Allocator::ResetStatistics
 
 Signature:
 ```cpp
-void arctixs::Memory::Allocator::ResetStatistics();
+void arctix::Memory::Allocator::ResetStatistics();
 ```
 
 Arguments: takes no arguments.
@@ -378,11 +378,11 @@ Explanation: Zeroes cumulative counters and re-bases the peak. Use between bench
 
 ## Memory Pool (9)
 
-### arctixs::Memory::MemoryPool::Create
+### arctix::Memory::MemoryPool::Create
 
 Signature:
 ```cpp
-bool arctixs::Memory::MemoryPool::Create(std::size_t blockSize, std::size_t blockCount, std::size_t alignment = 16);
+bool arctix::Memory::MemoryPool::Create(std::size_t blockSize, std::size_t blockCount, std::size_t alignment = 16);
 ```
 
 Arguments:
@@ -397,16 +397,16 @@ Returns: bool - true on success, false on bad args / already created.
 
 Example call:
 ```cpp
-arctixs::Memory::MemoryPool p; p.Create(64, 128);
+arctix::Memory::MemoryPool p; p.Create(64, 128);
 ```
 
 Explanation: Pre-allocates every block up front: Allocate() afterwards is O(1) with zero OS calls. Ideal for entities, particles, hot nodes.
 
-### arctixs::Memory::MemoryPool::Destroy
+### arctix::Memory::MemoryPool::Destroy
 
 Signature:
 ```cpp
-void arctixs::Memory::MemoryPool::Destroy();
+void arctix::Memory::MemoryPool::Destroy();
 ```
 
 Arguments: takes no arguments.
@@ -420,11 +420,11 @@ p.Destroy();
 
 Explanation: Frees the backing memory. Free every checked-out block first; the pool may be Create()d again afterwards.
 
-### arctixs::Memory::MemoryPool::IsCreated
+### arctix::Memory::MemoryPool::IsCreated
 
 Signature:
 ```cpp
-bool arctixs::Memory::MemoryPool::IsCreated() const;
+bool arctix::Memory::MemoryPool::IsCreated() const;
 ```
 
 Arguments: takes no arguments.
@@ -438,11 +438,11 @@ if (!p.IsCreated()) return;
 
 Explanation: Lifecycle query for the pool.
 
-### arctixs::Memory::MemoryPool::Allocate
+### arctix::Memory::MemoryPool::Allocate
 
 Signature:
 ```cpp
-void* arctixs::Memory::MemoryPool::Allocate();
+void* arctix::Memory::MemoryPool::Allocate();
 ```
 
 Arguments: takes no arguments.
@@ -456,11 +456,11 @@ void* e = p.Allocate();
 
 Explanation: Pops a block in O(1). nullptr means the pool is drained - grow the pool or fall back to Allocator.
 
-### arctixs::Memory::MemoryPool::Free
+### arctix::Memory::MemoryPool::Free
 
 Signature:
 ```cpp
-void arctixs::Memory::MemoryPool::Free(void* pointer);
+void arctix::Memory::MemoryPool::Free(void* pointer);
 ```
 
 Arguments:
@@ -478,11 +478,11 @@ p.Free(e);
 
 Explanation: Returns a block to the pool in O(1). Never free foreign pointers into a pool.
 
-### arctixs::Memory::MemoryPool::BlockSize
+### arctix::Memory::MemoryPool::BlockSize
 
 Signature:
 ```cpp
-std::size_t arctixs::Memory::MemoryPool::BlockSize() const;
+std::size_t arctix::Memory::MemoryPool::BlockSize() const;
 ```
 
 Arguments: takes no arguments.
@@ -496,11 +496,11 @@ size_t b = p.BlockSize();
 
 Explanation: Capacity introspection for sizing loops and diagnostics.
 
-### arctixs::Memory::MemoryPool::BlockCount
+### arctix::Memory::MemoryPool::BlockCount
 
 Signature:
 ```cpp
-std::size_t arctixs::Memory::MemoryPool::BlockCount() const;
+std::size_t arctix::Memory::MemoryPool::BlockCount() const;
 ```
 
 Arguments: takes no arguments.
@@ -514,11 +514,11 @@ size_t n = p.BlockCount();
 
 Explanation: Total capacity of the pool.
 
-### arctixs::Memory::MemoryPool::FreeCount
+### arctix::Memory::MemoryPool::FreeCount
 
 Signature:
 ```cpp
-std::size_t arctixs::Memory::MemoryPool::FreeCount() const;
+std::size_t arctix::Memory::MemoryPool::FreeCount() const;
 ```
 
 Arguments: takes no arguments.
@@ -532,11 +532,11 @@ if (p.FreeCount() == 0) grow();
 
 Explanation: Drain gauge: pair with UsedCount() for pool pressure metrics.
 
-### arctixs::Memory::MemoryPool::UsedCount
+### arctix::Memory::MemoryPool::UsedCount
 
 Signature:
 ```cpp
-std::size_t arctixs::Memory::MemoryPool::UsedCount() const;
+std::size_t arctix::Memory::MemoryPool::UsedCount() const;
 ```
 
 Arguments: takes no arguments.
@@ -556,7 +556,7 @@ Explanation: Checked-out count; must be 0 before Destroy().
 
 Signature:
 ```cpp
-arctixs::Buffer::Buffer(); explicit arctixs::Buffer::Buffer(std::size_t size, std::uint8_t fill = 0); ~arctixs::Buffer::Buffer(); // + move ctor / move assign (copy deleted)
+arctix::Buffer::Buffer(); explicit arctix::Buffer::Buffer(std::size_t size, std::uint8_t fill = 0); ~arctix::Buffer::Buffer(); // + move ctor / move assign (copy deleted)
 ```
 
 Arguments:
@@ -570,16 +570,16 @@ Returns: n/a - object construction.
 
 Example call:
 ```cpp
-arctixs::Buffer::Buffer b(64, 0);
+arctix::Buffer::Buffer b(64, 0);
 ```
 
 Explanation: Owning resizable byte array - the staging area for data before it goes to the Allocator, pool or pages. Move-only (no accidental copies); the destructor wipes contents.
 
-### arctixs::Buffer::Buffer::CopyFrom
+### arctix::Buffer::Buffer::CopyFrom
 
 Signature:
 ```cpp
-bool arctixs::Buffer::Buffer::CopyFrom(const void* data, std::size_t size);
+bool arctix::Buffer::Buffer::CopyFrom(const void* data, std::size_t size);
 ```
 
 Arguments:
@@ -598,11 +598,11 @@ b.CopyFrom("hello", 5);
 
 Explanation: Replaces the whole contents with a copy. Grows the allocation when needed, preserving nothing.
 
-### arctixs::Buffer::Buffer::Append
+### arctix::Buffer::Buffer::Append
 
 Signature:
 ```cpp
-bool arctixs::Buffer::Buffer::Append(const void* data, std::size_t size);
+bool arctix::Buffer::Buffer::Append(const void* data, std::size_t size);
 ```
 
 Arguments:
@@ -621,11 +621,11 @@ b.Append(" world", 6);
 
 Explanation: Grows end-to-end (doubling strategy from a 64-byte seed). Use to assemble packets, blobs and serialised structs.
 
-### arctixs::Buffer::Buffer::Resize
+### arctix::Buffer::Buffer::Resize
 
 Signature:
 ```cpp
-bool arctixs::Buffer::Buffer::Resize(std::size_t newSize, std::uint8_t fill = 0);
+bool arctix::Buffer::Buffer::Resize(std::size_t newSize, std::uint8_t fill = 0);
 ```
 
 Arguments:
@@ -644,11 +644,11 @@ b.Resize(1024, 0);
 
 Explanation: Exact-size control. Shrinking wipes the truncated tail; growing zero-fills by default. Prefer Reserve() when you only want headroom.
 
-### arctixs::Buffer::Buffer::Reserve
+### arctix::Buffer::Buffer::Reserve
 
 Signature:
 ```cpp
-bool arctixs::Buffer::Buffer::Reserve(std::size_t capacity);
+bool arctix::Buffer::Buffer::Reserve(std::size_t capacity);
 ```
 
 Arguments:
@@ -666,11 +666,11 @@ b.Reserve(4096);
 
 Explanation: Pre-allocates headroom so a burst of Append() calls never reallocates. Capacity never shrinks except by move.
 
-### arctixs::Buffer::Buffer::Fill
+### arctix::Buffer::Buffer::Fill
 
 Signature:
 ```cpp
-void arctixs::Buffer::Buffer::Fill(std::uint8_t value);
+void arctix::Buffer::Buffer::Fill(std::uint8_t value);
 ```
 
 Arguments:
@@ -688,11 +688,11 @@ b.Fill(0xFF);
 
 Explanation: Memset-style fill of the live Size() bytes. No-op when empty.
 
-### arctixs::Buffer::Buffer::Clear
+### arctix::Buffer::Buffer::Clear
 
 Signature:
 ```cpp
-void arctixs::Buffer::Buffer::Clear();
+void arctix::Buffer::Buffer::Clear();
 ```
 
 Arguments: takes no arguments.
@@ -706,11 +706,11 @@ b.Clear();
 
 Explanation: Wipes contents and sets Size() to 0 while keeping the allocation for reuse - the hot-loop friendly reset.
 
-### arctixs::Buffer::Buffer::SecureWipe
+### arctix::Buffer::Buffer::SecureWipe
 
 Signature:
 ```cpp
-void arctixs::Buffer::Buffer::SecureWipe();
+void arctix::Buffer::Buffer::SecureWipe();
 ```
 
 Arguments: takes no arguments.
@@ -724,11 +724,11 @@ keys.SecureWipe();
 
 Explanation: Volatile-pointer wipe (cannot be optimised away) then Clear(). Call before destroying buffers that held keys, passwords or tokens.
 
-### arctixs::Buffer::Buffer::Equals
+### arctix::Buffer::Buffer::Equals
 
 Signature:
 ```cpp
-bool arctixs::Buffer::Buffer::Equals(const Buffer& other) const;
+bool arctix::Buffer::Buffer::Equals(const Buffer& other) const;
 ```
 
 Arguments:
@@ -746,11 +746,11 @@ if (a.Equals(b)) { /* identical */ }
 
 Explanation: Constant-shape comparison (size check first, then bytes). For MAC-style secrets prefer hashing; see Checksum().
 
-### arctixs::Buffer::Buffer::Checksum
+### arctix::Buffer::Buffer::Checksum
 
 Signature:
 ```cpp
-std::uint64_t arctixs::Buffer::Buffer::Checksum() const;
+std::uint64_t arctix::Buffer::Buffer::Checksum() const;
 ```
 
 Arguments: takes no arguments.
@@ -764,11 +764,11 @@ uint64_t h = b.Checksum();
 
 Explanation: Fast non-cryptographic fingerprint for change detection, dedup keys and test assertions. Not a security hash.
 
-### arctixs::Buffer::Buffer::HexEncode
+### arctix::Buffer::Buffer::HexEncode
 
 Signature:
 ```cpp
-std::string arctixs::Buffer::Buffer::HexEncode() const;
+std::string arctix::Buffer::Buffer::HexEncode() const;
 ```
 
 Arguments: takes no arguments.
@@ -782,11 +782,11 @@ puts(b.HexEncode().c_str()); // "ABAB..."
 
 Explanation: Debug rendering of binary contents for logs and DOC-style dumps.
 
-### arctixs::Buffer::Buffer::Data
+### arctix::Buffer::Buffer::Data
 
 Signature:
 ```cpp
-std::uint8_t* arctixs::Buffer::Buffer::Data(); const std::uint8_t* arctixs::Buffer::Buffer::Data() const;
+std::uint8_t* arctix::Buffer::Buffer::Data(); const std::uint8_t* arctix::Buffer::Buffer::Data() const;
 ```
 
 Arguments: takes no arguments.
@@ -800,11 +800,11 @@ fwrite(b.Data(), 1, b.Size(), f);
 
 Explanation: Raw access for I/O, hashing and hand-off to Allocator/pool/page writes. Invalidated by the next mutating call.
 
-### arctixs::Buffer::Buffer::Size
+### arctix::Buffer::Buffer::Size
 
 Signature:
 ```cpp
-std::size_t arctixs::Buffer::Buffer::Size() const;
+std::size_t arctix::Buffer::Buffer::Size() const;
 ```
 
 Arguments: takes no arguments.
@@ -818,11 +818,11 @@ for (size_t i = 0; i < b.Size(); ++i) {}
 
 Explanation: Logical length (not capacity).
 
-### arctixs::Buffer::Buffer::Capacity
+### arctix::Buffer::Buffer::Capacity
 
 Signature:
 ```cpp
-std::size_t arctixs::Buffer::Buffer::Capacity() const;
+std::size_t arctix::Buffer::Buffer::Capacity() const;
 ```
 
 Arguments: takes no arguments.
@@ -836,11 +836,11 @@ b.Reserve(b.Size() * 2);
 
 Explanation: Physical headroom. Size <= Capacity always holds.
 
-### arctixs::Buffer::Buffer::Empty
+### arctix::Buffer::Buffer::Empty
 
 Signature:
 ```cpp
-bool arctixs::Buffer::Buffer::Empty() const;
+bool arctix::Buffer::Buffer::Empty() const;
 ```
 
 Arguments: takes no arguments.
@@ -860,7 +860,7 @@ Explanation: Emptiness check; Data() is nullptr exactly when this is true.
 
 Signature:
 ```cpp
-void arctixs::Memory::SecureZero(void* data, std::size_t size);
+void arctix::Memory::SecureZero(void* data, std::size_t size);
 ```
 
 Arguments:
@@ -874,7 +874,7 @@ Returns: void
 
 Example call:
 ```cpp
-arctixs::Memory::SecureZero(password, len);
+arctix::Memory::SecureZero(password, len);
 ```
 
 Explanation: Optimiser-proof wipe via a volatile pointer. Header-only (no DLL call). Use on any secret material before free.
@@ -883,7 +883,7 @@ Explanation: Optimiser-proof wipe via a volatile pointer. Header-only (no DLL ca
 
 Signature:
 ```cpp
-bool arctixs::Memory::MemEqual(const void* a, const void* b, std::size_t size);
+bool arctix::Memory::MemEqual(const void* a, const void* b, std::size_t size);
 ```
 
 Arguments:
@@ -898,7 +898,7 @@ Returns: bool - true when all bytes match. NULL only equals NULL at size 0.
 
 Example call:
 ```cpp
-if (arctixs::Memory::MemEqual(p, q, n)) {}
+if (arctix::Memory::MemEqual(p, q, n)) {}
 ```
 
 Explanation: Header-only byte comparison with NULL-safe semantics. Straightforward early-exit loop.
@@ -907,7 +907,7 @@ Explanation: Header-only byte comparison with NULL-safe semantics. Straightforwa
 
 Signature:
 ```cpp
-std::uint64_t arctixs::Memory::Fnv1aHash64(const void* data, std::size_t size);
+std::uint64_t arctix::Memory::Fnv1aHash64(const void* data, std::size_t size);
 ```
 
 Arguments:
@@ -921,10 +921,10 @@ Returns: uint64_t - 64-bit FNV-1a digest.
 
 Example call:
 ```cpp
-uint64_t h = arctixs::Memory::Fnv1aHash64(p, n);
+uint64_t h = arctix::Memory::Fnv1aHash64(p, n);
 ```
 
-Explanation: Fast non-cryptographic hash backing arctixs::Buffer::Buffer::Checksum(). Header-only; good for hash tables and change detection.
+Explanation: Fast non-cryptographic hash backing arctix::Buffer::Buffer::Checksum(). Header-only; good for hash tables and change detection.
 
 ## Virtual Memory (8)
 
@@ -932,7 +932,7 @@ Explanation: Fast non-cryptographic hash backing arctixs::Buffer::Buffer::Checks
 
 Signature:
 ```cpp
-std::size_t arctixs::Memory::VirtualPageSize();
+std::size_t arctix::Memory::VirtualPageSize();
 ```
 
 Arguments: takes no arguments.
@@ -941,7 +941,7 @@ Returns: size_t - OS page size (e.g. 4096). Never 0.
 
 Example call:
 ```cpp
-size_t pg = arctixs::Memory::VirtualPageSize();
+size_t pg = arctix::Memory::VirtualPageSize();
 ```
 
 Explanation: Quantum of the whole virtual-memory API: reserve/commit/decommit/release sizes should be multiples of this.
@@ -950,7 +950,7 @@ Explanation: Quantum of the whole virtual-memory API: reserve/commit/decommit/re
 
 Signature:
 ```cpp
-bool arctixs::Memory::IsPageAligned(const void* address);
+bool arctix::Memory::IsPageAligned(const void* address);
 ```
 
 Arguments:
@@ -963,16 +963,16 @@ Returns: bool - true when address is a page multiple.
 
 Example call:
 ```cpp
-assert(arctixs::Memory::IsPageAligned(region));
+assert(arctix::Memory::IsPageAligned(region));
 ```
 
-Explanation: Alignment probe for addresses returned by arctixs::Memory::VirtualReserve() and for validating caller ranges.
+Explanation: Alignment probe for addresses returned by arctix::Memory::VirtualReserve() and for validating caller ranges.
 
 ### RoundUpToPageSize
 
 Signature:
 ```cpp
-std::size_t arctixs::Memory::RoundUpToPageSize(std::size_t size);
+std::size_t arctix::Memory::RoundUpToPageSize(std::size_t size);
 ```
 
 Arguments:
@@ -985,7 +985,7 @@ Returns: size_t - smallest page multiple >= size.
 
 Example call:
 ```cpp
-void* r = arctixs::Memory::VirtualReserve(arctixs::Memory::RoundUpToPageSize(n));
+void* r = arctix::Memory::VirtualReserve(arctix::Memory::RoundUpToPageSize(n));
 ```
 
 Explanation: Turns arbitrary byte counts into valid reservation sizes. Always round before Reserve().
@@ -994,7 +994,7 @@ Explanation: Turns arbitrary byte counts into valid reservation sizes. Always ro
 
 Signature:
 ```cpp
-void* arctixs::Memory::VirtualReserve(std::size_t size);
+void* arctix::Memory::VirtualReserve(std::size_t size);
 ```
 
 Arguments:
@@ -1007,16 +1007,16 @@ Returns: void* - reserved base, or nullptr on failure. No RAM is used yet.
 
 Example call:
 ```cpp
-void* r = arctixs::Memory::VirtualReserve(pg * 2);
+void* r = arctix::Memory::VirtualReserve(pg * 2);
 ```
 
-Explanation: Claims address space with PAGE_NOACCESS. Costs no physical memory until arctixs::Memory::VirtualCommit(). Release exactly once with arctixs::Memory::VirtualRelease().
+Explanation: Claims address space with PAGE_NOACCESS. Costs no physical memory until arctix::Memory::VirtualCommit(). Release exactly once with arctix::Memory::VirtualRelease().
 
 ### VirtualCommit
 
 Signature:
 ```cpp
-bool arctixs::Memory::VirtualCommit(void* address, std::size_t size);
+bool arctix::Memory::VirtualCommit(void* address, std::size_t size);
 ```
 
 Arguments:
@@ -1030,7 +1030,7 @@ Returns: bool - false on bad args / OS refusal.
 
 Example call:
 ```cpp
-ok = arctixs::Memory::VirtualCommit(r, pg * 2);
+ok = arctix::Memory::VirtualCommit(r, pg * 2);
 ```
 
 Explanation: Backs reserved pages with zero-filled RAM. Commit only what you touch: untouched pages stay free.
@@ -1039,7 +1039,7 @@ Explanation: Backs reserved pages with zero-filled RAM. Commit only what you tou
 
 Signature:
 ```cpp
-bool arctixs::Memory::VirtualDecommit(void* address, std::size_t size);
+bool arctix::Memory::VirtualDecommit(void* address, std::size_t size);
 ```
 
 Arguments:
@@ -1053,30 +1053,30 @@ Returns: bool - false on bad args / OS refusal.
 
 Example call:
 ```cpp
-arctixs::Memory::VirtualDecommit(r, pg);
+arctix::Memory::VirtualDecommit(r, pg);
 ```
 
-Explanation: Returns pages to reserved status; contents are lost but the reservation survives for a later arctixs::Memory::VirtualCommit().
+Explanation: Returns pages to reserved status; contents are lost but the reservation survives for a later arctix::Memory::VirtualCommit().
 
 ### VirtualRelease
 
 Signature:
 ```cpp
-bool arctixs::Memory::VirtualRelease(void* address, std::size_t size);
+bool arctix::Memory::VirtualRelease(void* address, std::size_t size);
 ```
 
 Arguments:
 
 | Type | Name | Description |
 |------|------|-------------|
-| `void*` | `address` | Exact pointer from arctixs::Memory::VirtualReserve(). |
+| `void*` | `address` | Exact pointer from arctix::Memory::VirtualReserve(). |
 | `size_t` | `size` | Exact reserved size (required on POSIX). |
 
 Returns: bool - false on bad args / OS refusal. Call exactly once.
 
 Example call:
 ```cpp
-arctixs::Memory::VirtualRelease(r, pg * 2);
+arctix::Memory::VirtualRelease(r, pg * 2);
 ```
 
 Explanation: Frees the whole reservation. Partial release is not supported - design reservations as release units.
@@ -1085,7 +1085,7 @@ Explanation: Frees the whole reservation. Partial release is not supported - des
 
 Signature:
 ```cpp
-bool arctixs::Memory::VirtualProtectMemory(void* address, std::size_t size, arctixs::Memory::MemoryProtection protection);
+bool arctix::Memory::VirtualProtectMemory(void* address, std::size_t size, arctix::Memory::MemoryProtection protection);
 ```
 
 Arguments:
@@ -1094,13 +1094,13 @@ Arguments:
 |------|------|-------------|
 | `void*` | `address` | Committed range. |
 | `size_t` | `size` | Byte count. |
-| `arctixs::Memory::MemoryProtection` | `protection` | NoAccess / ReadOnly / ReadWrite / ReadExecute / ReadWriteExecute. |
+| `arctix::Memory::MemoryProtection` | `protection` | NoAccess / ReadOnly / ReadWrite / ReadExecute / ReadWriteExecute. |
 
 Returns: bool - false on bad args / OS refusal (old rights kept).
 
 Example call:
 ```cpp
-arctixs::Memory::VirtualProtectMemory(r, pg, arctixs::Memory::MemoryProtection::ReadOnly);
+arctix::Memory::VirtualProtectMemory(r, pg, arctix::Memory::MemoryProtection::ReadOnly);
 ```
 
 Explanation: Least-privilege page rights (e.g. seal a JIT page read-only after writing). Executable pages may be refused under hardened policies.
@@ -1111,7 +1111,7 @@ Explanation: Least-privilege page rights (e.g. seal a JIT page read-only after w
 
 Signature:
 ```cpp
-arctixs::Thread::Thread(); ~arctixs::Thread::Thread(); arctixs::Thread::Thread(Thread&&) noexcept; Thread& operator=(Thread&&) noexcept; // copy deleted
+arctix::Thread::Thread(); ~arctix::Thread::Thread(); arctix::Thread::Thread(Thread&&) noexcept; Thread& operator=(Thread&&) noexcept; // copy deleted
 ```
 
 Arguments: takes no arguments.
@@ -1120,23 +1120,23 @@ Returns: n/a - object lifecycle.
 
 Example call:
 ```cpp
-arctixs::Thread::Thread t;
+arctix::Thread::Thread t;
 ```
 
 Explanation: Move-only owner of at most one OS thread. The destructor joins a still-joinable thread (blocking safety net) - prefer explicit Join()/Detach().
 
-### arctixs::Thread::Thread::Start
+### arctix::Thread::Thread::Start
 
 Signature:
 ```cpp
-bool arctixs::Thread::Thread::Start(arctixs::Thread::ThreadFunction function, void* userData);
+bool arctix::Thread::Thread::Start(arctix::Thread::ThreadFunction function, void* userData);
 ```
 
 Arguments:
 
 | Type | Name | Description |
 |------|------|-------------|
-| `arctixs::Thread::ThreadFunction` | `function` | void(*)(void*) worker. nullptr fails. |
+| `arctix::Thread::ThreadFunction` | `function` | void(*)(void*) worker. nullptr fails. |
 | `void*` | `userData` | Opaque pointer for the worker (may be NULL). |
 
 Returns: bool - false when function is null or a thread is already running.
@@ -1148,11 +1148,11 @@ t.Start(Worker, &counter);
 
 Explanation: Launches the worker exactly once per object. Ownership of userData stays with the caller; the library never frees it.
 
-### arctixs::Thread::Thread::Join
+### arctix::Thread::Thread::Join
 
 Signature:
 ```cpp
-bool arctixs::Thread::Thread::Join();
+bool arctix::Thread::Thread::Join();
 ```
 
 Arguments: takes no arguments.
@@ -1166,11 +1166,11 @@ t.Join();
 
 Explanation: Waits for completion. After success the object is empty again. Join OR Detach exactly once.
 
-### arctixs::Thread::Thread::Detach
+### arctix::Thread::Thread::Detach
 
 Signature:
 ```cpp
-bool arctixs::Thread::Thread::Detach();
+bool arctix::Thread::Thread::Detach();
 ```
 
 Arguments: takes no arguments.
@@ -1184,11 +1184,11 @@ t.Detach(); // fire and forget
 
 Explanation: Releases ownership; the thread keeps running. Use for background work whose lifetime you manage another way.
 
-### arctixs::Thread::Thread::IsJoinable
+### arctix::Thread::Thread::IsJoinable
 
 Signature:
 ```cpp
-bool arctixs::Thread::Thread::IsJoinable() const;
+bool arctix::Thread::Thread::IsJoinable() const;
 ```
 
 Arguments: takes no arguments.
@@ -1202,11 +1202,11 @@ if (t.IsJoinable()) t.Join();
 
 Explanation: Guard before Join/Detach and the canonical "did I start something?" probe.
 
-### arctixs::Thread::Thread::IsRunning
+### arctix::Thread::Thread::IsRunning
 
 Signature:
 ```cpp
-bool arctixs::Thread::Thread::IsRunning() const;
+bool arctix::Thread::Thread::IsRunning() const;
 ```
 
 Arguments: takes no arguments.
@@ -1220,11 +1220,11 @@ while (t.IsRunning()) { /* spin */ }
 
 Explanation: Liveness flag, flipped at worker entry/exit. For waiting prefer Join(); poll this for progress UIs.
 
-### arctixs::Thread::Thread::HasThrown
+### arctix::Thread::Thread::HasThrown
 
 Signature:
 ```cpp
-bool arctixs::Thread::Thread::HasThrown() const;
+bool arctix::Thread::Thread::HasThrown() const;
 ```
 
 Arguments: takes no arguments.
@@ -1238,11 +1238,11 @@ t.Join(); if (t.HasThrown()) log();
 
 Explanation: Worker exceptions are caught at the thread boundary and recorded here. Meaningful only after Join() on a started thread.
 
-### arctixs::Thread::Thread::GetId
+### arctix::Thread::Thread::GetId
 
 Signature:
 ```cpp
-std::thread::id arctixs::Thread::Thread::GetId() const;
+std::thread::id arctix::Thread::Thread::GetId() const;
 ```
 
 Arguments: takes no arguments.
@@ -1260,7 +1260,7 @@ Explanation: Identity of the owned thread for logging and thread-affinity checks
 
 Signature:
 ```cpp
-std::thread::id arctixs::Thread::CurrentThreadId();
+std::thread::id arctix::Thread::CurrentThreadId();
 ```
 
 Arguments: takes no arguments.
@@ -1269,7 +1269,7 @@ Returns: thread::id - the calling thread.
 
 Example call:
 ```cpp
-auto me = arctixs::Thread::CurrentThreadId();
+auto me = arctix::Thread::CurrentThreadId();
 ```
 
 Explanation: Free function: who am I. Compare with GetId() to assert "runs on worker X".
@@ -1278,7 +1278,7 @@ Explanation: Free function: who am I. Compare with GetId() to assert "runs on wo
 
 Signature:
 ```cpp
-void arctixs::Thread::ThreadYield();
+void arctix::Thread::ThreadYield();
 ```
 
 Arguments: takes no arguments.
@@ -1287,7 +1287,7 @@ Returns: void
 
 Example call:
 ```cpp
-arctixs::Thread::ThreadYield();
+arctix::Thread::ThreadYield();
 ```
 
 Explanation: Hints the OS to reschedule so another thread may run. For polite spin-waits, not for synchronisation.
@@ -1296,7 +1296,7 @@ Explanation: Hints the OS to reschedule so another thread may run. For polite sp
 
 Signature:
 ```cpp
-void arctixs::Thread::ThreadSleepFor(std::uint64_t milliseconds);
+void arctix::Thread::ThreadSleepFor(std::uint64_t milliseconds);
 ```
 
 Arguments:
@@ -1309,7 +1309,7 @@ Returns: void
 
 Example call:
 ```cpp
-arctixs::Thread::ThreadSleepFor(10);
+arctix::Thread::ThreadSleepFor(10);
 ```
 
 Explanation: Sleeps the caller. Actual wake-up may be later (OS granularity); never use for precise timing.
@@ -1318,7 +1318,7 @@ Explanation: Sleeps the caller. Actual wake-up may be later (OS granularity); ne
 
 Signature:
 ```cpp
-unsigned int arctixs::Thread::HardwareConcurrency();
+unsigned int arctix::Thread::HardwareConcurrency();
 ```
 
 Arguments: takes no arguments.
@@ -1327,7 +1327,7 @@ Returns: unsigned int - thread count, 0 = unknown.
 
 Example call:
 ```cpp
-unsigned n = arctixs::Thread::HardwareConcurrency();
+unsigned n = arctix::Thread::HardwareConcurrency();
 ```
 
 Explanation: Sizes pools and ParallelFor chunking. 0 means "ask the OS failed" - treat as 1.
@@ -1351,16 +1351,16 @@ Returns: n/a - check IsRunning() to confirm workers started.
 
 Example call:
 ```cpp
-arctixs::Thread::ThreadPool pool(4);
+arctix::Thread::ThreadPool pool(4);
 ```
 
 Explanation: Fixed FIFO pool: workers start in the ctor, drain the queue, and are joined by Shutdown()/the destructor. Never starts zero workers.
 
-### arctixs::Thread::ThreadPool::IsRunning
+### arctix::Thread::ThreadPool::IsRunning
 
 Signature:
 ```cpp
-bool arctixs::Thread::ThreadPool::IsRunning() const;
+bool arctix::Thread::ThreadPool::IsRunning() const;
 ```
 
 Arguments: takes no arguments.
@@ -1374,11 +1374,11 @@ if (!pool.IsRunning()) return;
 
 Explanation: Readiness probe. Submit() refuses work once this is false.
 
-### arctixs::Thread::ThreadPool::ThreadCount
+### arctix::Thread::ThreadPool::ThreadCount
 
 Signature:
 ```cpp
-std::size_t arctixs::Thread::ThreadPool::ThreadCount() const;
+std::size_t arctix::Thread::ThreadPool::ThreadCount() const;
 ```
 
 Arguments: takes no arguments.
@@ -1392,18 +1392,18 @@ printf("%zu workers\n", pool.ThreadCount());
 
 Explanation: Pool width for chunking math and diagnostics.
 
-### arctixs::Thread::ThreadPool::Submit
+### arctix::Thread::ThreadPool::Submit
 
 Signature:
 ```cpp
-bool arctixs::Thread::ThreadPool::Submit(arctixs::Thread::ThreadFunction function, void* userData);
+bool arctix::Thread::ThreadPool::Submit(arctix::Thread::ThreadFunction function, void* userData);
 ```
 
 Arguments:
 
 | Type | Name | Description |
 |------|------|-------------|
-| `arctixs::Thread::ThreadFunction` | `function` | void(*)(void*) task. nullptr fails. |
+| `arctix::Thread::ThreadFunction` | `function` | void(*)(void*) task. nullptr fails. |
 | `void*` | `userData` | Task argument (may be NULL). |
 
 Returns: bool - false when null / shut down / queue alloc failed.
@@ -1415,11 +1415,11 @@ pool.Submit(Work, &job);
 
 Explanation: Enqueues one task; a worker picks it up FIFO. Same worker signature as Thread, so workers are reusable.
 
-### arctixs::Thread::ThreadPool::WaitIdle
+### arctix::Thread::ThreadPool::WaitIdle
 
 Signature:
 ```cpp
-bool arctixs::Thread::ThreadPool::WaitIdle(std::uint64_t timeoutMs = 0);
+bool arctix::Thread::ThreadPool::WaitIdle(std::uint64_t timeoutMs = 0);
 ```
 
 Arguments:
@@ -1437,11 +1437,11 @@ pool.WaitIdle();
 
 Explanation: Barrier: returns only when every submitted task finished. The standard "submit N, wait, read results" pattern.
 
-### arctixs::Thread::ThreadPool::PendingTasks
+### arctix::Thread::ThreadPool::PendingTasks
 
 Signature:
 ```cpp
-std::size_t arctixs::Thread::ThreadPool::PendingTasks() const;
+std::size_t arctix::Thread::ThreadPool::PendingTasks() const;
 ```
 
 Arguments: takes no arguments.
@@ -1455,11 +1455,11 @@ if (pool.PendingTasks() > 1000) throttle();
 
 Explanation: Back-pressure gauge: throttle producers when the queue grows.
 
-### arctixs::Thread::ThreadPool::RunningTasks
+### arctix::Thread::ThreadPool::RunningTasks
 
 Signature:
 ```cpp
-std::size_t arctixs::Thread::ThreadPool::RunningTasks() const;
+std::size_t arctix::Thread::ThreadPool::RunningTasks() const;
 ```
 
 Arguments: takes no arguments.
@@ -1473,11 +1473,11 @@ printf("busy: %zu\n", pool.RunningTasks());
 
 Explanation: Live occupancy; Pending + Running = all unfinished work.
 
-### arctixs::Thread::ThreadPool::FailedTasks
+### arctix::Thread::ThreadPool::FailedTasks
 
 Signature:
 ```cpp
-unsigned long long arctixs::Thread::ThreadPool::FailedTasks() const;
+unsigned long long arctix::Thread::ThreadPool::FailedTasks() const;
 ```
 
 Arguments: takes no arguments.
@@ -1491,11 +1491,11 @@ if (pool.FailedTasks()) alert();
 
 Explanation: Per-task exceptions are caught at the worker boundary and counted here; they never escape and never stop the pool.
 
-### arctixs::Thread::ThreadPool::Shutdown
+### arctix::Thread::ThreadPool::Shutdown
 
 Signature:
 ```cpp
-void arctixs::Thread::ThreadPool::Shutdown();
+void arctix::Thread::ThreadPool::Shutdown();
 ```
 
 Arguments: takes no arguments.
@@ -1513,7 +1513,7 @@ Explanation: Stops accepting, drains queued tasks, joins every worker. Safe to c
 
 Signature:
 ```cpp
-bool arctixs::Thread::ParallelFor(std::size_t begin, std::size_t end, void(*)(std::size_t index, void*) function, void* userData, std::size_t threadCount = 0);
+bool arctix::Thread::ParallelFor(std::size_t begin, std::size_t end, void(*)(std::size_t index, void*) function, void* userData, std::size_t threadCount = 0);
 ```
 
 Arguments:
@@ -1530,7 +1530,7 @@ Returns: bool - false on bad args; worker throws are counted, not propagated.
 
 Example call:
 ```cpp
-arctixs::Thread::ParallelFor(0, n, Square, out, 4);
+arctix::Thread::ParallelFor(0, n, Square, out, 4);
 ```
 
 Explanation: Data-parallel loop over a private pool that is torn down on return. Empty ranges succeed trivially; exceptions in one index never stop the others.
@@ -1557,7 +1557,7 @@ Example call:
 ArctixAllocatorHandle* a = Arctix_CreateAllocator(0);
 ```
 
-Explanation: C entry point for the C++ Allocator (see arctixs::Memory::Allocator::Initialize). NULL config is the common fast path.
+Explanation: C entry point for the C++ Allocator (see arctix::Memory::Allocator::Initialize). NULL config is the common fast path.
 
 ### Arctix_DestroyAllocator
 
@@ -1603,7 +1603,7 @@ Example call:
 void* p = Arctix_Allocate(a, 256, 16);
 ```
 
-Explanation: C mirror of arctixs::Memory::Allocator::Allocate.
+Explanation: C mirror of arctix::Memory::Allocator::Allocate.
 
 ### Arctix_Free
 
@@ -1626,7 +1626,7 @@ Example call:
 Arctix_Free(a, p);
 ```
 
-Explanation: C mirror of arctixs::Memory::Allocator::Deallocate. NULL-safe on both arguments.
+Explanation: C mirror of arctix::Memory::Allocator::Deallocate. NULL-safe on both arguments.
 
 ### Arctix_GetStats
 
@@ -1673,7 +1673,7 @@ Example call:
 ArctixPoolHandle* p = Arctix_PoolCreate(64, 128, 16);
 ```
 
-Explanation: C entry point for arctixs::Memory::MemoryPool::Create.
+Explanation: C entry point for arctix::Memory::MemoryPool::Create.
 
 ### Arctix_PoolDestroy
 
@@ -1695,7 +1695,7 @@ Example call:
 Arctix_PoolDestroy(p);
 ```
 
-Explanation: C mirror of arctixs::Memory::MemoryPool::Destroy plus handle free.
+Explanation: C mirror of arctix::Memory::MemoryPool::Destroy plus handle free.
 
 ### Arctix_PoolAllocate
 
@@ -1717,7 +1717,7 @@ Example call:
 void* e = Arctix_PoolAllocate(p);
 ```
 
-Explanation: C mirror of arctixs::Memory::MemoryPool::Allocate.
+Explanation: C mirror of arctix::Memory::MemoryPool::Allocate.
 
 ### Arctix_PoolFree
 
@@ -1740,7 +1740,7 @@ Example call:
 Arctix_PoolFree(p, e);
 ```
 
-Explanation: C mirror of arctixs::Memory::MemoryPool::Free. NULL-safe.
+Explanation: C mirror of arctix::Memory::MemoryPool::Free. NULL-safe.
 
 ### Arctix_GetVersionString
 
@@ -1826,7 +1826,7 @@ Example call:
 Arctix_BufferCopyFrom(b, "hi", 2);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::CopyFrom.
+Explanation: C mirror of arctix::Buffer::Buffer::CopyFrom.
 
 ### Arctix_BufferAppend
 
@@ -1850,7 +1850,7 @@ Example call:
 Arctix_BufferAppend(b, "!", 1);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Append.
+Explanation: C mirror of arctix::Buffer::Buffer::Append.
 
 ### Arctix_BufferResize
 
@@ -1873,7 +1873,7 @@ Example call:
 Arctix_BufferResize(b, 256);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Resize.
+Explanation: C mirror of arctix::Buffer::Buffer::Resize.
 
 ### Arctix_BufferFill
 
@@ -1896,7 +1896,7 @@ Example call:
 Arctix_BufferFill(b, 0xFF);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Fill.
+Explanation: C mirror of arctix::Buffer::Buffer::Fill.
 
 ### Arctix_BufferClear
 
@@ -1918,7 +1918,7 @@ Example call:
 Arctix_BufferClear(b);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Clear (wipe + empty, keeps allocation).
+Explanation: C mirror of arctix::Buffer::Buffer::Clear (wipe + empty, keeps allocation).
 
 ### Arctix_BufferEquals
 
@@ -1941,7 +1941,7 @@ Example call:
 if (Arctix_BufferEquals(x, y)) {}
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Equals.
+Explanation: C mirror of arctix::Buffer::Buffer::Equals.
 
 ### Arctix_BufferChecksum
 
@@ -1963,7 +1963,7 @@ Example call:
 unsigned long long h = Arctix_BufferChecksum(b);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Checksum.
+Explanation: C mirror of arctix::Buffer::Buffer::Checksum.
 
 ### Arctix_BufferData
 
@@ -1985,7 +1985,7 @@ Example call:
 fwrite(Arctix_BufferData(b), 1, Arctix_BufferSize(b), f);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Data.
+Explanation: C mirror of arctix::Buffer::Buffer::Data.
 
 ### Arctix_BufferSize
 
@@ -2007,7 +2007,7 @@ Example call:
 size_t n = Arctix_BufferSize(b);
 ```
 
-Explanation: C mirror of arctixs::Buffer::Buffer::Size.
+Explanation: C mirror of arctix::Buffer::Buffer::Size.
 
 ### ArctixC_VirtualPageSize
 
@@ -2025,7 +2025,7 @@ Example call:
 size_t pg = ArctixC_VirtualPageSize();
 ```
 
-Explanation: C mirror of arctixs::Memory::VirtualPageSize().
+Explanation: C mirror of arctix::Memory::VirtualPageSize().
 
 ### ArctixC_VirtualReserve
 
@@ -2047,7 +2047,7 @@ Example call:
 void* r = ArctixC_VirtualReserve(pg * 2);
 ```
 
-Explanation: C mirror of arctixs::Memory::VirtualReserve().
+Explanation: C mirror of arctix::Memory::VirtualReserve().
 
 ### ArctixC_VirtualCommit
 
@@ -2070,7 +2070,7 @@ Example call:
 ArctixC_VirtualCommit(r, pg * 2);
 ```
 
-Explanation: C mirror of arctixs::Memory::VirtualCommit().
+Explanation: C mirror of arctix::Memory::VirtualCommit().
 
 ### ArctixC_VirtualDecommit
 
@@ -2093,7 +2093,7 @@ Example call:
 ArctixC_VirtualDecommit(r, pg);
 ```
 
-Explanation: C mirror of arctixs::Memory::VirtualDecommit().
+Explanation: C mirror of arctix::Memory::VirtualDecommit().
 
 ### ArctixC_VirtualRelease
 
@@ -2116,7 +2116,7 @@ Example call:
 ArctixC_VirtualRelease(r, pg * 2);
 ```
 
-Explanation: C mirror of arctixs::Memory::VirtualRelease().
+Explanation: C mirror of arctix::Memory::VirtualRelease().
 
 ### ArctixC_VirtualProtect
 
@@ -2140,7 +2140,7 @@ Example call:
 ArctixC_VirtualProtect(r, pg, 1);
 ```
 
-Explanation: C mirror of arctixs::Memory::VirtualProtectMemory().
+Explanation: C mirror of arctix::Memory::VirtualProtectMemory().
 
 ## C ABI - Thread (20)
 
@@ -2160,7 +2160,7 @@ Example call:
 ArctixC_ThreadHandle* t = ArctixC_ThreadCreate();
 ```
 
-Explanation: C entry point for arctixs::Thread::Thread. One Start per handle, then exactly one Join/Detach.
+Explanation: C entry point for arctix::Thread::Thread. One Start per handle, then exactly one Join/Detach.
 
 ### ArctixC_ThreadDestroy
 
@@ -2206,7 +2206,7 @@ Example call:
 ArctixC_ThreadStart(t, Worker, &n);
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::Start.
+Explanation: C mirror of arctix::Thread::Thread::Start.
 
 ### ArctixC_ThreadJoin
 
@@ -2228,7 +2228,7 @@ Example call:
 ArctixC_ThreadJoin(t);
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::Join.
+Explanation: C mirror of arctix::Thread::Thread::Join.
 
 ### ArctixC_ThreadDetach
 
@@ -2250,7 +2250,7 @@ Example call:
 ArctixC_ThreadDetach(t);
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::Detach.
+Explanation: C mirror of arctix::Thread::Thread::Detach.
 
 ### ArctixC_ThreadIsJoinable
 
@@ -2272,7 +2272,7 @@ Example call:
 if (ArctixC_ThreadIsJoinable(t)) {}
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::IsJoinable.
+Explanation: C mirror of arctix::Thread::Thread::IsJoinable.
 
 ### ArctixC_ThreadIsRunning
 
@@ -2294,7 +2294,7 @@ Example call:
 while (ArctixC_ThreadIsRunning(t)) {}
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::IsRunning.
+Explanation: C mirror of arctix::Thread::Thread::IsRunning.
 
 ### ArctixC_ThreadHasThrown
 
@@ -2316,7 +2316,7 @@ Example call:
 ArctixC_ThreadJoin(t); if (ArctixC_ThreadHasThrown(t)) {}
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::HasThrown. Exceptions never cross the C boundary.
+Explanation: C mirror of arctix::Thread::Thread::HasThrown. Exceptions never cross the C boundary.
 
 ### ArctixC_ThreadGetId
 
@@ -2338,7 +2338,7 @@ Example call:
 unsigned long long id = ArctixC_ThreadGetId(t);
 ```
 
-Explanation: C mirror of arctixs::Thread::Thread::GetId (hashed to a plain integer).
+Explanation: C mirror of arctix::Thread::Thread::GetId (hashed to a plain integer).
 
 ### ArctixC_ThreadCurrentId
 
@@ -2482,7 +2482,7 @@ Example call:
 ArctixC_PoolSubmit(p, Work, &job);
 ```
 
-Explanation: C mirror of arctixs::Thread::ThreadPool::Submit.
+Explanation: C mirror of arctix::Thread::ThreadPool::Submit.
 
 ### ArctixC_PoolWaitIdle
 
@@ -2505,7 +2505,7 @@ Example call:
 ArctixC_PoolWaitIdle(p, 0);
 ```
 
-Explanation: C mirror of arctixs::Thread::ThreadPool::WaitIdle.
+Explanation: C mirror of arctix::Thread::ThreadPool::WaitIdle.
 
 ### ArctixC_PoolPendingTasks
 
@@ -2527,7 +2527,7 @@ Example call:
 unsigned long long q = ArctixC_PoolPendingTasks(p);
 ```
 
-Explanation: C mirror of arctixs::Thread::ThreadPool::PendingTasks.
+Explanation: C mirror of arctix::Thread::ThreadPool::PendingTasks.
 
 ### ArctixC_PoolThreadCount
 
@@ -2549,7 +2549,7 @@ Example call:
 printf("%llu\n", ArctixC_PoolThreadCount(p));
 ```
 
-Explanation: C mirror of arctixs::Thread::ThreadPool::ThreadCount.
+Explanation: C mirror of arctix::Thread::ThreadPool::ThreadCount.
 
 ### ArctixC_PoolFailedTasks
 
@@ -2571,4 +2571,4 @@ Example call:
 if (ArctixC_PoolFailedTasks(p)) {}
 ```
 
-Explanation: C mirror of arctixs::Thread::ThreadPool::FailedTasks.
+Explanation: C mirror of arctix::Thread::ThreadPool::FailedTasks.

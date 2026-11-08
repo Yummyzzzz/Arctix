@@ -18,7 +18,7 @@ void Worker(void* userData)
 
 int main()
 {
-    arctixs::Thread::Thread thread;
+    arctix::Thread::Thread thread;
     int counter = 0;
 
     if (!thread.Start(Worker, &counter))

@@ -5,7 +5,7 @@
 
 #include <cstddef>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 namespace platform
 {
@@ -26,4 +26,4 @@ bool IsValidAlignment(std::size_t alignment);
 std::size_t NormalizeAlignment(std::size_t alignment);
 
 } // namespace platform
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

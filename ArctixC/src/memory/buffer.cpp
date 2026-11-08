@@ -4,10 +4,10 @@
 
 #include "arctixc/memory/mem_utils.hpp"
 
-// Private implementation-only translation unit: implements arctixs::Buffer::Buffer
+// Private implementation-only translation unit: implements arctix::Buffer::Buffer
 // declared in include/arctixc/memory/buffer.hpp. No matching private header.
 
-namespace arctixs::Buffer
+namespace arctix::Buffer
 {
 
 struct BufferImpl
@@ -52,7 +52,7 @@ Buffer::~Buffer()
 {
     if (impl_ != nullptr)
     {
-        arctixs::Memory::SecureZero(impl_->data, impl_->size);
+        arctix::Memory::SecureZero(impl_->data, impl_->size);
         delete[] impl_->data;
         delete impl_;
     }
@@ -68,7 +68,7 @@ Buffer& Buffer::operator=(Buffer&& other) noexcept
 {
     if (this != &other)
     {
-        arctixs::Memory::SecureZero(impl_ != nullptr ? impl_->data : nullptr, impl_ != nullptr ? impl_->size : 0);
+        arctix::Memory::SecureZero(impl_ != nullptr ? impl_->data : nullptr, impl_ != nullptr ? impl_->size : 0);
         delete[] impl_->data;
         delete impl_;
         impl_ = other.impl_;
@@ -85,7 +85,7 @@ bool Buffer::CopyFrom(const void* data, std::size_t size)
     }
     if (size == 0)
     {
-        arctixs::Memory::SecureZero(impl_->data, impl_->size);
+        arctix::Memory::SecureZero(impl_->data, impl_->size);
         impl_->size = 0;
         return true;
     }
@@ -104,7 +104,7 @@ bool Buffer::CopyFrom(const void* data, std::size_t size)
     }
     if (impl_->size > size)
     {
-        arctixs::Memory::SecureZero(impl_->data + size, impl_->size - size);
+        arctix::Memory::SecureZero(impl_->data + size, impl_->size - size);
     }
     impl_->size = size;
     return true;
@@ -169,7 +169,7 @@ bool Buffer::Resize(std::size_t newSize, std::uint8_t fill)
     }
     else if (newSize < impl_->size)
     {
-        arctixs::Memory::SecureZero(impl_->data + newSize, impl_->size - newSize);
+        arctix::Memory::SecureZero(impl_->data + newSize, impl_->size - newSize);
     }
     impl_->size = newSize;
     return true;
@@ -206,7 +206,7 @@ void Buffer::Clear()
     {
         return;
     }
-    arctixs::Memory::SecureZero(impl_->data, impl_->size);
+    arctix::Memory::SecureZero(impl_->data, impl_->size);
     impl_->size = 0;
 }
 
@@ -225,7 +225,7 @@ bool Buffer::Equals(const Buffer& other) const
     {
         return false;
     }
-    return arctixs::Memory::MemEqual(impl_->data, other.impl_->data, impl_->size);
+    return arctix::Memory::MemEqual(impl_->data, other.impl_->data, impl_->size);
 }
 
 std::uint64_t Buffer::Checksum() const
@@ -234,7 +234,7 @@ std::uint64_t Buffer::Checksum() const
     {
         return 0;
     }
-    return arctixs::Memory::Fnv1aHash64(impl_->data, impl_->size);
+    return arctix::Memory::Fnv1aHash64(impl_->data, impl_->size);
 }
 
 std::string Buffer::HexEncode() const
@@ -279,4 +279,4 @@ bool Buffer::Empty() const
     return Size() == 0;
 }
 
-} // namespace arctixs::Buffer
+} // namespace arctix::Buffer

@@ -12,7 +12,7 @@ namespace
 
 void Worker(void* userData)
 {
-    arctixs::Memory::MemoryPool* pool = static_cast<arctixs::Memory::MemoryPool*>(userData);
+    arctix::Memory::MemoryPool* pool = static_cast<arctix::Memory::MemoryPool*>(userData);
     void* block = pool->Allocate();
     if (block != nullptr)
     {
@@ -24,13 +24,13 @@ void Worker(void* userData)
 
 int main()
 {
-    arctixs::Memory::MemoryPool pool;
+    arctix::Memory::MemoryPool pool;
     if (!pool.Create(128, 8))
     {
         return 1;
     }
 
-    arctixs::Thread::Thread thread;
+    arctix::Thread::Thread thread;
     if (!thread.Start(Worker, &pool))
     {
         return 1;

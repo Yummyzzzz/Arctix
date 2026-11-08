@@ -1,6 +1,6 @@
 #include "memory/statistics_manager.hpp"
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 StatisticsManager::StatisticsManager()
@@ -56,4 +56,4 @@ ArctixStats StatisticsManager::Snapshot() const
     return stats_;
 }
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory

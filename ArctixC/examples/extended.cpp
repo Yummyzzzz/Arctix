@@ -21,7 +21,7 @@ void PrintSquare(std::size_t index, void* userData)
 int main()
 {
     // Buffer: stage bytes, hash them, wipe them.
-    arctixs::Buffer::Buffer buf;
+    arctix::Buffer::Buffer buf;
     if (!buf.CopyFrom("ArctixC", 7) || !buf.Append(" v0.1.1", 7))
     {
         return 1;
@@ -31,21 +31,21 @@ int main()
     buf.SecureWipe();
 
     // Virtual memory: reserve two pages, commit, write, release.
-    const std::size_t page = arctixs::Memory::VirtualPageSize();
-    void* region = arctixs::Memory::VirtualReserve(page * 2);
-    if (region == nullptr || !arctixs::Memory::VirtualCommit(region, page * 2))
+    const std::size_t page = arctix::Memory::VirtualPageSize();
+    void* region = arctix::Memory::VirtualReserve(page * 2);
+    if (region == nullptr || !arctix::Memory::VirtualCommit(region, page * 2))
     {
         return 1;
     }
     static_cast<char*>(region)[0] = 'A';
     std::printf("virtual memory: page=%zu first byte=%c\n", page, static_cast<char*>(region)[0]);
-    if (!arctixs::Memory::VirtualRelease(region, page * 2))
+    if (!arctix::Memory::VirtualRelease(region, page * 2))
     {
         return 1;
     }
 
     // Thread pool + parallel loop.
-    if (!arctixs::Thread::ParallelFor(0, 5, PrintSquare, nullptr, 2))
+    if (!arctix::Thread::ParallelFor(0, 5, PrintSquare, nullptr, 2))
     {
         return 1;
     }

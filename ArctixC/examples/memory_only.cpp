@@ -8,8 +8,8 @@
 
 int main()
 {
-    arctixs::Memory::Allocator allocator;
-    if (!allocator.Initialize(arctixs::Memory::DefaultConfig()))
+    arctix::Memory::Allocator allocator;
+    if (!allocator.Initialize(arctix::Memory::DefaultConfig()))
     {
         return 1;
     }
@@ -22,7 +22,7 @@ int main()
     allocator.Deallocate(block);
     allocator.Shutdown();
 
-    arctixs::Memory::MemoryPool pool;
+    arctix::Memory::MemoryPool pool;
     if (!pool.Create(64, 16))
     {
         return 1;

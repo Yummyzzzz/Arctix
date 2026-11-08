@@ -14,7 +14,7 @@
 
 #include <cstddef>
 
-namespace arctixs::Memory
+namespace arctix::Memory
 {
 
 // Opaque internal state. Defined privately in src/memory/.
@@ -65,4 +65,4 @@ private:
     AllocatorImpl* impl_;
 };
 
-} // namespace arctixs::Memory
+} // namespace arctix::Memory
