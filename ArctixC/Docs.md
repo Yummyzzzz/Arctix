@@ -1,11 +1,14 @@
-# ArctixC — Docs
+# ArctixC - Docs
 
-**The full SDK manual is now `ArctixC/DOC.html`** — open it in any browser (double-click the file; no server, no internet needed).
+**The full SDK manual lives in two interchangeable files (same content, same 121 functions):**
 
-`DOC.html` is one standalone file (all CSS/JS inline, black background, white font) with:
+- **`ArctixC/Documentation.html`** - open it in any browser (double-click the file; no server, no internet needed). Black-and-white liquid-glass dashboard, searchable and clickable function list, syntax-highlighted code. This is the recommended reading experience.
+- **`ArctixC/Documentation.md`** - the same manual as Markdown: dashboard, all categories, and every function with signature, arguments, return value, example call, and explanation. For readers, diff tools, and offline grep.
 
-- a liquid-glass **Dashboard** (overview, C++ / C usage, build & ship steps),
-- a searchable, clickable list of **all 118 functions** across Foundation, Allocator, Memory Pool, Buffer, Memory Utils, Virtual Memory, Thread, Thread Pool and both C ABIs,
-- every function shown as **Name / Args (with types) / Returns (with type) / Example call / Explanation**, with syntax-highlighted code.
+The `.html` file is the single source of truth. After editing it, regenerate the `.md` from the `Arctix/` root:
 
-Build: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (from the `Arctix/` root). Output: single `arctixc.dll` + `arctixc.lib` in `ArctixC/build/Release/`.
+```powershell
+node ArctixC/generate-docs-md.js
+```
+
+Build: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (from the `Arctix/` root). Output: single `arctixc.dll` + `arctixc.lib` in `ArctixC/build/`.

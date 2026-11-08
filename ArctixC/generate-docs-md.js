@@ -1,0 +1,100 @@
+// ArctixC/generate-docs-md.js
+//
+// Regenerates ArctixC/Documentation.md from ArctixC/Documentation.html.
+// The .html file is the single source of truth (all 121 functions live in
+// its data array); this script only re-formats that data as Markdown.
+//
+// Usage (from the Arctix/ root):
+//   node ArctixC/generate-docs-md.js
+const fs = require('fs');
+const path = require('path');
+
+const root = __dirname;
+const html = fs.readFileSync(path.join(root, 'Documentation.html'), 'utf8');
+
+const groups = eval('(' + html.match(/const GROUPS=(\[.*?\]);/)[1] + ')');
+const m = html.match(/const FUNCTIONS=\[([\s\S]*?)\n\];/);
+const F = eval('[' + m[1] + ']');
+
+// Pipes would break Markdown tables, so they are flattened in table cells.
+function cell(s) { return String(s).replace(/\|/g, '/'); }
+
+const L = [];
+L.push('# ArctixC v0.1.1 - SDK Documentation');
+L.push('');
+L.push('One standalone `arctixc.dll` + `arctixc.lib` - `arctixs::Memory` - `arctixs::Buffer` - `arctixs::Thread` - `arctixs::Core`');
+L.push('');
+L.push('This file mirrors `ArctixC/Documentation.html` (same content, same 121 functions).');
+L.push('Regenerate it any time with `node ArctixC/generate-docs-md.js` from the `Arctix/` root.');
+L.push('');
+L.push('## Dashboard');
+L.push('');
+L.push('ArctixC ships as **one** independent binary - `arctixc.dll` with `arctixc.lib` and the `include/arctixc/` headers. There is a single DLL to ship - no split modules - and every subsystem below lives in it. C++ consumers call `arctixs::Memory::`, `arctixs::Buffer::`, `arctixs::Thread::` and `arctixs::Core::` functions; C consumers use the flat `Arctix_*` / `ArctixC_*` ABI from `arctixc/c_api/*.h` (genuinely C-compilable headers).');
+L.push('');
+L.push('### Categories');
+L.push('');
+L.push('- **Foundation** - `arctixs::Core` version queries + `ArctixCStatus` codes shared by every subsystem. Zero dependencies.');
+L.push('- **Memory** - Aligned `arctixs::Memory::Allocator` with statistics, O(1) `MemoryPool`, owning `arctixs::Buffer::Buffer`, header-only wipes, compares and hashes.');
+L.push('- **Virtual memory** - Direct OS page control under `arctixs::Memory`: `VirtualReserve` -> `VirtualCommit` -> `VirtualDecommit` -> `VirtualRelease`, plus `VirtualProtectMemory`.');
+L.push('- **Threads** - Move-only `arctixs::Thread::Thread` with caught worker exceptions, a FIFO `ThreadPool`, and `ParallelFor` index loops.');
+L.push('');
+L.push('### Use it - C++');
+L.push('');
+L.push('1. **Link** `arctixc.lib`, add `include/` to the include path, ship `arctixc.dll` next to the exe.');
+L.push('2. **Include** only what you use, e.g. `#include <arctixc/memory/buffer.hpp>` (or the `arctixc.hpp` umbrella).');
+L.push('3. **Build** bytes in a `Buffer`, allocate with `Allocator`/`MemoryPool`, run work in a `ThreadPool`.');
+L.push('');
+L.push('### Use it - pure C');
+L.push('');
+L.push('1. **Include** `<arctixc/c_api/memory.h>` and/or `<arctixc/c_api/thread.h>` from any `.c` file.');
+L.push('2. **Create** handles (`Arctix_CreateAllocator`, `Arctix_BufferCreate`, `ArctixC_PoolCreate` ...).');
+L.push('3. **Destroy** every handle you create; `NULL` is always safe to pass.');
+L.push('');
+L.push('### Build and ship');
+L.push('');
+L.push('From the `Arctix/` root: `powershell -ExecutionPolicy Bypass -File ArctixC\\build.ps1` (configures CMake + Ninja, Release). Outputs land in `ArctixC/build/`: `arctixc.dll`, `arctixc.lib`, test and example exes. `ctest -C Release` runs `MemoryTests`, `ThreadTests`, `ExtendedTests` and the pure-C `CApiCheckBuild`. The script fails if a split `*Memory*.dll` / `*Thread*.dll` is ever produced again. `arctixc.dll` carries embedded version info (ProductName `arctixc.dll`, ProductVersion `0.1.1` - see Properties -> Details); it tracks the CMake project version automatically.');
+L.push('');
+L.push('### Credits');
+L.push('');
+L.push('Arctix is owned and developed by **Yummyzzzz** (Owner and Developer of Arctix) - https://github.com/Yummyzzzz');
+L.push('');
+
+for (const g of groups) {
+  const inGrp = F.filter(f => f.g === g);
+  L.push('## ' + g + ' (' + inGrp.length + ')');
+  L.push('');
+  for (const fn of inGrp) {
+    L.push('### ' + fn.a);
+    L.push('');
+    L.push('Signature:');
+    L.push('```cpp');
+    L.push(fn.s);
+    L.push('```');
+    L.push('');
+    if (fn.t && fn.t.length) {
+      L.push('Arguments:');
+      L.push('');
+      L.push('| Type | Name | Description |');
+      L.push('|------|------|-------------|');
+      for (const t of fn.t) {
+        L.push('| `' + cell(t[0]) + '` | `' + cell(t[1]) + '` | ' + cell(t[2]) + ' |');
+      }
+      L.push('');
+    } else {
+      L.push('Arguments: takes no arguments.');
+      L.push('');
+    }
+    L.push('Returns: ' + fn.r);
+    L.push('');
+    L.push('Example call:');
+    L.push('```cpp');
+    L.push(fn.e);
+    L.push('```');
+    L.push('');
+    L.push('Explanation: ' + fn.d);
+    L.push('');
+  }
+}
+
+fs.writeFileSync(path.join(root, 'Documentation.md'), L.join('\n'));
+console.log('wrote Documentation.md with ' + F.length + ' functions in ' + groups.length + ' groups');

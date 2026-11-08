@@ -113,7 +113,7 @@ if(ARCTIXC_BUILD_TESTS)
 endif()
 
 # ---------------------------------------------------------------------------
-# Examples (each links only ArctixC::ArctixC - see DOC.html)
+# Examples (each links only ArctixC::ArctixC - see Documentation.html)
 # ---------------------------------------------------------------------------
 if(ARCTIXC_BUILD_EXAMPLES)
     add_executable(Example_MemoryOnly examples/memory_only.cpp)

@@ -26,7 +26,7 @@ commercial projects alike.
   CompanyName, and copyright in its VERSIONINFO resource (check Properties -
   Details). The version is defined once in CMake and flows into the headers
   and the DLL automatically.
-- **Documented to the last function.** `ArctixC/DOC.html` is a single offline
+- **Documented to the last function.** `ArctixC/Documentation.html` is a single offline
   file that documents all 121 functions with signature, arguments, return value,
   example call, and explanation, plus a searchable index.
 
@@ -116,8 +116,10 @@ Arctix/
     examples/              Four runnable examples
     resources/             Windows VERSIONINFO template for arctixc.dll
     cmake/                 CMake package config template (find_package support)
-    DOC.html               The whole manual: 121 functions, one offline file
-    Docs.md                Short pointer to DOC.html
+    Documentation.html     The whole manual: 121 functions, one offline file
+    Documentation.md       The same manual as Markdown (regenerate with generate-docs-md.js)
+    generate-docs-md.js    Rebuilds Documentation.md from Documentation.html
+    Docs.md                Short pointer to both manual files
     build.ps1              Configure + build + test in one step
   ArctixI/                 Planned: versioned installer for SDK binaries
   ArctixCLI/               Planned: command-line front-end and benchmarks
@@ -126,7 +128,7 @@ Arctix/
 
 ## Documentation
 
-Open `ArctixC/DOC.html` in any browser. No server, no internet, no build step.
+Open `ArctixC/Documentation.html` in any browser (or read `ArctixC/Documentation.md`). No server, no internet, no build step.
 The Dashboard explains the setup; the Functions tab lists every API entry with
 its signature, argument types, return type, an example call, and an explanation.
 
