@@ -58,7 +58,7 @@ header.top{
   font-family:var(--sans);font-size:15px;font-weight:700;color:#0a0a0c;cursor:pointer;
   background:#f5f5f7;
   border:0;border-radius:999px;padding:12px 26px;margin-top:10px;
-  box-shadow:0 0 24px rgba(255,255,255,.35),inset 0 1px 0 #ffffff;transition:transform .12s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,.45),inset 0 1px 0 #ffffff;transition:transform .12s ease;
 }
 .cta:hover{transform:translateY(-1px)}
 .card[data-q]{cursor:pointer;transition:transform .12s ease}
@@ -68,7 +68,7 @@ header.top p{margin:0;color:var(--dim);font-size:13px}
 .badge{
   font-family:var(--mono);font-size:12px;padding:3px 12px;border-radius:999px;
   border:1px solid rgba(255,255,255,.5);color:var(--accent2);
-  background:rgba(255,255,255,.08);box-shadow:0 0 14px rgba(255,255,255,.25);white-space:nowrap;
+  background:rgba(255,255,255,.08);white-space:nowrap;
 }
 nav.tabs{margin-left:auto;display:flex;gap:8px}
 nav.tabs button{
@@ -78,7 +78,7 @@ nav.tabs button{
 }
 nav.tabs button.active{
   background:linear-gradient(135deg,rgba(255,255,255,.45),rgba(255,255,255,.30));
-  border-color:rgba(255,255,255,.35);box-shadow:0 0 18px rgba(255,255,255,.45);
+  border-color:rgba(255,255,255,.35);
 }
 /* ---------- layout ---------- */
 main{max-width:1280px;margin:0 auto 60px;padding:0 16px}
@@ -99,7 +99,7 @@ main{max-width:1280px;margin:0 auto 60px;padding:0 16px}
 .card li{padding-left:20px;position:relative;margin:5px 0}
 .card li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;
   background:radial-gradient(circle at 35% 35%,#fff,var(--accent2) 60%,transparent 75%);
-  box-shadow:0 0 8px var(--accent2)}
+}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:900px){.grid2{grid-template-columns:1fr}}
 .sect{padding:22px 24px;margin-bottom:14px}
@@ -111,7 +111,7 @@ ol.steps li{counter-increment:step;position:relative;padding:8px 0 8px 46px;colo
 ol.steps li::before{content:counter(step);position:absolute;left:0;top:6px;width:30px;height:30px;
   border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
   color:#050507;background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  box-shadow:0 0 12px rgba(255,255,255,.6)}
+  box-shadow:none}
 ol.steps li strong{color:var(--ink)}
 /* ---------- functions view ---------- */
 .func-layout{display:grid;grid-template-columns:350px 1fr;gap:14px;align-items:start}
@@ -135,7 +135,7 @@ ol.steps li strong{color:var(--ink)}
   color:var(--ink);background:transparent;border:1px solid transparent;border-radius:10px;
   padding:7px 10px 7px 24px;position:relative;cursor:pointer;margin:1px 0;
 }
-.fnitem::before{content:"\2022";position:absolute;left:10px;color:var(--accent2);text-shadow:0 0 8px var(--accent2)}
+.fnitem::before{content:"\2022";position:absolute;left:10px;color:#8a8a8a}
 .fnitem:hover{background:rgba(255,255,255,.06)}
 .fnitem.active{background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.20));border-color:rgba(255,255,255,.25)}
 .fnitem .cret{color:var(--faint);font-size:11px;margin-left:6px}
@@ -150,7 +150,7 @@ ol.steps li strong{color:var(--ink)}
 table.args{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 4px}
 table.args th{text-align:left;color:var(--faint);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-bottom:1px dashed rgba(255,255,255,.2)}
 table.args td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
-table.args td.t{font-family:var(--mono);color:var(--warn);white-space:nowrap}
+table.args td.t{font-family:var(--mono);color:#8ab4f8;white-space:nowrap}
 table.args td.n{font-family:var(--mono);color:var(--accent2);white-space:nowrap}
 table.args td.d{color:var(--dim)}
 .ret-pill{display:inline-block;font-family:var(--mono);font-size:13px;padding:3px 14px;border-radius:999px;
@@ -164,10 +164,16 @@ pre.code code{font-family:var(--mono)}
 .lbl::before{content:"\2014  "}
 .explain{color:var(--dim);font-size:14.5px;max-width:80ch}
 /* syntax theme */
-.tok-k{color:#ffffff;font-weight:600}.tok-s{color:#d9d9d9}.tok-c{color:#8a8a8a;font-style:italic}
-.tok-n{color:#e8e8e8}.tok-f{color:#ffffff}.tok-t{color:#cfcfcf}.tok-p{color:#8a8a8a}
+.tok-k{color:#7aa2f7;font-weight:600}.tok-s{color:#9ece6a}.tok-c{color:#7a7a7a;font-style:italic}
+.tok-n{color:#e0af68}.tok-f{color:#ffffff}.tok-t{color:#cfcfcf}.tok-p{color:#8a8a8a}
 footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);font-size:12.5px;text-align:center}
 .empty{color:var(--faint);padding:20px 6px;font-size:14px}
+/* ---------- credits ---------- */
+.credits{text-align:center;padding:44px 24px}
+.avatar{width:140px;height:140px;border-radius:50%;border:1px solid rgba(255,255,255,.30);display:block;margin:0 auto 16px;background:rgba(255,255,255,.05)}
+.credits h3{margin:0 0 6px;font-size:22px}
+.profile-link{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:14px;color:#0a0a0c;background:#f5f5f7;border-radius:999px;padding:10px 22px;text-decoration:none}
+.profile-link:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -179,14 +185,15 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
   </div>
   <span class="badge">v0.1.1</span>
   <nav class="tabs">
-    <button id="tab-functions" class="active">Functions</button>
-    <button id="tab-overview">Dashboard</button>
+    <button id="tab-overview" class="active">Dashboard</button>
+    <button id="tab-functions">Functions</button>
+    <button id="tab-credits">Credits</button>
   </nav>
 </header>
 
 <main>
 <!-- ==================== OVERVIEW ==================== -->
-<section id="view-overview" class="view">
+<section id="view-overview" class="view active">
   <div class="hero glass">
     <h2>The <span class="grad">single-DLL</span> systems SDK</h2>
     <p>ArctixC ships as <strong>one</strong> independent binary - <code>arctixc.dll</code> with <code>arctixc.lib</code> and the
@@ -238,7 +245,7 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
 </section>
 
 <!-- ==================== FUNCTIONS ==================== -->
-<section id="view-functions" class="view active">
+<section id="view-functions" class="view">
   <div class="func-layout">
     <aside class="side glass">
       <div class="searchbox">
@@ -249,6 +256,16 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
       <div id="fnlist"></div>
     </aside>
     <article class="detail glass" id="detail"></article>
+  </div>
+</section>
+
+<!-- ==================== CREDITS ==================== -->
+<section id="view-credits" class="view">
+  <div class="sect glass credits">
+    <img class="avatar" src="https://github.com/Yummyzzzz.png" alt="Yummyzzzz" width="140" height="140">
+    <h3>Yummyzzzz</h3>
+    <p class="explain">Owner and Developer of Arctix</p>
+    <p><a class="profile-link" href="https://github.com/Yummyzzzz">github.com/Yummyzzzz</a></p>
   </div>
 </section>
 </main>
@@ -392,10 +409,11 @@ function highlight(src){
   return out+esc(src.slice(last));
 }
 function showTab(which){
-  document.getElementById("tab-overview").classList.toggle("active",which==="overview");
-  document.getElementById("tab-functions").classList.toggle("active",which==="functions");
-  document.getElementById("view-overview").classList.toggle("active",which==="overview");
-  document.getElementById("view-functions").classList.toggle("active",which==="functions");
+  var tabs=["overview","functions","credits"];
+  for(var i=0;i<tabs.length;i++){
+    document.getElementById("tab-"+tabs[i]).classList.toggle("active",which===tabs[i]);
+    document.getElementById("view-"+tabs[i]).classList.toggle("active",which===tabs[i]);
+  }
 }
 function detailHTML(fn){
   var h='<div class="grp-tag">'+esc(fn.g)+'</div><h2>'+esc(fn.a)+'</h2>';
@@ -442,6 +460,7 @@ function renderList(){
 }
 document.getElementById("tab-overview").onclick=function(){showTab("overview");};
 document.getElementById("tab-functions").onclick=function(){showTab("functions");};
+document.getElementById("tab-credits").onclick=function(){showTab("credits");};
 document.getElementById("search").addEventListener("input",function(){renderList();});
 document.getElementById("search").addEventListener("keydown",function(ev){
   if(ev.key==="Enter"){var f=document.querySelector(".fnitem");if(f){f.click();}}
@@ -460,7 +479,7 @@ document.getElementById("cta-functions").onclick=function(){gotoFunctions("");};
   var first=renderList();
   var h=location.hash;
   if(h.indexOf("#fn=")===0){var want=h.slice(4);showTab("functions");renderList();select(want);}
-  else{showTab("functions");if(first){select(first);}}
+  else{showTab("overview");if(first){select(first);}}
 })();
 </script>
 </body>
