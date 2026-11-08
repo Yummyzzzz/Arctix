@@ -6,7 +6,8 @@ Its core library, **ArctixC**, is distributed as a single standalone DLL: `arcti
 
 If you have ever needed multiple small libraries just to allocate aligned memory, manage byte data, and run tasks on threads, ArctixC brings those capabilities together in one tested library.
 
-Arctix is released under the **Arctix License**, allowing use in both open-source and closed-source commercial projects.
+Arctix is released under the **Arctix License**, allowing use in both open-source and closed-source commercial projects. 
+By downloading or using Arctix, you automatically accept the **Arctix License**.
 
 ## What You Get
 
