@@ -202,4 +202,4 @@ Failure to comply with any provision of this License may result in the immediate
 **Arctix License 1.0**  
 **Copyright © 2026 Yummyzzzz. All rights reserved.**
 
-Official repository: **[Insert the official Arctix GitHub repository URL]**
+Official repository: **https://github.com/Yummyzzzz/Arctix?tab=License-1-ov-file**
