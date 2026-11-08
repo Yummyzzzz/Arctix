@@ -1,6 +1,6 @@
 # ArctixI — Arctix Installer
 
-**Component:** ArctixI (Arctix Installer: `ArctixI.exe` setup wizard, `arctix.exe` helper, `uninstall.exe` remover)
+**Component:** ArctixI (Arctix Installer: `arctixi.exe` setup wizard, `arctix.exe` helper, `uninstall.exe` remover)
 **Whitepoint:** Whitepoint Software Development (independent, not a registered company) — **Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
 **Status:** Implemented. Pure Win32 API, no frameworks, no installer toolkit.
 
@@ -18,9 +18,10 @@ A standalone `.exe` setup wizard. It installs Arctix on a developer machine:
 ## Wizard pages
 
 1. **Welcome** — what will be installed.
-2. **License** — shows the full `LICENSE.md` shipped next to the setup exe.
-   The **I accept** checkbox is required; without `LICENSE.md` beside
-   `ArctixI.exe` the install cannot continue.
+2. **License** — shows the full `LICENSE.md`. The text is embedded in the
+   setup exe itself (RCDATA), so the page works even when `arctixi.exe`
+   is copied alone; a `LICENSE.md` shipped next to it takes precedence.
+   The **I accept** checkbox is required to continue.
 3. **Install location** — any folder works (local drive, Desktop, `C:\`, …).
    Default is `C:\Program Files`. If the chosen folder is not itself named
    `Arctix`, a subfolder named `Arctix` is appended automatically.
@@ -33,7 +34,7 @@ A standalone `.exe` setup wizard. It installs Arctix on a developer machine:
 ## Where the payload comes from
 
 At install time each dependency file is taken from a `binaries\` folder next
-to `ArctixI.exe`; anything missing there is fetched from the download table in
+to `arctixi.exe`; anything missing there is fetched from the download table in
 `src/common.hpp`. Those URLs are currently **empty placeholders** — the
 binaries are not hosted publicly yet. A missing file with no URL aborts the
 install with a clear message instead of leaving a half-installed state. Once
@@ -74,15 +75,16 @@ powershell -ExecutionPolicy Bypass -File ArctixI\build.ps1
 ```
 
 Builds all three exes (Release), runs the CLI smoke tests, and assembles
-`ArctixI/dist/` — the shippable setup folder (`ArctixI.exe`, `arctix.exe`,
+`ArctixI/dist/` — the shippable setup folder (`arctixi.exe`, `arctix.exe`,
 `uninstall.exe`, `LICENSE.md`, `binaries/`). `dist/` is git-ignored; ship the
 whole folder as-is.
 
 ## Sources
 
-- `src/installer.cpp` — the wizard (`ArctixI.exe`)
+- `src/installer.cpp` — the wizard (`arctixi.exe`)
 - `src/arctix_cli.cpp` — the helper (`arctix.exe`)
 - `src/uninstall.cpp` — the remover (`uninstall.exe`)
 - `src/common.hpp` — versions, registry keys, URLs, payload/download lists
-- `resources/arctixi.rc.in` — VERSIONINFO (CompanyName Whitepoint Software Development, admin manifests
-  for setup + uninstaller via CMake)
+- `resources/arctixi.rc.in` — VERSIONINFO (CompanyName Whitepoint Software Development) plus the
+  embedded `LICENSE.md` (RCDATA, setup exe only; admin manifests for setup
+  + uninstaller come from linker flags in `CMakeLists.txt`)

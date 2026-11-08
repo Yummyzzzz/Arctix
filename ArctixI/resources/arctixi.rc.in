@@ -37,3 +37,8 @@ BEGIN
         VALUE "Translation", 0x409, 1200
     END
 END
+
+// The setup wizard carries LICENSE.md inside itself (RCDATA), so the
+// license page always has the text even when the exe is copied alone.
+// Expanded by CMake for the setup exe only; empty for the other programs.
+@ARCTIXI_EMBED_LICENSE@

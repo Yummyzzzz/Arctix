@@ -1,7 +1,7 @@
 #pragma once
 
 // Shared constants for the three ArctixI programs:
-//   ArctixI.exe   (setup wizard, requires admin)
+//   arctixi.exe   (setup wizard, requires admin)
 //   arctix.exe    (installed command-line helper)
 //   uninstall.exe (installed remover, requires admin)
 //
@@ -28,7 +28,7 @@
 #define ARCTIX_REG_UNINSTALL_KEY \
     "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Arctix"
 
-// Files shipped NEXT TO ArctixI.exe (copied to the install root).
+// Files shipped NEXT TO arctixi.exe (copied to the install root).
 // These are hard requirements: the install fails without them.
 static const char* const kShipFiles[] = {
     "arctix.exe",
@@ -37,7 +37,7 @@ static const char* const kShipFiles[] = {
 };
 
 // Compiled ArctixC payload. The wizard first looks for these in a
-// "binaries" folder next to ArctixI.exe; anything missing there is fetched
+// "binaries" folder next to arctixi.exe; anything missing there is fetched
 // from the download URL below (empty URL = not public yet -> clean error).
 struct DependencyDownload {
     const char* file;

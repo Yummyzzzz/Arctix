@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 # ArctixI - Arctix Installer (setup wizard GUI, pure Win32 API).
 # Builds three standalone executables, none of which link ArctixC:
-#   ArctixI.exe   - the setup wizard (requires admin: Program Files + HKLM)
+#   arctixi.exe   - the setup wizard (requires admin: Program Files + HKLM)
 #   arctix.exe    - the installed `arctix <command>` helper (no admin)
 #   uninstall.exe - the installed remover (requires admin)
 #
@@ -27,11 +27,20 @@ set(ARCTIXI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(ARCTIXI_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(ARCTIXI_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 
+# Repo license, embedded into the setup exe as RCDATA (rc.exe wants an
+# absolute path; forward slashes are fine inside the quoted RC string).
+set(ARCTIXI_LICENSE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/../LICENSE.md)
+
 # One VERSIONINFO template, configured per program (name/description differ).
-function(arctixi_version_resource out_var internal_name file_name description)
+function(arctixi_version_resource out_var internal_name file_name description embed_license)
     set(ARCTIXI_INTERNAL_NAME ${internal_name})
     set(ARCTIXI_ORIGINAL_FILENAME ${file_name})
     set(ARCTIXI_FILE_DESCRIPTION ${description})
+    if(embed_license)
+        set(ARCTIXI_EMBED_LICENSE "101 RCDATA \"${ARCTIXI_LICENSE_FILE}\"")
+    else()
+        set(ARCTIXI_EMBED_LICENSE "")
+    endif()
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/arctixi.rc.in
         ${CMAKE_CURRENT_BINARY_DIR}/generated/${internal_name}.rc
@@ -40,20 +49,22 @@ function(arctixi_version_resource out_var internal_name file_name description)
     set(${out_var} ${CMAKE_CURRENT_BINARY_DIR}/generated/${internal_name}.rc PARENT_SCOPE)
 endfunction()
 
-arctixi_version_resource(ARCTIXI_SETUP_RC ArctixI ArctixI.exe
-    "Arctix setup wizard (installs ArctixC and the arctix command)")
+arctixi_version_resource(ARCTIXI_SETUP_RC arctixi arctixi.exe
+    "Arctix setup wizard (installs ArctixC and the arctix command)" TRUE)
 arctixi_version_resource(ARCTIXI_CLI_RC arctix arctix.exe
-    "Arctix command-line helper (arctix <command>)")
+    "Arctix command-line helper (arctix <command>)" FALSE)
 arctixi_version_resource(ARCTIXI_UNINSTALL_RC uninstall uninstall.exe
-    "Arctix remover")
+    "Arctix remover" FALSE)
 
 # ---------------------------------------------------------------------------
-# ArctixI.exe - setup wizard (WIN32 GUI, pure Win32 API, no frameworks)
+# arctixi.exe - setup wizard (WIN32 GUI, pure Win32 API, no frameworks)
 # ---------------------------------------------------------------------------
 add_executable(ArctixI WIN32
     src/installer.cpp
     ${ARCTIXI_SETUP_RC}
 )
+# Lowercase output name: the download is arctixi.exe.
+set_target_properties(ArctixI PROPERTIES OUTPUT_NAME "arctixi")
 target_include_directories(ArctixI PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 # SHBrowseForFolder + registry + URLDownloadToFileW.
 target_link_libraries(ArctixI PRIVATE shell32 advapi32 urlmon)

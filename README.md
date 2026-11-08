@@ -126,7 +126,7 @@ Arctix/
     Docs.md                 Short pointer to both manual files
     build.ps1               Configure, build, and test in one step
 
-  ArctixI/                  Setup wizard (ArctixI.exe), arctix helper, uninstall.exe
+  ArctixI/                  Setup wizard (arctixi.exe), arctix helper, uninstall.exe
   ArctixCLI/                Planned: command-line front-end and benchmarks
   ArctixS/                  Planned: graphical workspace and statistics viewer
 ```

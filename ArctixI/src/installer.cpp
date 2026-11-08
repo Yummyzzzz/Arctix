@@ -1,4 +1,4 @@
-// ArctixI.exe - Arctix setup wizard (pure Win32 API, no frameworks).
+// arctixi.exe - Arctix setup wizard (pure Win32 API, no frameworks).
 //
 // Wizard pages: Welcome -> License -> Directory -> Options -> Install -> Finish.
 // Installs:  arctix.exe, uninstall.exe, LICENSE.md        (to the root)
@@ -8,7 +8,7 @@
 // checkbox is set - appends the install folder to the machine PATH so that
 // `arctix <command>` works in any PowerShell/console window.
 //
-// The payload comes from a "binaries" folder next to ArctixI.exe; anything
+// The payload comes from a "binaries" folder next to arctixi.exe; anything
 // missing there is downloaded via the URL table in common.hpp (URLs are
 // empty until the binaries are hosted publicly - missing entries abort the
 // install with a clear message instead of a half-installed state).
@@ -22,6 +22,7 @@
 #include <urlmon.h>
 #include <commctrl.h>
 
+#include <cstring>
 #include <string>
 #include <vector>
 
@@ -70,6 +71,22 @@ bool MakeDirs(const std::wstring& path) {
     return CreateDirectoryW(path.c_str(), nullptr) || DirExists(path);
 }
 
+// LICENSE.md embedded by CMake as RCDATA (see resources/arctixi.rc.in).
+#define IDR_LICENSE_TEXT 101
+
+bool GetEmbeddedLicense(std::string& out) {
+    HRSRC res = FindResourceW(GetModuleHandleW(nullptr), MAKEINTRESOURCEW(IDR_LICENSE_TEXT),
+                              RT_RCDATA);
+    if (!res) return false;
+    DWORD size = SizeofResource(GetModuleHandleW(nullptr), res);
+    HGLOBAL mem = LoadResource(GetModuleHandleW(nullptr), res);
+    if (!mem || size == 0) return false;
+    const char* p = (const char*)LockResource(mem);
+    if (!p) return false;
+    out.assign(p, size);
+    return true;
+}
+
 bool ReadFileBytes(const std::wstring& path, std::string& out) {
     HANDLE h = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr,
                            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -82,6 +99,16 @@ bool ReadFileBytes(const std::wstring& path, std::string& out) {
     return ok && read == size;
 }
 
+bool WriteFileBytes(const std::wstring& path, const std::string& data) {
+    HANDLE h = CreateFileW(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                           FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (h == INVALID_HANDLE_VALUE) return false;
+    DWORD done = 0;
+    BOOL ok = WriteFile(h, data.data(), (DWORD)data.size(), &done, nullptr);
+    CloseHandle(h);
+    return ok && done == data.size();
+}
+
 // ---------------------------------------------------------------------------
 // Wizard state
 // ---------------------------------------------------------------------------
@@ -91,7 +118,7 @@ enum Page { P_WELCOME, P_LICENSE, P_DIR, P_OPTIONS, P_INSTALL, P_FINISH, P_COUNT
 struct State {
     Page page = P_WELCOME;
     std::wstring dir = L"C:\\Program Files\\Arctix";
-    bool licenseOk = false;   // LICENSE.md found next to the setup exe
+    bool licenseOk = false;   // license text available (sidecar or embedded)
     bool accepted = false;
     bool addPath = true;
     bool installing = false;
@@ -272,7 +299,15 @@ bool RunInstall() {
         std::wstring src = setupDir + L"\\" + Widen(f);
         std::wstring dst = dir + L"\\" + Widen(f);
         if (!FileExists(src)) {
-            Log(L"ERROR: " + Widen(f) + L" is missing next to ArctixI.exe.");
+            // A lone arctixi.exe still installs: LICENSE.md is embedded.
+            std::string embedded;
+            if (strcmp(f, "LICENSE.md") == 0 && GetEmbeddedLicense(embedded) &&
+                WriteFileBytes(dst, embedded)) {
+                Log(L"Installed LICENSE.md (embedded copy).");
+                Progress(15 + (++step) * 5);
+                continue;
+            }
+            Log(L"ERROR: " + Widen(f) + L" is missing next to arctixi.exe.");
             return false;
         }
         if (!CopyFileW(src.c_str(), dst.c_str(), FALSE)) {
@@ -385,8 +420,7 @@ void SetPage(Page p) {
     if (license) {
         EnableWindow(Ctl(ID_NEXT), g_s.accepted && g_s.licenseOk);
         if (!g_s.licenseOk)
-            SetWindowTextW(Ctl(ID_BODY),
-                           L"LICENSE.md was not found next to ArctixI.exe - "
+            SetWindowTextW(Ctl(ID_BODY),                            L"LICENSE.md was not found next to arctixi.exe - "
                            L"the setup cannot continue without it.");
     }
     if (dir) SetWindowTextW(Ctl(ID_DIR_EDIT), g_s.dir.c_str());
@@ -509,9 +543,12 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE, LPWSTR, int show) {
     INITCOMMONCONTROLSEX icc = {sizeof(icc), ICC_PROGRESS_CLASS};
     InitCommonControlsEx(&icc);
 
-    // License text ships next to the setup exe - always in sync with the repo.
+    // License text: prefer the LICENSE.md shipped next to the setup exe
+    // (always in sync when dist/ is shipped whole), fall back to the copy
+    // embedded in the exe itself so a lone arctixi.exe still works.
     std::string licBytes;
     g_s.licenseOk = ReadFileBytes(ExeDir() + L"\\LICENSE.md", licBytes);
+    if (!g_s.licenseOk) g_s.licenseOk = GetEmbeddedLicense(licBytes);
     if (g_s.licenseOk) {
         g_s.licenseText = Widen(licBytes);
         // Edit controls want CRLF line endings.

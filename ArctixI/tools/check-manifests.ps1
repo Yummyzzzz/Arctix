@@ -1,6 +1,6 @@
 # Validates the manifests embedded in the ArctixI executables.
 # Fails the build if a manifest is missing or is not well-formed XML
-# (an unquoted attribute once made Windows refuse to start ArctixI.exe
+# (an unquoted attribute once made Windows refuse to start arctixi.exe
 # with a "side-by-side configuration is incorrect" error).
 # Usage: check-manifests.ps1 <exe> [<exe> ...]
 

@@ -3,12 +3,12 @@ param([switch]$NoTests)
 $ErrorActionPreference = "Stop"
 
 # ArctixI build script -> produces the three installer programs (Release):
-#   ArctixI.exe    the setup wizard (pure Win32 GUI, requires admin)
+#   arctixi.exe    the setup wizard (pure Win32 GUI, requires admin)
 #   arctix.exe     the installed `arctix <command>` helper
 #   uninstall.exe  the installed remover (requires admin)
 #
 # Plus tests (ctest) and a ready-to-ship dist/ folder:
-#   ArctixI/dist/ArctixI.exe, arctix.exe, uninstall.exe, LICENSE.md,
+#   ArctixI/dist/arctixi.exe, arctix.exe, uninstall.exe, LICENSE.md,
 #   binaries/ (copied from ArctixC/binaries/).
 #
 # Usage:
@@ -70,7 +70,7 @@ Write-Host "Building ArctixI ..."
 & $CmakeBin --build $BuildDir --config Release
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-foreach ($exe in @("ArctixI.exe", "arctix.exe", "uninstall.exe")) {
+foreach ($exe in @("arctixi.exe", "arctix.exe", "uninstall.exe")) {
     $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $found) {
         Write-Host ("ERROR: expected output " + $exe + " was not produced") -ForegroundColor Red
@@ -95,7 +95,7 @@ if (-not $NoTests) {
 # the exe with a side-by-side error). Must run after linking, before dist.
 Write-Host ""
 Write-Host "Validating embedded manifests..."
-$builtExes = foreach ($exe in @("ArctixI.exe", "arctix.exe", "uninstall.exe")) {
+$builtExes = foreach ($exe in @("arctixi.exe", "arctix.exe", "uninstall.exe")) {
     (Get-ChildItem -Path $BuildDir -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1).FullName
 }
 & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\check-manifests.ps1") @builtExes
@@ -107,7 +107,7 @@ Write-Host "Assembling dist/ ..."
 if (Test-Path $DistDir) { Remove-Item -Recurse -Force $DistDir }
 New-Item -ItemType Directory -Path $DistDir | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $DistDir "binaries") | Out-Null
-foreach ($exe in @("ArctixI.exe", "arctix.exe", "uninstall.exe")) {
+foreach ($exe in @("arctixi.exe", "arctix.exe", "uninstall.exe")) {
     $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1
     Copy-Item $found.FullName (Join-Path $DistDir $exe)
 }
@@ -125,4 +125,4 @@ foreach ($f in $Payload) {
 Write-Host ""
 Write-Host "OK: ArctixI build complete." -ForegroundColor Green
 Write-Host ("Ship the whole folder: " + $DistDir)
-Write-Host "It contains ArctixI.exe + arctix.exe + uninstall.exe + LICENSE.md + binaries/."
+Write-Host "It contains arctixi.exe + arctix.exe + uninstall.exe + LICENSE.md + binaries/."
