@@ -1,0 +1,9 @@
+# CMake build trees (regenerate with each component's build.ps1)
+build/
+out/
+
+# MSVC / CMake byproducts that can leak outside build trees
+*.ilk
+*.pdb
+*.user
+.vs/
