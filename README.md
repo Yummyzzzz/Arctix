@@ -182,6 +182,6 @@ GitHub: [https://github.com/Yummyzzzz](https://github.com/Yummyzzzz)
 
 Arctix is released under **Arctix License 1.0**.
 
-See [LICENSE](LICENSE) for the full license text.
+See [LICENSE.md](LICENSE.md) for the full license text.
 
-Copyright (c) 2026 Yummyzzzz.
+Copyright (c) 2026 Yummyzzzz (Whitepoint Software Development Whitepoint).

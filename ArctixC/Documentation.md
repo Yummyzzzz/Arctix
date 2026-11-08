@@ -34,7 +34,7 @@ From the `Arctix/` root: `powershell -ExecutionPolicy Bypass -File ArctixC\build
 
 ### Credits
 
-Arctix is owned and developed by **Yummyzzzz** (Owner and Developer of Arctix) - https://github.com/Yummyzzzz
+Arctix is developed by **Whitepoint Software Development** - independent Whitepoint behind Arctix (not a registered company). Owner and sole developer: **Yummyzzzz** (Owner and Developer of Arctix) - https://github.com/Yummyzzzz
 
 ## Foundation (7)
 

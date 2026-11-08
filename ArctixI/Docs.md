@@ -1,7 +1,7 @@
 # ArctixI — Docs
 
 **Component:** ArctixI (Arctix Installer, produces `ArctixI.exe` when implemented)
-**Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
+**Whitepoint:** Whitepoint Software Development (independent, not a registered company) - **Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
 **Status:** Planned — documentation placeholder. Not implemented in this task; ArctixC is the active component.
 
 ## Purpose
