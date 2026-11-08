@@ -83,8 +83,12 @@ target_link_libraries(ArctixI_Uninstall PRIVATE shell32 advapi32)
 # Setup + uninstaller touch Program Files, HKLM and the machine PATH, so
 # they must elevate. arctix.exe stays asInvoker (runs in any console).
 if(MSVC)
-    target_link_options(ArctixI PRIVATE "/MANIFESTUAC:level=requireAdministrator")
-    target_link_options(ArctixI_Uninstall PRIVATE "/MANIFESTUAC:level=requireAdministrator")
+    # NOTE: the linker splices this string VERBATIM into the embedded
+    # manifest XML, so the value MUST carry its own quotes - an unquoted
+    # level=... produces invalid XML and Windows refuses to start the exe
+    # ("side-by-side configuration is incorrect", event: SideBySide).
+    target_link_options(ArctixI PRIVATE "/MANIFESTUAC:level='requireAdministrator'")
+    target_link_options(ArctixI_Uninstall PRIVATE "/MANIFESTUAC:level='requireAdministrator'")
 endif()
 
 # ---------------------------------------------------------------------------

@@ -91,6 +91,16 @@ if (-not $NoTests) {
     }
 }
 
+# Validate embedded manifests (malformed XML = Windows refuses to start
+# the exe with a side-by-side error). Must run after linking, before dist.
+Write-Host ""
+Write-Host "Validating embedded manifests..."
+$builtExes = foreach ($exe in @("ArctixI.exe", "arctix.exe", "uninstall.exe")) {
+    (Get-ChildItem -Path $BuildDir -Recurse -Filter $exe -ErrorAction SilentlyContinue | Select-Object -First 1).FullName
+}
+& powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "tools\check-manifests.ps1") @builtExes
+if ($LASTEXITCODE -ne 0) { throw "Embedded manifest validation failed." }
+
 # Assemble dist/: everything the setup wizard needs next to it.
 Write-Host ""
 Write-Host "Assembling dist/ ..."
