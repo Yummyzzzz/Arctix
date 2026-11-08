@@ -34,11 +34,14 @@ A standalone `.exe` setup wizard. It installs Arctix on a developer machine:
 ## Where the payload comes from
 
 At install time each dependency file is taken from a `binaries\` folder next
-to `arctixi.exe`; anything missing there is fetched from the download table in
-`src/common.hpp`. Those URLs are currently **empty placeholders** — the
-binaries are not hosted publicly yet. A missing file with no URL aborts the
-install with a clear message instead of leaving a half-installed state. Once
-the links are public, fill them into `kDependencies` and rebuild.
+to `arctixi.exe`; anything missing there is downloaded from the raw-file
+URLs in `kDependencies` (`src/common.hpp`, base `ARCTIX_URL_BINARIES` pointing
+at `ArctixC/binaries/` on the main branch). Note: the download only works
+once the repo is public — the installer downloads anonymously, and a private
+repo answers 404. Until then, ship the `binaries/` folder next to the setup
+(a lone `arctixi.exe` still installs, but the payload must come from somewhere).
+A missing file with no URL aborts the install with a clear message instead of
+leaving a half-installed state.
 
 The in-repo source of the payload is `ArctixC/binaries/` (committed to git on
 purpose — unlike `build/`, which stays ignored). See its README for the file list.

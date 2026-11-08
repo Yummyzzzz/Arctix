@@ -36,23 +36,26 @@ static const char* const kShipFiles[] = {
     "LICENSE.md",
 };
 
+// Direct-download base for the compiled ArctixC payload (raw files on main).
+#define ARCTIX_URL_BINARIES "https://github.com/Yummyzzzz/Arctix/raw/refs/heads/main/ArctixC/binaries/"
+
 // Compiled ArctixC payload. The wizard first looks for these in a
 // "binaries" folder next to arctixi.exe; anything missing there is fetched
 // from the download URL below (empty URL = not public yet -> clean error).
 struct DependencyDownload {
     const char* file;
-    const char* url; // TODO: picks up once the binaries are hosted publicly.
+    const char* url;
 };
 
 static const DependencyDownload kDependencies[] = {
-    {"arctixc.dll", ""},
-    {"arctixc.lib", ""},
-    {"arctixc.exp", ""},
-    {"ArctixC_ExtendedTests.exe", ""},
-    {"ArctixC_MemoryTests.exe", ""},
-    {"ArctixC_ThreadTests.exe", ""},
-    {"Example_Extended.exe", ""},
-    {"Example_MemoryAndThread.exe", ""},
-    {"Example_MemoryOnly.exe", ""},
-    {"Example_ThreadOnly.exe", ""},
+    {"arctixc.dll", ARCTIX_URL_BINARIES "arctixc.dll"},
+    {"arctixc.lib", ARCTIX_URL_BINARIES "arctixc.lib"},
+    {"arctixc.exp", ARCTIX_URL_BINARIES "arctixc.exp"},
+    {"ArctixC_ExtendedTests.exe", ARCTIX_URL_BINARIES "ArctixC_ExtendedTests.exe"},
+    {"ArctixC_MemoryTests.exe", ARCTIX_URL_BINARIES "ArctixC_MemoryTests.exe"},
+    {"ArctixC_ThreadTests.exe", ARCTIX_URL_BINARIES "ArctixC_ThreadTests.exe"},
+    {"Example_Extended.exe", ARCTIX_URL_BINARIES "Example_Extended.exe"},
+    {"Example_MemoryAndThread.exe", ARCTIX_URL_BINARIES "Example_MemoryAndThread.exe"},
+    {"Example_MemoryOnly.exe", ARCTIX_URL_BINARIES "Example_MemoryOnly.exe"},
+    {"Example_ThreadOnly.exe", ARCTIX_URL_BINARIES "Example_ThreadOnly.exe"},
 };
