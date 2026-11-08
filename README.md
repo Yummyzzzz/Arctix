@@ -9,8 +9,9 @@ FIFO thread pool.
 
 If you have ever vendored three tiny libraries to cover "allocate aligned memory,
 hold some bytes, and run work on threads", ArctixC replaces all three with one
-tested binary that has exactly one job: stay out of your way. It is MIT licensed,
-so you can use it in open source and closed commercial projects alike.
+tested binary that has exactly one job: stay out of your way. It is released
+under the Arctix License, so you can use it in open source and closed
+commercial projects alike.
 
 ## What you get
 
@@ -148,4 +149,4 @@ Arctix is owned and developed by **Yummyzzzz** - https://github.com/Yummyzzzz
 
 ## License
 
-MIT License - see [LICENSE](LICENSE). Copyright (c) 2026 Yummyzzzz.
+Arctix License 1.0 - see [LICENSE](LICENSE). Copyright (c) 2026 Yummyzzzz.
