@@ -17,7 +17,7 @@ For the purposes of this License:
 
 **1.3. "Arctix Source Code"** refers to the source code of Arctix and its associated tools, regardless of whether that source code is publicly accessible.
 
-**1.4. "Author"** refers to Yummyzzzz, the original author and rights holder of Arctix.
+**1.4. "Whitepoint"** refers to **Whitepoint Software Development**, the independent developer team behind Arctix, which currently consists solely of **Yummyzzzz** and may include additional developers in the future. Whitepoint Software Development is a team name only and is not a registered company or separate legal entity. References in this License to Whitepoint identify Yummyzzzz acting under Whitepoint Software Development team name; Yummyzzzz is the current individual developer and rights holder of Arctix.
 
 **1.5. "Project"** refers to any application, software product, program, or other work that incorporates, imports, depends upon, or distributes Arctix Components.
 
@@ -36,7 +36,7 @@ This permission is limited to the rights expressly granted by this License. No o
 
 ## 3. Attribution and Acknowledgment
 
-Attribution to Arctix and its Author is mandatory whenever Arctix Components are incorporated into a Project.
+Attribution to Arctix and its Whitepoint is mandatory whenever Arctix Components are incorporated into a Project.
 
 You must comply with the following requirements:
 
@@ -44,15 +44,15 @@ You must comply with the following requirements:
 
 Arctix must be explicitly identified as a dependency in your Project's installation directory, dependency documentation, installer, or an equivalent location that is reasonably accessible to users.
 
-**3.2. Author Attribution**
+**3.2. Whitepoint Attribution**
 
-You must clearly credit the original Author, **Yummyzzzz**, wherever Project dependencies and third-party components are acknowledged.
+You must clearly credit the **Whitepoint Software Development** Whitepoint and its current individual developer, **Yummyzzzz**, wherever Project dependencies and third-party components are acknowledged.
 
 **3.3. Public Presentations**
 
 Whenever you publicly showcase, publish, demonstrate, or otherwise present a Project that incorporates Arctix, you must:
 
-- Credit **Yummyzzzz** as the original Author of Arctix.
+- Credit **Whitepoint Software Development** as the independent developer team behind Arctix and **Yummyzzzz** as its current individual developer and rights holder.
 - Identify Arctix as a dependency used by your Project.
 - Provide a link to the official Arctix GitHub repository.
 
@@ -62,7 +62,7 @@ You may not claim, imply, or otherwise represent that Arctix or any of its Compo
 
 You may not misrepresent unrelated software, files, or malicious programs as genuine Arctix Components.
 
-The name "Arctix" may be used solely to accurately identify the software and its origin. Such use does not constitute or imply endorsement, sponsorship, or affiliation with the Author.
+The name "Arctix" may be used solely to accurately identify the software and its origin. Such use does not constitute or imply endorsement, sponsorship, or affiliation with Whitepoint.
 
 ## 4. Restrictions on Modification and Redistribution
 
@@ -98,11 +98,11 @@ Access to the source code must not be interpreted as an open-source license or a
 
 ## 5. Ownership and Intellectual Property
 
-All rights, title, and interest in and to Arctix remain exclusively with the Author and applicable rights holders.
+All rights, title, and interest in and to Arctix remain exclusively with Whitepoint and applicable rights holders.
 
 The use or integration of Arctix Components into a third-party Project does not transfer ownership of those Components or any associated intellectual property rights.
 
-Regardless of how Arctix is incorporated into a Project, the Author retains ownership of the original Arctix Components.
+Regardless of how Arctix is incorporated into a Project, Whitepoint retains ownership of the original Arctix Components.
 
 Nothing in this License shall be interpreted as granting you ownership, authorship, or unrestricted control over any portion of Arctix.
 
@@ -121,13 +121,13 @@ Arctix Components must remain genuine, unmodified, and accurately represented in
 
 ## 7. Security Vulnerabilities and Responsible Disclosure
 
-Any bugs, security vulnerabilities, or weaknesses discovered in Arctix must be reported to the Author through an appropriate reporting channel, preferably through the official Arctix GitHub repository or another channel designated by the Author.
+Any bugs, security vulnerabilities, or weaknesses discovered in Arctix must be reported to Whitepoint through an appropriate reporting channel, preferably through the official Arctix GitHub repository or another channel designated by Whitepoint.
 
 You are prohibited from knowingly exploiting discovered vulnerabilities for unauthorized access, disruption, compromise, malicious distribution, or other harmful purposes.
 
 The deliberate exploitation or abuse of vulnerabilities instead of responsibly reporting them constitutes a serious violation of this License.
 
-Violations of this section may result in the immediate termination of your permission to use Arctix, permanent denial of future access, and other remedies available to the Author.
+Violations of this section may result in the immediate termination of your permission to use Arctix, permanent denial of future access, and other remedies available to Whitepoint.
 
 The intent of this provision is to encourage responsible disclosure and protect Arctix and its users from malicious exploitation.
 
@@ -139,11 +139,11 @@ You may not charge a separate fee for access to, or ownership of, the original A
 
 The permitted inclusion of Arctix Components as dependencies within a larger Project does not transfer ownership of those Components or grant permission to market them as your own software.
 
-All rights not expressly granted under this License remain reserved by the Author.
+All rights not expressly granted under this License remain reserved by Whitepoint.
 
 ## 9. License Revocation and Termination
 
-The Author reserves the right to suspend, restrict, or revoke permission to use Arctix Components in the event of a violation of this License.
+Whitepoint reserves the right to suspend, restrict, or revoke permission to use Arctix Components in the event of a violation of this License.
 
 Upon termination or revocation of your permission to use Arctix, you must immediately:
 
@@ -152,7 +152,7 @@ Upon termination or revocation of your permission to use Arctix, you must immedi
 3. Delete or destroy remaining copies of Arctix Components under your control.
 4. Cease distributing, publishing, or providing access to any affected versions of your Projects that contain Arctix Components.
 
-The Author may require the removal of Arctix Components from any Project that violates this License.
+Whitepoint may require the removal of Arctix Components from any Project that violates this License.
 
 Repeated, intentional, or particularly serious violations may result in permanent denial of permission to use Arctix.
 
@@ -162,15 +162,15 @@ Termination does not affect provisions that, by their nature, are intended to re
 
 ARCTIX, INCLUDING ALL COMPONENTS, LIBRARIES, TOOLS, AND ASSOCIATED MATERIALS, IS PROVIDED **"AS IS" AND "AS AVAILABLE"**, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY.
 
-TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHOR DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, WHITEPOINT DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
 
-THE AUTHOR DOES NOT WARRANT THAT ARCTIX WILL BE ERROR-FREE, UNINTERRUPTED, SECURE, COMPATIBLE WITH ALL SYSTEMS, OR FREE OF DEFECTS OR VULNERABILITIES.
+WHITEPOINT DOES NOT WARRANT THAT ARCTIX WILL BE ERROR-FREE, UNINTERRUPTED, SECURE, COMPATIBLE WITH ALL SYSTEMS, OR FREE OF DEFECTS OR VULNERABILITIES.
 
 YOU ASSUME ALL RESPONSIBILITY AND RISK ARISING FROM THE USE, INTEGRATION, OR DISTRIBUTION OF ARCTIX.
 
 ## 11. Limitation of Liability
 
-TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHOR AND ALL CONTRIBUTORS TO ARCTIX SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, CONSEQUENTIAL, OR OTHER DAMAGES ARISING OUT OF OR IN CONNECTION WITH:
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, WHITEPOINT AND ALL CONTRIBUTORS TO ARCTIX SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, CONSEQUENTIAL, OR OTHER DAMAGES ARISING OUT OF OR IN CONNECTION WITH:
 
 - The use, inability to use, or misuse of Arctix.
 - Defects, errors, bugs, or security vulnerabilities within Arctix Components.
@@ -179,17 +179,17 @@ TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHOR AND ALL CONTRIBUTO
 - The integration or distribution of Arctix within third-party Projects.
 - Any actions taken by users or third parties involving Arctix.
 
-This limitation applies regardless of the legal theory under which liability is asserted, including contract, tort, negligence, or otherwise, even if the Author has been advised of the possibility of such damages.
+This limitation applies regardless of the legal theory under which liability is asserted, including contract, tort, negligence, or otherwise, even if Whitepoint has been advised of the possibility of such damages.
 
 Nothing in this License excludes or limits liability to the extent that such exclusion or limitation is prohibited by applicable law.
 
 ## 12. Reservation of Rights
 
-All rights not expressly granted by this License are reserved by the Author.
+All rights not expressly granted by this License are reserved by Whitepoint.
 
 No permission, authorization, or intellectual property license shall be implied beyond the express terms stated herein.
 
-The Author retains the right to determine whether particular uses of Arctix Components comply with this License and to take appropriate action in response to violations.
+Whitepoint retains the right to determine whether particular uses of Arctix Components comply with this License and to take appropriate action in response to violations.
 
 ## 13. Acceptance of Terms
 
