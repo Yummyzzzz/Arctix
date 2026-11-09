@@ -10,3 +10,6 @@ dist/
 *.pdb
 *.user
 .vs/
+
+# Local helper: auto-commit + push script in repo root (never commit it)
+autopush.ps1
