@@ -8,7 +8,8 @@
 //   website    print the repository URL (and open it)
 //   contact    how to reach the project / developer / team
 //   bug        how and where to report bugs (and open the issues page)
-//   licenses   print the full Arctix License 1.0 shipped in the install folder
+//   licenses   print the full Arctix License 1.0 (install folder, or download
+//              it from the repo when the local copy is missing)
 //   uninstall  confirm, then launch uninstall.exe (elevates itself)
 //   delete     empty the temp\ scratch folder (safe cleanup, keeps the folder)
 //   help       this text  (aliases: helpe, -h, --help, -?)
@@ -16,6 +17,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shellapi.h>
+#include <urlmon.h>
 
 #include <cstdio>
 #include <string>
@@ -91,7 +93,7 @@ int CmdHelp() {
     PrintLine(L"  website    show the Arctix repository URL (opens it too)");
     PrintLine(L"  contact    show how to reach the project and the developer team");
     PrintLine(L"  bug        show how and where to report bugs / issues");
-    PrintLine(L"  licenses   print the full Arctix License 1.0");
+    PrintLine(L"  licenses   print the full Arctix License 1.0 (downloads it if missing)");
     PrintLine(L"  uninstall  remove Arctix (folder, PATH entry, registry)");
     PrintLine(L"  delete     empty the temp\\ scratch folder");
     PrintLine(L"  help       show this text");
@@ -126,22 +128,35 @@ int CmdBug() {
     return 0;
 }
 
-int CmdLicenses(const std::wstring& dir) {
-    std::wstring path = dir + L"\\LICENSE.md";
+bool ReadFileBytes(const std::wstring& path, std::string& out) {
     HANDLE h = CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr,
                            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (h == INVALID_HANDLE_VALUE) {
-        PrintLine(L"LICENSE.md was not found in " + dir);
-        return 1;
-    }
+    if (h == INVALID_HANDLE_VALUE) return false;
     DWORD size = GetFileSize(h, nullptr);
-    std::string bytes(size, '\0');
+    out.assign(size, '\0');
     DWORD read = 0;
-    BOOL ok = ReadFile(h, bytes.data(), size, &read, nullptr);
+    BOOL ok = ReadFile(h, out.data(), size, &read, nullptr);
     CloseHandle(h);
-    if (!ok) {
-        PrintLine(L"Could not read LICENSE.md.");
-        return 1;
+    return ok && read == size;
+}
+
+int CmdLicenses(const std::wstring& dir) {
+    std::string bytes;
+    // Installed copy first: instant and works offline.
+    if (!ReadFileBytes(dir + L"\\LICENSE.md", bytes)) {
+        // Otherwise fetch it fresh from the repo (e.g. LICENSE.md was
+        // deleted from the install folder). Needs a network connection.
+        wchar_t tmp[MAX_PATH];
+        std::wstring tmpFile = dir + L"\\Arctix_LICENSE.md";
+        if (GetTempPathW(MAX_PATH, tmp) > 0) tmpFile = std::wstring(tmp) + L"Arctix_LICENSE.md";
+        if (URLDownloadToFileW(nullptr, Widen(ARCTIX_URL_LICENSE).c_str(),
+                               tmpFile.c_str(), 0, nullptr) != S_OK ||
+            !ReadFileBytes(tmpFile, bytes)) {
+            PrintLine(L"Could not show the license: LICENSE.md was not found in " + dir);
+            PrintLine(L"and the download from the repository failed (no network?).");
+            return 1;
+        }
+        DeleteFileW(tmpFile.c_str());
     }
     Print(Widen(bytes));
     if (bytes.empty() || bytes.back() != '\n') PrintLine();

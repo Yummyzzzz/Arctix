@@ -18,10 +18,12 @@ A standalone `.exe` setup wizard. It installs Arctix on a developer machine:
 ## Wizard pages
 
 1. **Welcome** — what will be installed.
-2. **License** — shows the full `LICENSE.md`. The text is embedded in the
-   setup exe itself (RCDATA), so the page works even when `arctixi.exe`
-   is copied alone; a `LICENSE.md` shipped next to it takes precedence.
-   The **I accept** checkbox is required to continue.
+2. **License** — shows the full `LICENSE.md`, pulled live from the repo
+   (`ARCTIX_URL_LICENSE` in `src/common.hpp`) when needed. Priority: a
+   `LICENSE.md` shipped next to the setup exe first, then the copy embedded
+   in the exe itself (RCDATA, so a lone `arctixi.exe` still works), then a
+   fresh download from the repository (needs network). The **I accept**
+   checkbox is required to continue.
 3. **Install location** — any folder works (local drive, Desktop, `C:\`, …).
    Default is `C:\Program Files`. If the chosen folder is not itself named
    `Arctix`, a subfolder named `Arctix` is appended automatically.
@@ -56,7 +58,7 @@ After installing with the PATH checkbox on, any new console understands:
 | `website`   | prints the repository URL and opens it |
 | `contact`   | repository, developer (Yummyzzzz) and team (Whitepoint Software Development) |
 | `bug`       | how/where to report bugs, opens the issues page |
-| `licenses`  | prints the full Arctix License 1.0 from the install folder |
+| `licenses`  | prints the full Arctix License 1.0 (`license` works too; downloads it from the repo if the install-folder copy is missing) |
 | `uninstall` | asks for confirmation, then launches `uninstall.exe` |
 | `delete`    | empties the `temp\` scratch folder (keeps the folder) |
 | `help`      | this list (`helpe`, `-h`, `--help` work too; `delet` = `delete`) |

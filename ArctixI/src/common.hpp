@@ -18,6 +18,10 @@
 #define ARCTIX_URL_ISSUES "https://github.com/Yummyzzzz/Arctix/issues/"
 #define ARCTIX_URL_PROFILE "https://github.com/Yummyzzzz"
 
+// Raw LICENSE.md on main (the /blob/ page is HTML - this is the raw file
+// the installer and the `arctix license` command actually download).
+#define ARCTIX_URL_LICENSE "https://github.com/Yummyzzzz/Arctix/raw/refs/heads/main/LICENSE.md"
+
 #define ARCTIX_DEFAULT_INSTALL_DIR "C:\\Program Files\\Arctix"
 
 // Registry (HKLM - the setup wizard runs elevated).

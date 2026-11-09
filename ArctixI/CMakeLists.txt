@@ -78,7 +78,7 @@ add_executable(ArctixCLITool
 )
 set_target_properties(ArctixCLITool PROPERTIES OUTPUT_NAME "arctix")
 target_include_directories(ArctixCLITool PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(ArctixCLITool PRIVATE shell32)
+target_link_libraries(ArctixCLITool PRIVATE shell32 urlmon)
 
 # ---------------------------------------------------------------------------
 # uninstall.exe - installed remover (WIN32 GUI, requires admin for cleanup)

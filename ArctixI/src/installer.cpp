@@ -420,8 +420,9 @@ void SetPage(Page p) {
     if (license) {
         EnableWindow(Ctl(ID_NEXT), g_s.accepted && g_s.licenseOk);
         if (!g_s.licenseOk)
-            SetWindowTextW(Ctl(ID_BODY),                            L"LICENSE.md was not found next to arctixi.exe - "
-                           L"the setup cannot continue without it.");
+            SetWindowTextW(Ctl(ID_BODY),                            L"Could not load LICENSE.md (no file next to arctixi.exe, "
+                           L"no embedded copy, and the repository download failed - "
+                           L"check your network connection). The setup cannot continue without it.");
     }
     if (dir) SetWindowTextW(Ctl(ID_DIR_EDIT), g_s.dir.c_str());
     if (inst && !g_s.installing && !g_s.installed) {
@@ -545,10 +546,21 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE, LPWSTR, int show) {
 
     // License text: prefer the LICENSE.md shipped next to the setup exe
     // (always in sync when dist/ is shipped whole), fall back to the copy
-    // embedded in the exe itself so a lone arctixi.exe still works.
+    // embedded in the exe itself so a lone arctixi.exe still works, and as a
+    // last resort download it fresh from the repo (needs network).
     std::string licBytes;
     g_s.licenseOk = ReadFileBytes(ExeDir() + L"\\LICENSE.md", licBytes);
     if (!g_s.licenseOk) g_s.licenseOk = GetEmbeddedLicense(licBytes);
+    if (!g_s.licenseOk) {
+        wchar_t tmp[MAX_PATH];
+        if (GetTempPathW(MAX_PATH, tmp) > 0) {
+            std::wstring tmpFile = std::wstring(tmp) + L"Arctix_LICENSE.md";
+            if (URLDownloadToFileW(nullptr, Widen(ARCTIX_URL_LICENSE).c_str(),
+                                   tmpFile.c_str(), 0, nullptr) == S_OK)
+                g_s.licenseOk = ReadFileBytes(tmpFile, licBytes);
+            DeleteFileW(tmpFile.c_str());
+        }
+    }
     if (g_s.licenseOk) {
         g_s.licenseText = Widen(licBytes);
         // Edit controls want CRLF line endings.
