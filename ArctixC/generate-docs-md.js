@@ -56,7 +56,7 @@ L.push('From the `Arctix/` root: `powershell -ExecutionPolicy Bypass -File Arcti
 L.push('');
 L.push('### Credits');
 L.push('');
-L.push('Arctix is developed by **Whitepoint Software Development** - independent Whitepoint behind Arctix (not a registered company). Owner and sole developer: **Yummyzzzz** (Owner and Developer of Arctix) - https://github.com/Yummyzzzz');
+L.push('Arctix is developed by **Whitepoint Software Development** - independent Whitepoint behind Arctix (not a registered company or legal entity). Owner and sole developer: **Yummyzzzz** (Owner and Developer of Arctix) - https://github.com/Yummyzzzz');
 L.push('');
 
 for (const g of groups) {

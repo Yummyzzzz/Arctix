@@ -369,7 +369,7 @@ void SetPage(Page p) {
         L"- the compiled ArctixC SDK (arctixc.dll, .lib, .exp) plus its test programs under dependencies\\\n"
         L"- the arctix command-line helper and uninstall.exe\n"
         L"- an empty temp\\ folder for future scratch files\n\n"
-        L"By Whitepoint Software Development (independent Whitepoint) - Yummyzzzz.",
+        L"By Whitepoint Software Development - Yummyzzzz.",
         L"Please read the Arctix License 1.0. You must accept it to continue.",
         L"Choose where Arctix will be installed. Any folder works - a local drive, "
         L"the Desktop, C:\\, ... If the folder name is not \"Arctix\", a subfolder "

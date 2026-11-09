@@ -175,7 +175,7 @@ Arctix genuinely appreciates people who take the time to share ideas, suggest im
 
 ## Credits
 
-Arctix is developed by **Whitepoint Software Development**, an independent Whitepoint currently consisting solely of **Yummyzzzz**. Whitepoint Software Development is a team name, not a registered company or separate legal entity. **Yummyzzzz** is the individual developer and current rights holder of Arctix.
+Arctix is developed by **Whitepoint Software Development**, an independent Whitepoint currently consisting solely of **Yummyzzzz**. Whitepoint Software Development is a team name, not a registered company or legal entity. **Yummyzzzz** is the individual developer and current rights holder of Arctix.
 
 GitHub: [https://github.com/Yummyzzzz](https://github.com/Yummyzzzz)
 
@@ -185,4 +185,4 @@ Arctix is released under **Arctix License 1.0**.
 
 See [LICENSE.md](LICENSE.md) for the full license text.
 
-Copyright (c) 2026 Yummyzzzz (Whitepoint Software Development Whitepoint).
+Copyright (c) 2026 Yummyzzzz (Whitepoint Software Development).

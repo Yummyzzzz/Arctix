@@ -1,7 +1,7 @@
 # ArctixI — Arctix Installer
 
 **Component:** ArctixI (Arctix Installer: `arctixi.exe` setup wizard, `arctix.exe` helper, `uninstall.exe` remover)
-**Whitepoint:** Whitepoint Software Development (independent, not a registered company) — **Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
+**Developer:** Whitepoint Software Development (independent team, not a registered company or legal entity) — **Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
 **Status:** Implemented. Pure Win32 API, no frameworks, no installer toolkit.
 
 ## What it is

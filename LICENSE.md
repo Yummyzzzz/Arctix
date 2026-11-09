@@ -17,7 +17,7 @@ For the purposes of this License:
 
 **1.3. "Arctix Source Code"** refers to the source code of Arctix and its associated tools, regardless of whether that source code is publicly accessible.
 
-**1.4. "Whitepoint"** refers to **Whitepoint Software Development**, the independent developer team behind Arctix, which currently consists solely of **Yummyzzzz** and may include additional developers in the future. Whitepoint Software Development is a team name only and is not a registered company or separate legal entity. References in this License to Whitepoint identify Yummyzzzz acting under Whitepoint Software Development team name; Yummyzzzz is the current individual developer and rights holder of Arctix.
+**1.4. "Whitepoint"** refers to **Whitepoint Software Development**, the independent developer team behind Arctix, which currently consists solely of **Yummyzzzz** and may include additional developers in the future. Whitepoint Software Development is a team name only and is not a registered company or legal entity. References in this License to Whitepoint identify Yummyzzzz acting under Whitepoint Software Development team name; Yummyzzzz is the current individual developer and rights holder of Arctix.
 
 **1.5. "Project"** refers to any application, software product, program, or other work that incorporates, imports, depends upon, or distributes Arctix Components.
 
@@ -36,7 +36,7 @@ This permission is limited to the rights expressly granted by this License. No o
 
 ## 3. Attribution and Acknowledgment
 
-Attribution to Arctix and its Whitepoint is mandatory whenever Arctix Components are incorporated into a Project.
+Attribution to Arctix and Whitepoint is mandatory whenever Arctix Components are incorporated into a Project.
 
 You must comply with the following requirements:
 
@@ -46,7 +46,7 @@ Arctix must be explicitly identified as a dependency in your Project's installat
 
 **3.2. Whitepoint Attribution**
 
-You must clearly credit the **Whitepoint Software Development** Whitepoint and its current individual developer, **Yummyzzzz**, wherever Project dependencies and third-party components are acknowledged.
+You must clearly credit **Whitepoint Software Development** and its current individual developer, **Yummyzzzz**, wherever Project dependencies and third-party components are acknowledged.
 
 **3.3. Public Presentations**
 

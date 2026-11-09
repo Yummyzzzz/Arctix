@@ -111,7 +111,7 @@ int CmdContact() {
     PrintLine(L"  Developer  : " + Widen(ARCTIX_DEVELOPER) + L" (" +
               Widen(ARCTIX_URL_PROFILE) + L")");
     PrintLine(L"  Team       : " + Widen(ARCTIX_COMPANY) +
-              L" (independent Whitepoint, not a registered company)");
+              L" (independent Whitepoint; not a registered company or legal entity)");
     return 0;
 }
 
