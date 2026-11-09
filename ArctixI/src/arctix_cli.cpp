@@ -89,7 +89,7 @@ int CmdHelp() {
     PrintLine();
     PrintLine(L"  version    show installer/core versions and the install folder");
     PrintLine(L"  website    show the Arctix repository URL (opens it too)");
-    PrintLine(L"  contact    show how to reach the project and Whitepoint");
+    PrintLine(L"  contact    show how to reach the project and the developer team");
     PrintLine(L"  bug        show how and where to report bugs / issues");
     PrintLine(L"  licenses   print the full Arctix License 1.0");
     PrintLine(L"  uninstall  remove Arctix (folder, PATH entry, registry)");
@@ -111,7 +111,7 @@ int CmdContact() {
     PrintLine(L"  Developer  : " + Widen(ARCTIX_DEVELOPER) + L" (" +
               Widen(ARCTIX_URL_PROFILE) + L")");
     PrintLine(L"  Team       : " + Widen(ARCTIX_COMPANY) +
-              L" (independent Whitepoint; not a registered company or legal entity)");
+              L" (independent developer team; not a registered company or legal entity)");
     return 0;
 }
 

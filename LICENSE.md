@@ -17,7 +17,7 @@ For the purposes of this License:
 
 **1.3. "Arctix Source Code"** refers to the source code of Arctix and its associated tools, regardless of whether that source code is publicly accessible.
 
-**1.4. "Whitepoint"** refers to **Whitepoint Software Development**, the independent developer team behind Arctix, which currently consists solely of **Yummyzzzz** and may include additional developers in the future. Whitepoint Software Development is a team name only and is not a registered company or legal entity. References in this License to Whitepoint identify Yummyzzzz acting under Whitepoint Software Development team name; Yummyzzzz is the current individual developer and rights holder of Arctix.
+**1.4. "Whitepoint"** refers to **Whitepoint Software Development**, the independent developer team behind Arctix, which currently consists solely of **Yummyzzzz** and may include additional developers in the future. Whitepoint Software Development is a team name only and is not a registered company or legal entity. References in this License to Whitepoint identify Yummyzzzz acting under that team name; Yummyzzzz is the current individual developer and rights holder of Arctix.
 
 **1.5. "Project"** refers to any application, software product, program, or other work that incorporates, imports, depends upon, or distributes Arctix Components.
 
@@ -52,7 +52,7 @@ You must clearly credit **Whitepoint Software Development** and its current indi
 
 Whenever you publicly showcase, publish, demonstrate, or otherwise present a Project that incorporates Arctix, you must:
 
-- Credit **Whitepoint Software Development** as the independent developer team behind Arctix and **Yummyzzzz** as its current individual developer and rights holder.
+- Credit **Whitepoint Software Development** as the independent Whitepoint behind Arctix and **Yummyzzzz** as its current individual developer and rights holder.
 - Identify Arctix as a dependency used by your Project.
 - Provide a link to the official Arctix GitHub repository.
 
