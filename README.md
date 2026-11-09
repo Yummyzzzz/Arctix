@@ -173,6 +173,16 @@ Arctix genuinely appreciates people who take the time to share ideas, suggest im
 
 **Contributors:** Arctix may introduce contributor recognition or other ways to acknowledge people who help with the project in the future. However, public contributions are not formally established yet, and there is currently no announced public contributor program. More information may be provided if this changes.
 
+## Bug & Vulnerabilities Report
+
+Found a bug, issue, or vulnerability in Arctix? Reports are welcome and help improve the quality, reliability, and security of the project.
+
+You can create an issue through the **Issues** tab on the [Arctix GitHub repository.](https://github.com/Yummyzzzz/Arctix/issues/) Please provide a clear description of the problem, including steps to reproduce it, expected behavior, actual behavior, and any relevant error messages or logs.
+
+**Security vulnerabilities:** Please avoid posting sensitive security details publicly. Use a private security reporting option if one is available on the repository, so the issue can be reviewed responsibly.
+
+Every report is appreciated. Reports will be reviewed and considered for investigation and possible fixes, but submitting a report does not guarantee a particular resolution or implementation.
+
 ## Credits
 
 Arctix is developed by **Whitepoint Software Development**, an independent Whitepoint currently consisting solely of **Yummyzzzz**. Whitepoint Software Development is a team name, not a registered company or legal entity. **Yummyzzzz** is the individual developer and current rights holder of Arctix.
