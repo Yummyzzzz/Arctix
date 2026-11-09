@@ -173,6 +173,14 @@ Arctix genuinely appreciates people who take the time to share ideas, suggest im
 
 **Contributors:** Arctix may introduce contributor recognition or other ways to acknowledge people who help with the project in the future. However, public contributions are not formally established yet, and there is currently no announced public contributor program. More information may be provided if this changes.
 
+### Whitepoint Software Development Community Server
+
+**Whitepoint Software Development (WSD) has a Community Server on Discord.**
+
+Join the community to connect with WSD, discuss Arctix and other projects, share ideas, provide feedback, and stay connected.
+
+**Discord Invite:** https://discord.gg/UwDStechem
+
 ## Bug & Vulnerabilities Report
 
 Found a bug, issue, or vulnerability in Arctix? Reports are welcome and help improve the quality, reliability, and security of the project.
