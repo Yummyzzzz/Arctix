@@ -183,6 +183,10 @@ You can create an issue through the **Issues** tab on the [Arctix GitHub reposit
 
 Every report is appreciated. Reports will be reviewed and considered for investigation and possible fixes, but submitting a report does not guarantee a particular resolution or implementation.
 
+**The exploitation, intentional abuse, or malicious distribution of information regarding any known or undisclosed vulnerabilities or bugs in Arctix or any of its tools and components is strictly prohibited. Any such activity constitutes a violation of the Arctix License and may result in the immediate termination of the license agreement between the responsible party and Arctix. Upon termination, the responsible party must immediately cease all use of Arctix and its tools, libraries, and components.**
+
+**Responsible vulnerability reporting and good-faith security research are not prohibited**, provided they are conducted without exploiting, abusing, or causing harm to Arctix or its users.
+
 ## Credits
 
 Arctix is developed by **Whitepoint Software Development**, an independent Whitepoint currently consisting solely of **Yummyzzzz**. Whitepoint Software Development is a team name, not a registered company or legal entity. **Yummyzzzz** is the individual developer and current rights holder of Arctix.
