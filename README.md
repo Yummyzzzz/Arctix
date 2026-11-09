@@ -75,6 +75,126 @@ Arctix_Free(a, p);
 Arctix_DestroyAllocator(a);
 ```
 
+## Pure C++ vs. C++ with ArctixC — Full Example
+
+The same task both ways: build four 1 MB chunks, hash each chunk on a
+worker, and print the combined fingerprint. First the plain C++ version
+using only the standard library, then the same program with ArctixC.
+Both files are complete — includes to `main()` — and print the same result.
+
+Pure C++ (standard library only):
+
+```cpp
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <thread>
+#include <vector>
+
+namespace {
+std::uint64_t Fnv1a(const std::uint8_t* data, std::size_t size) {
+    std::uint64_t h = 14695981039346656037ULL;
+    for (std::size_t i = 0; i < size; ++i) { h ^= data[i]; h *= 1099511628211ULL; }
+    return h;
+}
+} // namespace
+
+int main() {
+    constexpr std::size_t kChunks = 4;
+    constexpr std::size_t kSize = 1024 * 1024;
+
+    // 1. Allocate + fill.
+    std::vector<std::uint8_t*> chunks(kChunks);
+    for (auto*& c : chunks) {
+        c = new std::uint8_t[kSize];
+        for (std::size_t i = 0; i < kSize; ++i) c[i] = static_cast<std::uint8_t>(i & 0xFF);
+    }
+
+    // 2. Hash each chunk on its own thread.
+    std::uint64_t hashes[kChunks] = {};
+    std::vector<std::thread> workers;
+    for (std::size_t c = 0; c < kChunks; ++c)
+        workers.emplace_back([&, c] { hashes[c] = Fnv1a(chunks[c], kSize); });
+    for (auto& t : workers) t.join();
+
+    // 3. Combine + report.
+    std::uint64_t fingerprint = 14695981039346656037ULL;
+    for (auto h : hashes) { fingerprint ^= h; fingerprint *= 1099511628211ULL; }
+    std::printf("fingerprint: %llu\n", (unsigned long long)fingerprint);
+
+    // 4. Manual cleanup — every new[] needs its delete[].
+    for (auto* c : chunks) delete[] c;
+    return 0;
+}
+```
+
+The same program with ArctixC:
+
+```cpp
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+
+#include <arctixc/memory/allocator.hpp>
+#include <arctixc/memory/mem_utils.hpp>
+#include <arctixc/thread/thread_pool.hpp>
+
+namespace {
+struct HashJob {
+    const std::uint8_t* data;
+    std::size_t size;
+    std::uint64_t* out;
+};
+
+void HashWork(void* userData) {
+    const auto* job = static_cast<const HashJob*>(userData);
+    *job->out = arctix::Memory::Fnv1aHash64(job->data, job->size);
+}
+} // namespace
+
+int main() {
+    constexpr std::size_t kChunks = 4;
+    constexpr std::size_t kSize = 1024 * 1024;
+
+    // 1. One allocator for all chunks (aligned, statistics included).
+    arctix::Memory::Allocator alloc;
+    alloc.Initialize(arctix::Memory::DefaultConfig());
+
+    std::uint8_t* chunks[kChunks] = {};
+    for (auto*& c : chunks) {
+        c = static_cast<std::uint8_t*>(alloc.Allocate(kSize, 16));
+        for (std::size_t i = 0; i < kSize; ++i) c[i] = static_cast<std::uint8_t>(i & 0xFF);
+    }
+
+    // 2. One pool hashes all four chunks — workers stay alive, no re-spawn.
+    arctix::Thread::ThreadPool pool(4);
+    std::uint64_t hashes[kChunks] = {};
+    HashJob jobs[kChunks];
+    for (std::size_t c = 0; c < kChunks; ++c) {
+        jobs[c] = HashJob{chunks[c], kSize, &hashes[c]};
+        pool.Submit(HashWork, &jobs[c]);
+    }
+    pool.WaitIdle();
+
+    // 3. Combine + report.
+    std::uint64_t fingerprint = 14695981039346656037ULL;
+    for (auto h : hashes) { fingerprint ^= h; fingerprint *= 1099511628211ULL; }
+    std::printf("fingerprint: %llu\n", (unsigned long long)fingerprint);
+
+    // 4. Cleanup: the same allocator frees, then shuts down.
+    for (auto* c : chunks) alloc.Deallocate(c);
+    pool.Shutdown();
+    alloc.Shutdown();
+    return 0;
+}
+```
+
+What changed: aligned allocation with statistics instead of raw `new[]`,
+a reusable 4-worker pool instead of spawning and joining threads by hand,
+and the built-in `Fnv1aHash64` instead of a hand-rolled hash. To build the
+ArctixC version, add `ArctixC/include` to your include path and link
+`arctixc.lib` (built by `ArctixC/build.ps1`).
+
 ## Build From Source
 
 **Requirements:** Windows with MSVC and CMake 3.20 or newer.

@@ -1,6 +1,8 @@
 # CMake build trees (regenerate with each component's build.ps1)
 build/
 out/
+pckgs/
+pckgs/arctixc_pckg_v1/
 
 # Shippable setup folder assembled by ArctixI/build.ps1
 dist/
