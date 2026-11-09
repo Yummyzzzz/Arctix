@@ -195,6 +195,24 @@ and the built-in `Fnv1aHash64` instead of a hand-rolled hash. To build the
 ArctixC version, add `ArctixC/include` to your include path and link
 `arctixc.lib` (built by `ArctixC/build.ps1`).
 
+## Dependencies
+
+### Just using ArctixC (prebuilt `arctixc.dll` + `arctixc.lib`)
+
+Nothing. No installer, no package manager, no third-party libraries:
+
+- The DLL links only against Windows system libraries, so there is nothing to install on the target machine.
+- Copy `arctixc.dll` next to your `.exe`, add `ArctixC/include` to your include path, link `arctixc.lib` — done.
+
+### Compiling ArctixC from source
+
+- **Windows 10/11** with **MSVC** (Visual Studio 2022 or newer, "Desktop development with C++" workload). The virtual-memory layer also has a POSIX backend, but the tested build target is Windows + MSVC.
+- **CMake 3.20 or newer** (the copy bundled with Visual Studio works).
+- **Ninja** (ships with the Visual Studio CMake install — `build.ps1` sets it up automatically).
+- A compiler with **C++17** support (any recent MSVC has it).
+
+Then build with a single command (see below).
+
 ## Build From Source
 
 **Requirements:** Windows with MSVC and CMake 3.20 or newer.
