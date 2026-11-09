@@ -1,7 +1,7 @@
 # Arctix License 1.0
 **Proprietary Component and Source-Inspection License**
 
-**Copyright © 2026 Yummyzzzz. All rights reserved.**
+**Copyright © 2026 WSD (Whitepoint Software Development). All rights reserved.**
 
 This License governs the use, integration, redistribution, and inspection of Arctix software, including its compiled components, libraries, tools, and associated source code.
 
