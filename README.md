@@ -9,6 +9,8 @@ If you have ever needed multiple small libraries just to allocate aligned memory
 Arctix is released under the **Arctix License**, allowing use in both open-source and closed-source commercial projects. 
 By downloading or using Arctix, you automatically accept the **Arctix License**.
 
+**Official WSD Website:** https://whitepoint.pages.dev/ - This is the valid and real website by Whitepoint Software Development (WSD) for Arctix and other WSD projects.
+
 ## What You Get
 
 - **One standalone DLL.** All compiled functionality lives in `arctixc.dll` (currently version 0.1.1), with the corresponding import library and headers. The build is configured to prevent split-module DLLs from being produced.
@@ -338,6 +340,8 @@ Every report is appreciated. Reports will be reviewed and considered for investi
 Arctix is developed by **Whitepoint Software Development**, an independent Whitepoint currently consisting solely of **Yummyzzzz**. Whitepoint Software Development is a team name, not a registered company or legal entity. **Yummyzzzz** is the individual developer and current rights holder of Arctix.
 
 GitHub: [https://github.com/Yummyzzzz](https://github.com/Yummyzzzz)
+
+Website: [https://whitepoint.pages.dev/](https://whitepoint.pages.dev/) - Official and real website by Whitepoint Software Development (WSD).
 
 ## License
 
