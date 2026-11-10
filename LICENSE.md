@@ -106,6 +106,8 @@ Regardless of how Arctix is incorporated into a Project, Whitepoint retains owne
 
 Nothing in this License shall be interpreted as granting you ownership, authorship, or unrestricted control over any portion of Arctix.
 
+**Logos and embedded resources.** Every logo, icon, image, branding element, or other embedded resource supplied with Arctix is the official property of WSD. You are not allowed to use, copy, distribute, or claim ownership of any such logo or resource at all, except as part of the unmodified Arctix Components you are permitted to ship under Section 2.
+
 ## 6. Prohibited Use and Malicious Distribution
 
 Arctix must not be used, distributed, packaged, or associated with malicious software or activities.
