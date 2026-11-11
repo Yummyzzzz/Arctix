@@ -20,16 +20,16 @@ const F = eval('[' + m[1] + ']');
 function cell(s) { return String(s).replace(/\|/g, '/'); }
 
 const L = [];
-L.push('# ArctixC v0.1.1 - SDK Documentation');
+L.push('# ArctixC v0.2.0 - SDK Documentation');
 L.push('');
-L.push('One standalone `arctixc.dll` + `arctixc.lib` - `arctix::Memory` - `arctix::Buffer` - `arctix::Thread` - `arctix::Core`');
+L.push('Two standalone DLLs - `arctixc.dll` + `arctixc.lib` (C++) and `arctixc_c.dll` + `arctixc_c.lib` (C) - `arctix::Memory` - `arctix::Buffer` - `arctix::Thread` - `arctix::Core`');
 L.push('');
 L.push('This file mirrors `ArctixC/Documentation.html` (same content, same 121 functions).');
 L.push('Regenerate it any time with `node ArctixC/generate-docs-md.js` from the `Arctix/` root.');
 L.push('');
 L.push('## Dashboard');
 L.push('');
-L.push('ArctixC ships as **one** independent binary - `arctixc.dll` with `arctixc.lib` and the `include/arctixc/` headers. There is a single DLL to ship - no split modules - and every subsystem below lives in it. C++ consumers call `arctix::Memory::`, `arctix::Buffer::`, `arctix::Thread::` and `arctix::Core::` functions; C consumers use the flat `Arctix_*` / `ArctixC_*` ABI from `arctixc/c_api/*.h` (genuinely C-compilable headers).');
+L.push('ArctixC ships as **two** independent binaries from the same sources - `arctixc.dll` with `arctixc.lib` (C++) and `arctixc_c.dll` with `arctixc_c.lib` (C) plus the `include/arctixc/` headers. C++ consumers call `arctix::Memory::`, `arctix::Buffer::`, `arctix::Thread::` and `arctix::Core::` functions (builds under C++17/20/23); C consumers link `arctixc_c.lib` and use the flat `Arctix_*` / `ArctixC_*` ABI from `arctixc/c_api/*.h` (genuinely C-compilable headers).');
 L.push('');
 L.push('### Categories');
 L.push('');
@@ -40,7 +40,7 @@ L.push('- **Threads** - Move-only `arctix::Thread::Thread` with caught worker ex
 L.push('');
 L.push('### Use it - C++');
 L.push('');
-L.push('1. **Link** `arctixc.lib`, add `include/` to the include path, ship `arctixc.dll` next to the exe.');
+L.push('1. **Link** `arctixc.lib` (C++) or `arctixc_c.lib` (C), add `include/` to the include path, ship the matching DLL next to the exe.');
 L.push('2. **Include** only what you use, e.g. `#include <arctixc/memory/buffer.hpp>` (or the `arctixc.hpp` umbrella).');
 L.push('3. **Build** bytes in a `Buffer`, allocate with `Allocator`/`MemoryPool`, run work in a `ThreadPool`.');
 L.push('');
@@ -52,7 +52,7 @@ L.push('3. **Destroy** every handle you create; `NULL` is always safe to pass.')
 L.push('');
 L.push('### Build and ship');
 L.push('');
-L.push('From the `Arctix/` root: `powershell -ExecutionPolicy Bypass -File ArctixC\\build.ps1` (configures CMake + Ninja, Release). Outputs land in `ArctixC/build/`: `arctixc.dll`, `arctixc.lib`, test and example exes. `ctest -C Release` runs `MemoryTests`, `ThreadTests`, `ExtendedTests` and the pure-C `CApiCheckBuild`. The script fails if a split `*Memory*.dll` / `*Thread*.dll` is ever produced again. `arctixc.dll` carries embedded version info (ProductName `arctixc.dll`, ProductVersion `0.1.1` - see Properties -> Details); it tracks the CMake project version automatically.');
+L.push('From the `Arctix/` root: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (Release, C++17; add `-CppStandard 20|23` for newer C++). Outputs land in `ArctixC/build/`: `arctixc.dll` + `arctixc_c.dll`, import libs, test exes (each suite runs against both DLLs) and examples. `ctest` runs `MemoryTests`, `ThreadTests`, `ExtendedTests`, their `C_*` twins, plus pure-C `CApiTests`/`CApiCheckBuild`. Each DLL carries embedded version info matching its file name (ProductVersion `0.2.0`); it tracks the CMake project version automatically.');
 L.push('');
 L.push('### Credits');
 L.push('');

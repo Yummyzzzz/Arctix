@@ -1,18 +1,23 @@
-param([switch]$NoTests)
+param([switch]$NoTests, [ValidateSet(17,20,23)][int]$CppStandard = 17)
 
 $ErrorActionPreference = "Stop"
 
 # ArctixC build script.
-# Configures + builds the single standalone SDK binary (Release):
-#   arctixc.dll + arctixc.lib   (everything: core, memory, buffer,
-#                                 virtual memory, thread, pool, C ABIs)
-# plus tests and examples. The DLL lands next to the test/example exes so
-# they run without extra PATH setup. There are no ArctixC.Memory /
-# ArctixC.Thread DLLs: consumers ship exactly one DLL.
+# Configures + builds BOTH standalone SDK binaries (Release) into the
+# same folder:
+#   arctixc.dll + arctixc.lib     (C++ API: arctix::Core/Memory/Buffer/Thread)
+#   arctixc_c.dll + arctixc_c.lib (C API: Arctix_*/ArctixC_* from c_api/*.h)
+# Both DLLs share the same sources, headers and namespace; only the
+# binaries (and the C wrappers) differ. C++ consumers link arctixc.lib,
+# C consumers link arctixc_c.lib.
+# plus tests (each suite runs against both DLLs) and examples.
+# Both DLLs land next to the test/example exes so they run without
+# extra PATH setup.
 #
 # Usage:
 #   powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1
 #   powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1 -NoTests
+#   powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1 -CppStandard 20
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $BuildDir = Join-Path $Root "build"
@@ -56,30 +61,31 @@ function Ensure-Msvc {
 }
 Ensure-Msvc
 
-$configureArgs = @("-S", $Root, "-B", $BuildDir, "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release")
+$configureArgs = @("-S", $Root, "-B", $BuildDir, "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", "-DARCTIXC_CXX_STANDARD=$CppStandard")
 if ($NoTests) {
     $configureArgs += "-DARCTIXC_BUILD_TESTS=OFF"
     $configureArgs += "-DARCTIXC_BUILD_EXAMPLES=OFF"
 }
 
 if (-not (Test-Path (Join-Path $BuildDir "build.ninja"))) {
-    Write-Host "Configuring ArctixC (CMake + Ninja, Release) ..."
+    Write-Host "Configuring ArctixC (CMake + Ninja, Release, C++$CppStandard) ..."
     & $CmakeBin @configureArgs
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 } else {
     Write-Host "Build directory already configured."
+    Write-Host "NOTE: to change C++ standard, delete ArctixC/build and re-run with -CppStandard <17|20|23>."
 }
 
-Write-Host "Building ArctixC ..."
+Write-Host "Building ArctixC (C++$CppStandard) ..."
 & $CmakeBin --build $BuildDir --config Release
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host ""
 Write-Host "Build outputs:" -ForegroundColor Green
-Get-ChildItem -Path $BuildDir -Recurse -Include "arctixc.dll", "arctixc.lib" -ErrorAction SilentlyContinue |
+Get-ChildItem -Path $BuildDir -Recurse -Include "arctixc.dll", "arctixc.lib", "arctixc_c.dll", "arctixc_c.lib" -ErrorAction SilentlyContinue |
     ForEach-Object { Write-Host ("  " + $_.FullName) }
 
-foreach ($dll in @("arctixc.dll")) {
+foreach ($dll in @("arctixc.dll", "arctixc_c.dll")) {
     $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $dll -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $found) {
         Write-Host ("ERROR: expected output " + $dll + " was not produced") -ForegroundColor Red
@@ -108,5 +114,5 @@ if (-not $NoTests) {
 }
 
 Write-Host ""
-Write-Host "OK: ArctixC build complete." -ForegroundColor Green
-Write-Host "Ship arctixc.dll + arctixc.lib + include/arctixc/ - nothing else."
+Write-Host "OK: ArctixC build complete (C++$CppStandard)." -ForegroundColor Green
+Write-Host "Ship arctixc.dll + arctixc.lib (C++) and arctixc_c.dll + arctixc_c.lib (C) + include/arctixc/."

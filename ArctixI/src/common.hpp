@@ -9,7 +9,7 @@
 // wizard, the CLI and the uninstaller can never disagree with each other.
 
 #define ARCTIXI_VERSION "0.1.0"
-#define ARCTIXC_VERSION "0.1.1"
+#define ARCTIXC_VERSION "0.2.0"
 
 #define ARCTIX_COMPANY "Whitepoint Software Development"
 #define ARCTIX_DEVELOPER "Yummyzzzz"
@@ -55,11 +55,19 @@ static const DependencyDownload kDependencies[] = {
     {"arctixc.dll", ARCTIX_URL_BINARIES "arctixc.dll"},
     {"arctixc.lib", ARCTIX_URL_BINARIES "arctixc.lib"},
     {"arctixc.exp", ARCTIX_URL_BINARIES "arctixc.exp"},
+    {"arctixc_c.dll", ARCTIX_URL_BINARIES "arctixc_c.dll"},
+    {"arctixc_c.lib", ARCTIX_URL_BINARIES "arctixc_c.lib"},
+    {"arctixc_c.exp", ARCTIX_URL_BINARIES "arctixc_c.exp"},
     {"ArctixC_ExtendedTests.exe", ARCTIX_URL_BINARIES "ArctixC_ExtendedTests.exe"},
     {"ArctixC_MemoryTests.exe", ARCTIX_URL_BINARIES "ArctixC_MemoryTests.exe"},
     {"ArctixC_ThreadTests.exe", ARCTIX_URL_BINARIES "ArctixC_ThreadTests.exe"},
+    {"ArctixC_C_ExtendedTests.exe", ARCTIX_URL_BINARIES "ArctixC_C_ExtendedTests.exe"},
+    {"ArctixC_C_MemoryTests.exe", ARCTIX_URL_BINARIES "ArctixC_C_MemoryTests.exe"},
+    {"ArctixC_C_ThreadTests.exe", ARCTIX_URL_BINARIES "ArctixC_C_ThreadTests.exe"},
+    {"ArctixC_CApiTests.exe", ARCTIX_URL_BINARIES "ArctixC_CApiTests.exe"},
     {"Example_Extended.exe", ARCTIX_URL_BINARIES "Example_Extended.exe"},
     {"Example_MemoryAndThread.exe", ARCTIX_URL_BINARIES "Example_MemoryAndThread.exe"},
     {"Example_MemoryOnly.exe", ARCTIX_URL_BINARIES "Example_MemoryOnly.exe"},
     {"Example_ThreadOnly.exe", ARCTIX_URL_BINARIES "Example_ThreadOnly.exe"},
+    {"Example_CApiDemo.exe", ARCTIX_URL_BINARIES "Example_CApiDemo.exe"},
 };

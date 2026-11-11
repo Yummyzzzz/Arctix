@@ -1,6 +1,6 @@
 #pragma once
 
-// ArctixC.Memory - stable C ABI for arctixc.dll.
+// ArctixC.Memory - stable C ABI for arctixc_c.dll (C consumers link arctixc_c.lib).
 //
 // This header is genuinely C-compatible: it only uses C types and can be
 // included from a .c file. Function names keep the historical Arctix_*

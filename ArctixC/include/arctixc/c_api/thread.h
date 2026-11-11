@@ -1,6 +1,6 @@
 #pragma once
 
-// ArctixC.Thread - stable C ABI for arctixc.dll.
+// ArctixC.Thread - stable C ABI for arctixc_c.dll (C consumers link arctixc_c.lib).
 //
 // This header is genuinely C-compatible: it only uses C types and can be
 // included from a .c file. The handle is opaque; the library owns the

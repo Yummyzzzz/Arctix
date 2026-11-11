@@ -116,7 +116,7 @@ Copy-Item (Join-Path (Split-Path -Parent $Root) "LICENSE.md") (Join-Path $DistDi
 # ArctixI/src/common.hpp) - no READMEs, no static build byproducts.
 $BinSrc = Join-Path (Split-Path -Parent $Root) "ArctixC\binaries"
 $BinDst = Join-Path $DistDir "binaries"
-$Payload = @("arctixc.dll", "arctixc.lib", "arctixc.exp", "ArctixC_ExtendedTests.exe", "ArctixC_MemoryTests.exe", "ArctixC_ThreadTests.exe", "Example_Extended.exe", "Example_MemoryAndThread.exe", "Example_MemoryOnly.exe", "Example_ThreadOnly.exe")
+$Payload = @("arctixc.dll", "arctixc.lib", "arctixc.exp", "arctixc_c.dll", "arctixc_c.lib", "arctixc_c.exp", "ArctixC_ExtendedTests.exe", "ArctixC_MemoryTests.exe", "ArctixC_ThreadTests.exe", "ArctixC_C_ExtendedTests.exe", "ArctixC_C_MemoryTests.exe", "ArctixC_C_ThreadTests.exe", "ArctixC_CApiTests.exe", "Example_Extended.exe", "Example_MemoryAndThread.exe", "Example_MemoryOnly.exe", "Example_ThreadOnly.exe", "Example_CApiDemo.exe")
 foreach ($f in $Payload) {
     $src = Join-Path $BinSrc $f
     if (Test-Path $src) { Copy-Item $src $BinDst -Force }

@@ -9,7 +9,7 @@
 A standalone `.exe` setup wizard. It installs Arctix on a developer machine:
 
 - `arctix.exe`, `uninstall.exe`, `LICENSE.md` → install root (default `C:\Program Files\Arctix`)
-- `arctixc.dll`, `arctixc.lib`, `arctixc.exp`, test programs and examples → `dependencies\`
+- `arctixc.dll` + `arctixc_c.dll`, `arctixc.lib` + `arctixc_c.lib`, `.exp` files, test programs and examples → `dependencies\`
 - an empty `temp\` scratch folder for future use
 - registry keys (`HKLM\SOFTWARE\Arctix` + an Add/Remove Programs entry)
 - optionally, the install folder on the **machine PATH**, so `arctix <command>`

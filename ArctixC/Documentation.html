@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ArctixC v0.1.1 - SDK Documentation</title>
+<title>ArctixC v0.2.0 - SDK Documentation</title>
 <style>
 :root{
   --bg:#050507;
@@ -180,9 +180,9 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
 <header class="top glass">
   <div>
     <h1>ArctixC - SDK Documentation</h1>
-    <p>One standalone <code>arctixc.dll</code> + <code>arctixc.lib</code> - <code>arctix::Memory</code> - <code>arctix::Buffer</code> - <code>arctix::Thread</code> - <code>arctix::Core</code></p>
+    <p>Two standalone DLLs <code>arctixc.dll</code> + <code>arctixc.lib</code> (C++) and <code>arctixc_c.dll</code> + <code>arctixc_c.lib</code> (C) - <code>arctix::Memory</code> - <code>arctix::Buffer</code> - <code>arctix::Thread</code> - <code>arctix::Core</code></p>
   </div>
-  <span class="badge">v0.1.1</span>
+  <span class="badge">v0.2.0</span>
   <nav class="tabs">
     <button id="tab-overview" class="active">Dashboard</button>
     <button id="tab-functions">Functions</button>
@@ -194,9 +194,9 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
 <!-- ==================== OVERVIEW ==================== -->
 <section id="view-overview" class="view active">
   <div class="hero glass">
-    <h2>The <span class="grad">single-DLL</span> systems SDK</h2>
-    <p>ArctixC ships as <strong>one</strong> independent binary - <code>arctixc.dll</code> with <code>arctixc.lib</code> and the
-    <code>include/arctixc/</code> headers. There is a single DLL to ship - no split modules - and every subsystem below
+    <h2>The <span class="grad">dual-DLL</span> systems SDK</h2>
+    <p>ArctixC ships as <strong>two</strong> independent binaries from the same sources - <code>arctixc.dll</code> with <code>arctixc.lib</code> (C++) and <code>arctixc_c.dll</code> with <code>arctixc_c.lib</code> (C) and the
+    <code>include/arctixc/</code> headers. Both DLLs land in the same folder and every subsystem below
     lives in it. C++ consumers call <code>arctix::Memory::</code>, <code>arctix::Buffer::</code>, <code>arctix::Thread::</code> and
     <code>arctix::Core::</code> functions; C consumers use the flat <code>Arctix_*</code> / <code>ArctixC_*</code> ABI from
     <code>arctixc/c_api/*.h</code> (genuinely C-compilable headers).</p>
@@ -214,7 +214,7 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
     <div class="sect glass">
       <h3>Use it - C++</h3>
       <ol class="steps">
-        <li><strong>Link</strong> <code>arctixc.lib</code>, add <code>include/</code> to the include path, ship <code>arctixc.dll</code> next to the exe.</li>
+        <li><strong>Link</strong> <code>arctixc.lib</code> (C++) or <code>arctixc_c.lib</code> (C), add <code>include/</code> to the include path, ship the matching DLL next to the exe.</li>
         <li><strong>Include</strong> only what you use, e.g. <code>#include &lt;arctixc/memory/buffer.hpp&gt;</code> (or the <code>arctixc.hpp</code> umbrella).</li>
         <li><strong>Build</strong> bytes in a <code>Buffer</code>, allocate with <code>Allocator</code>/<code>MemoryPool</code>, run work in a <code>ThreadPool</code>.</li>
       </ol>
@@ -233,10 +233,10 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
     <h3>Build &amp; ship</h3>
     <p class="explain">From the <code>Arctix/</code> root: <code>powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1</code>
     (configures CMake + Ninja, Release). Outputs land in <code>ArctixC/build/</code>:
-    <code>arctixc.dll</code>, <code>arctixc.lib</code>, test and example exes. <code>ctest -C Release</code> runs
-    <code>MemoryTests</code>, <code>ThreadTests</code>, <code>ExtendedTests</code> and the pure-C <code>CApiCheckBuild</code>.
+    <code>arctixc.dll</code> + <code>arctixc_c.dll</code>, import libs, test exes (each suite runs against both DLLs) and examples. <code>ctest -C Release</code> runs
+    <code>MemoryTests</code>, <code>ThreadTests</code>, <code>ExtendedTests</code>, their <code>C_*</code> twins, plus pure-C <code>CApiTests</code>/<code>CApiCheckBuild</code>.
     The script fails if a split <code>*Memory*.dll</code> / <code>*Thread*.dll</code> is ever produced again.
-    <code>arctixc.dll</code> carries embedded version info (ProductName <code>arctixc.dll</code>, ProductVersion <code>0.1.1</code>
+    <code>arctixc.dll</code> carries embedded version info (ProductName <code>arctixc.dll</code>, ProductVersion <code>0.2.0</code>
     - see Properties -> Details); it tracks the CMake project version automatically.</p>
     <hr class="fancy">
     <p class="explain">Open <strong>Functions</strong> above - or click any card - for every API entry with signature, arguments, return value, example call and explanation.</p>
@@ -269,7 +269,7 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 16px;color:var(--faint);fon
 </section>
 </main>
 
-<footer>ArctixC v0.1.1 - single-DLL SDK - by Whitepoint Software Development / Yummyzzzz - this file is the whole manual: no external CSS, JS or images.</footer>
+<footer>ArctixC v0.2.0 - dual-DLL SDK - by Whitepoint Software Development / Yummyzzzz - this file is the whole manual: no external CSS, JS or images.</footer>
 
 <script>
 const GROUPS=["Foundation","Allocator","Memory Pool","Buffer","Memory Utils","Virtual Memory","Thread","Thread Pool","C ABI - Memory","C ABI - Thread"];

@@ -2,11 +2,11 @@
 
 // ArctixC - DLL export / import macro used by the thread headers.
 //
-// There is no arctixc.dll: every thread symbol lives in the
-// single arctixc.dll. CMake defines ARCTIXC_THREAD_BUILD (together with
-// the core/memory defines) when building that DLL, so this macro is
-// dllexport inside the build and dllimport for SDK consumers that link
-// arctixc.lib.
+// Every thread symbol lives in BOTH arctixc.dll (C++) and arctixc_c.dll
+// (C). CMake defines ARCTIXC_THREAD_BUILD (together with the core/memory
+// defines) when building either DLL, so this macro is dllexport inside
+// the build and dllimport for SDK consumers that link arctixc.lib (C++)
+// or arctixc_c.lib (C).
 
 #ifdef _WIN32
     #ifdef ARCTIXC_THREAD_BUILD

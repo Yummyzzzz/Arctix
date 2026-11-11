@@ -1,8 +1,8 @@
-# Arctix — One DLL for Memory, Buffers, Virtual Memory, and Threads
+# Arctix — Two DLLs for Memory, Buffers, Virtual Memory, and Threads
 
 **Arctix** is a C/C++ systems toolkit designed to bring several essential low-level utilities together in one library.
 
-Its core library, **ArctixC**, is distributed as a single standalone DLL: `arctixc.dll`, accompanied by its import library (`arctixc.lib`) and public headers. No split modules, no unnecessary dependency chain, and no installer required. Link one import library, ship one DLL, and gain access to aligned memory allocation with statistics, O(1) memory pools, owning byte buffers, direct operating-system virtual memory control, and multithreading utilities — including a FIFO thread pool without work stealing.
+Its core library, **ArctixC**, ships as two standalone DLLs built from the same sources into the same folder: `arctixc.dll` for C++ and `arctixc_c.dll` for C, each with its import library (`arctixc.lib` / `arctixc_c.lib`) plus the public headers. Same namespace (`arctix::`), same headers, same behavior — only the binary you link differs. Link one import library, ship its DLL, and gain access to aligned memory allocation with statistics, O(1) memory pools, owning byte buffers, direct operating-system virtual memory control, and multithreading utilities — including a FIFO thread pool without work stealing.
 
 If you have ever needed multiple small libraries just to allocate aligned memory, manage byte data, and run tasks on threads, ArctixC brings those capabilities together in one tested library.
 
@@ -13,9 +13,9 @@ By downloading or using Arctix, you automatically accept the **Arctix License**.
 
 ## What You Get
 
-- **One standalone DLL.** All compiled functionality lives in `arctixc.dll` (currently version 0.1.1), with the corresponding import library and headers. The build is configured to prevent split-module DLLs from being produced.
-- **A modern, namespaced C++ API.** Functions follow a consistent structure, such as `arctix::Memory::Allocator::Allocate` and `arctix::Thread::ParallelFor`.
-- **A stable C ABI.** The same core functionality is accessible from pure C through headers such as `arctixc/c_api/memory.h` and `arctixc/c_api/thread.h`, including NULL-safe handles.
+- **Two standalone DLLs, one for each language.** `arctixc.dll` (currently version 0.2.0) carries the C++ API; `arctixc_c.dll` carries the same implementation plus the C ABI. Both are built from the same sources into the same folder. Link `arctixc.lib` for C++ or `arctixc_c.lib` for C.
+- **A modern, namespaced C++ API.** Functions follow a consistent structure, such as `arctix::Memory::Allocator::Allocate` and `arctix::Thread::ParallelFor`. Compiles under **C++17, C++20 and C++23** (`-DARCTIXC_CXX_STANDARD=17|20|23`, default 17).
+- **A stable C ABI that fully works from C.** The same core functionality is accessible from pure C through headers such as `arctixc/c_api/memory.h` and `arctixc/c_api/thread.h`, including NULL-safe handles. C consumers link `arctixc_c.lib` and ship `arctixc_c.dll`.
 - **Embedded version information.** The DLL includes ProductName, ProductVersion, CompanyName, and copyright information in its Windows VERSIONINFO resource. The version is defined once in CMake and automatically propagated to the headers and DLL.
 - **Complete API documentation.** `ArctixC/Documentation.html` is a standalone, offline manual documenting all 121 functions with their signatures, arguments, return values, example calls, and explanations. It also includes a searchable index.
 
@@ -199,19 +199,20 @@ ArctixC version, add `ArctixC/include` to your include path and link
 
 ## Dependencies
 
-### Just using ArctixC (prebuilt `arctixc.dll` + `arctixc.lib`)
+### Just using ArctixC (prebuilt DLLs + import libs)
 
 Nothing. No installer, no package manager, no third-party libraries:
 
-- The DLL links only against Windows system libraries, so there is nothing to install on the target machine.
-- Copy `arctixc.dll` next to your `.exe`, add `ArctixC/include` to your include path, link `arctixc.lib` — done.
+- Each DLL links only against Windows system libraries, so there is nothing to install on the target machine.
+- C++: copy `arctixc.dll` next to your `.exe`, add `ArctixC/include` to your include path, link `arctixc.lib` — done.
+- C: copy `arctixc_c.dll` next to your `.exe`, add `ArctixC/include` to your include path, link `arctixc_c.lib`, include `arctixc/c_api/memory.h` / `arctixc/c_api/thread.h` from pure C — done.
 
 ### Compiling ArctixC from source
 
 - **Windows 10/11** with **MSVC** (Visual Studio 2022 or newer, "Desktop development with C++" workload). The virtual-memory layer also has a POSIX backend, but the tested build target is Windows + MSVC.
 - **CMake 3.20 or newer** (the copy bundled with Visual Studio works).
 - **Ninja** (ships with the Visual Studio CMake install — `build.ps1` sets it up automatically).
-- A compiler with **C++17** support (any recent MSVC has it).
+- A compiler with **C++17, C++20, or C++23** support (any recent MSVC has all three; pick with `-CppStandard 17|20|23` / `-DARCTIXC_CXX_STANDARD=`).
 
 Then build with a single command (see below).
 
@@ -229,25 +230,26 @@ powershell -ExecutionPolicy Bypass -File ArctixC/build.ps1
 
 This script configures CMake, builds the Release configuration, and runs the test suite.
 
-Build outputs are placed in `ArctixC/build/`, including:
+Build outputs are placed in `ArctixC/build/` (same folder for both), including:
 
-- `arctixc.dll`
-- `arctixc.lib`
-- Test binaries
-- Four runnable examples
+- `arctixc.dll` + `arctixc.lib` (C++)
+- `arctixc_c.dll` + `arctixc_c.lib` (C)
+- Test binaries (each suite built twice: `ArctixC_*Tests.exe` for C++, `ArctixC_C_*Tests.exe` + `ArctixC_CApiTests.exe` for C)
+- Five runnable examples (four C++, one pure-C `Example_CApiDemo.exe`)
 
-Pass `-NoTests` to skip the test run.
+Pass `-NoTests` to skip the test run. Pass `-CppStandard 20` or `-CppStandard 23` for newer C++ (default 17).
 
 ## Tests
 
-ArctixC currently includes four test suites, executed through CTest:
+ArctixC test suites run twice through CTest — once per DLL:
 
-- **MemoryTests** — memory-related functionality.
-- **ThreadTests** — thread and thread-pool functionality.
-- **ExtendedTests** — buffers, virtual memory, memory pools, and parallel loops.
-- **CApiCheckBuild** — verifies that the C ABI headers compile as actual C, not just C++.
+- **MemoryTests / C_MemoryTests** — memory-related functionality (C++ DLL / C DLL).
+- **ThreadTests / C_ThreadTests** — thread and thread-pool functionality.
+- **ExtendedTests / C_ExtendedTests** — buffers, virtual memory, memory pools, and parallel loops. The C DLL ships its own extended-tests exe too.
+- **CApiCheckBuild** — verifies that the C ABI headers compile as actual C, not just C++ (links the C DLL).
+- **CApiTests** — pure-C end-to-end runner (allocator, pool, buffer, virtual pages, thread, pool) against `arctixc_c.dll`.
 
-The `ArctixC/examples/` directory also contains four runnable examples, covering the library's main areas.
+The `ArctixC/examples/` directory contains four C++ examples plus one pure-C demo (`Example_CApiDemo.exe`, links `arctixc_c.lib`).
 
 ## Project Structure
 
@@ -256,9 +258,9 @@ Arctix/
   ArctixC/                  The SDK — implemented and tested
     include/arctixc/        Public headers (Core, Memory, Buffer, Thread, C ABI)
     src/                    Implementation (not included directly)
-    tests/                  The four CTest suites
-    examples/               Four runnable examples
-    resources/              Windows VERSIONINFO template for arctixc.dll
+    tests/                  CTest suites (each runs against both DLLs, plus pure-C CApiTests)
+    examples/               Four C++ examples + one pure-C demo
+    resources/              Windows VERSIONINFO template (one copy per DLL: arctixc.dll + arctixc_c.dll)
     cmake/                  CMake package config template (find_package support)
     Documentation.html      Complete offline manual: 121 functions
     Documentation.md        Markdown version of the manual
@@ -291,7 +293,7 @@ This keeps the version consistent across the project and makes version updates a
 
 ## Project Status
 
-**ArctixC 0.1.1** is built, tested, and documented, with all four test suites currently passing.
+**ArctixC 0.2.0** is built, tested, and documented, with every suite passing against both DLLs.
 
 The companion projects are at different stages of development:
 

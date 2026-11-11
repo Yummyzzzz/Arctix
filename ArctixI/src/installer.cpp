@@ -366,7 +366,7 @@ void SetPage(Page p) {
     };
     static const wchar_t* bodies[] = {
         L"This wizard installs Arctix on your machine:\n\n"
-        L"- the compiled ArctixC SDK (arctixc.dll, .lib, .exp) plus its test programs under dependencies\\\n"
+        L"- the compiled ArctixC SDK (arctixc.dll + arctixc_c.dll, .lib, .exp) plus test programs under dependencies\\\n"
         L"- the arctix command-line helper and uninstall.exe\n"
         L"- an empty temp\\ folder for future scratch files\n\n"
         L"By Whitepoint Software Development - Yummyzzzz.",
@@ -399,7 +399,7 @@ void SetPage(Page p) {
         std::wstring info =
             L"This will be installed into\r\n" + g_s.dir +
             L":\r\n\r\n- arctix.exe, uninstall.exe, LICENSE.md\r\n"
-            L"- dependencies\\: arctixc.dll, arctixc.lib, arctixc.exp,\r\n"
+            L"- dependencies\\: arctixc.dll, arctixc_c.dll, .lib, .exp,\r\n"
             L"  test programs and examples\r\n- temp\\: empty scratch folder\r\n\r\n"
             L"Plus registry entries (HKLM\\SOFTWARE\\Arctix and\r\n"
             L"Add/Remove Programs).";

@@ -11,4 +11,4 @@ The `.html` file is the single source of truth. After editing it, regenerate the
 node ArctixC/generate-docs-md.js
 ```
 
-Build: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (from the `Arctix/` root). Output: single `arctixc.dll` + `arctixc.lib` in `ArctixC/build/`.
+Build: `powershell -ExecutionPolicy Bypass -File ArctixC\build.ps1` (from the `Arctix/` root). Output in `ArctixC/build/`: `arctixc.dll` + `arctixc.lib` (C++) and `arctixc_c.dll` + `arctixc_c.lib` (C). Append `-CppStandard 20` or `-CppStandard 23` for C++20/C++23 (default C++17).
