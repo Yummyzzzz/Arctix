@@ -113,6 +113,46 @@ if (-not $NoTests) {
     }
 }
 
+# ---------------------------------------------------------------------------
+# sdk/ staging (repo root): everything a consumer needs, split by flavor.
+# Copies only - nothing inside ArctixC/ is moved or deleted.
+#   sdk/cpp/      C++ flavor: arctixc.hpp (+ arctixc_all.hpp), .lib, .dll, static .lib
+#   sdk/c/        C flavor:   arctixc_c.h, .lib, .dll
+#   sdk/tests/    all test runners + both DLLs (so they run standalone)
+#   sdk/examples/ all example exes + both DLLs
+# ---------------------------------------------------------------------------
+$SdkDir = Join-Path (Split-Path -Parent $Root) "sdk"
+foreach ($d in @("cpp", "c", "tests", "examples")) {
+    $p = Join-Path $SdkDir $d
+    if (-not (Test-Path $p)) { New-Item -ItemType Directory -Path $p | Out-Null }
+}
+function Copy-Artifact($name, $destSub) {
+    $found = Get-ChildItem -Path $BuildDir -Recurse -Filter $name -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($found) { Copy-Item $found.FullName (Join-Path $SdkDir $destSub) -Force }
+    else { Write-Host ("WARNING: sdk staging skipped, not found: " + $name) -ForegroundColor Yellow }
+}
+# C++ flavor
+Copy-Artifact "arctixc.hpp" "cpp"
+Copy-Artifact "arctixc_all.hpp" "cpp"
+Copy-Artifact "arctixc.lib" "cpp"
+Copy-Artifact "arctixc.dll" "cpp"
+Copy-Artifact "arctixc_static.lib" "cpp"
+# C flavor
+Copy-Artifact "arctixc_c.h" "c"
+Copy-Artifact "arctixc_c.lib" "c"
+Copy-Artifact "arctixc_c.dll" "c"
+# DLLs next to the runners so they execute standalone.
+Copy-Artifact "arctixc.dll" "tests"
+Copy-Artifact "arctixc_c.dll" "tests"
+Copy-Artifact "arctixc.dll" "examples"
+Copy-Artifact "arctixc_c.dll" "examples"
+Get-ChildItem -Path $BuildDir -Recurse -Include "ArctixC_*.exe", "Example_*.exe" -ErrorAction SilentlyContinue |
+    ForEach-Object {
+        if ($_.Name -like "Example_*") { Copy-Item $_.FullName (Join-Path $SdkDir "examples") -Force }
+        else { Copy-Item $_.FullName (Join-Path $SdkDir "tests") -Force }
+    }
+Write-Host ("sdk/ staged at " + $SdkDir) -ForegroundColor Green
+
 Write-Host ""
 Write-Host "OK: ArctixC build complete (C++$CppStandard)." -ForegroundColor Green
 Write-Host "Ship arctixc.dll + arctixc.lib (C++) and arctixc_c.dll + arctixc_c.lib (C) + include/arctixc/."

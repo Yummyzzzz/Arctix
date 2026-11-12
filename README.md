@@ -269,7 +269,7 @@ Arctix/
     build.ps1               Configure, build, and test in one step
 
   ArctixI/                  Setup wizard (arctixi.exe), arctix helper, uninstall.exe
-  ArctixCLI/                Planned: command-line front-end and benchmarks
+  ArctixCLI/                Interactive shell (ArctixCLI.exe) with built-in arctix commands + benchmarks
   ArctixS/                  Planned: graphical workspace and statistics viewer
 ```
 
@@ -298,7 +298,7 @@ This keeps the version consistent across the project and makes version updates a
 The companion projects are at different stages of development:
 
 - **ArctixI** — setup wizard installing SDK binaries, the `arctix` command and the uninstaller.
-- **ArctixCLI** — planned command-line front-end and benchmarking tools.
+- **ArctixCLI** — interactive `arctix>` shell with built-in commands (`version`, `bench`, `check`, `init`, …) and one-shot mode for CI.
 - **ArctixS** — planned graphical workspace and statistics viewer.
 
 These are planned companion projects. Each is intended to use ArctixC as its library rather than reimplementing its systems functionality.

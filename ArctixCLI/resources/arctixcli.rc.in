@@ -1,0 +1,30 @@
+#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION @ARCTIXCLI_VERSION_MAJOR@,@ARCTIXCLI_VERSION_MINOR@,@ARCTIXCLI_VERSION_PATCH@,0
+  PRODUCTVERSION @ARCTIXCLI_VERSION_MAJOR@,@ARCTIXCLI_VERSION_MINOR@,@ARCTIXCLI_VERSION_PATCH@,0
+  FILEFLAGSMASK 0x3fL
+  FILEFLAGS 0x0L
+  FILEOS 0x40004L
+  FILETYPE 0x1L
+  FILESUBTYPE 0x0L
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "CompanyName", "Whitepoint Software Development"
+      VALUE "FileDescription", "ArctixCLI interactive command shell (built-in arctix commands)"
+      VALUE "FileVersion", "@ARCTIXCLI_VERSION_STRING@"
+      VALUE "InternalName", "ArctixCLI"
+      VALUE "LegalCopyright", "(c) 2026 Yummyzzzz (Whitepoint Software Development)"
+      VALUE "OriginalFilename", "ArctixCLI.exe"
+      VALUE "ProductName", "ArctixCLI.exe"
+      VALUE "ProductVersion", "@ARCTIXCLI_VERSION_STRING@"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

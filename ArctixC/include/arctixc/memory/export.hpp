@@ -8,8 +8,13 @@
 // the build and dllimport for SDK consumers that link arctixc.lib (C++)
 // or arctixc_c.lib (C).
 
+// Static linking: define ARCTIXC_STATIC (done automatically when linking
+// the ArctixC_Static CMake target) and all API macros expand to nothing.
+// No .lib import stubs, no .dll at runtime.
 #ifdef _WIN32
-    #ifdef ARCTIXC_MEMORY_BUILD
+    #if defined(ARCTIXC_STATIC)
+        #define ARCTIXC_MEMORY_API
+    #elif defined(ARCTIXC_MEMORY_BUILD)
         #define ARCTIXC_MEMORY_API __declspec(dllexport)
     #else
         #define ARCTIXC_MEMORY_API __declspec(dllimport)

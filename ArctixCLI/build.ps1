@@ -2,11 +2,12 @@ $ErrorActionPreference = "Stop"
 
 # ArctixCLI build script -> produces ArctixCLI.exe.
 #
-# Status in this task: ArctixCLI is a DOCUMENTATION PLACEHOLDER. Its real
-# implementation is out of scope, so this script builds it only once a real
-# CMake target exists. If CMakeLists.txt already defines a project, a normal
-# Release build runs; otherwise the script reports the placeholder status
-# and exits 0 without failing.
+# Configures + builds ArctixCLI (Release, cmd-style interactive shell
+# with built-in arctix commands only). The SDK (arctixc.dll) is pulled
+# in from ../ArctixC sources and copied next to the exe automatically.
+#
+# Usage:
+#   powershell -ExecutionPolicy Bypass -File ArctixCLI\build.ps1
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $BuildDir = Join-Path $Root "build"
@@ -40,21 +41,14 @@ function Ensure-Msvc {
             }
         }
         Remove-Item $tmp -ErrorAction SilentlyContinue
+    } else {
+        Write-Host "WARNING: vcvars64.bat not found at $vcvars" -ForegroundColor Yellow
+    }
+    if (-not (Get-Command cl.exe -ErrorAction SilentlyContinue)) {
+        Write-Host "WARNING: cl.exe still not on PATH" -ForegroundColor Yellow
     }
 }
 Ensure-Msvc
-
-$cmakeLists = Join-Path $Root "CMakeLists.txt"
-$hasProject = $false
-if (Test-Path $cmakeLists) {
-    $hasProject = (Select-String -Path $cmakeLists -Pattern "^\s*project\s*\(" -Quiet) -eq $true
-}
-
-if (-not $hasProject) {
-    Write-Host "ArctixCLI is a documentation placeholder in this task - nothing to build yet." -ForegroundColor Yellow
-    Write-Host "Real implementation will produce ArctixCLI.exe (CLI front-end over arctixc.dll targets)."
-    exit 0
-}
 
 if (-not (Test-Path (Join-Path $BuildDir "build.ninja"))) {
     Write-Host "Configuring ArctixCLI (CMake + Ninja, Release) ..."
@@ -70,8 +64,9 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $exe = Get-ChildItem -Path $BuildDir -Recurse -Filter "ArctixCLI.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
 if (-not $exe) {
-    Write-Host "Build finished but ArctixCLI.exe was not found in $BuildDir" -ForegroundColor Yellow
+    Write-Host "Build finished but ArctixCLI.exe was not found in $BuildDir" -ForegroundColor Red
     exit 1
 }
 Write-Host ""
 Write-Host ("OK: " + $exe.FullName) -ForegroundColor Green
+Write-Host "Ship ArctixCLI.exe with arctixc.dll next to it."

@@ -13,8 +13,13 @@
 // macros therefore always agree (all dllexport in the DLL, all dllimport
 // for consumers); they are kept separate so headers stay self-describing.
 
+// Static linking: define ARCTIXC_STATIC (done automatically when linking
+// the ArctixC_Static CMake target) and all API macros expand to nothing.
+// No .lib import stubs, no .dll at runtime.
 #ifdef _WIN32
-    #ifdef ARCTIXC_CORE_BUILD
+    #if defined(ARCTIXC_STATIC)
+        #define ARCTIXC_CORE_API
+    #elif defined(ARCTIXC_CORE_BUILD)
         #define ARCTIXC_CORE_API __declspec(dllexport)
     #else
         #define ARCTIXC_CORE_API __declspec(dllimport)
