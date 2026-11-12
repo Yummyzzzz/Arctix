@@ -70,7 +70,19 @@ void* Allocator::Allocate(std::size_t size, std::size_t alignment)
     void* pointer = platform::AlignedAlloc(size, effectiveAlignment, &usableSize);
     if (pointer != nullptr)
     {
-        impl_->manager.Register(pointer, usableSize);
+        // Register() inserts into an allocating container AFTER the OS
+        // memory is already held. If that tracking allocation throws,
+        // free the OS pointer (rollback) and report failure instead of
+        // leaking the block and letting the exception escape.
+        try
+        {
+            impl_->manager.Register(pointer, usableSize);
+        }
+        catch (...)
+        {
+            platform::AlignedFree(pointer);
+            return nullptr;
+        }
     }
     return pointer;
 }

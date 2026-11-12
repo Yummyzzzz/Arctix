@@ -8,6 +8,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdio>
+#include <limits>
 
 static int g_failures = 0;
 
@@ -109,6 +110,41 @@ static void TestMemoryPool()
     pool.Destroy();
     CHECK(!pool.IsCreated());
     pool.Destroy(); // double destroy safe
+
+    // Hardening: hostile frees are rejected, never corrupt the pool.
+    arctix::Memory::MemoryPool hard;
+    CHECK(hard.Create(64, 4));
+    void* h[4] = {};
+    for (int i = 0; i < 4; ++i)
+    {
+        h[i] = hard.Allocate();
+        CHECK(h[i] != nullptr);
+    }
+    CHECK(hard.UsedCount() == 4);
+    hard.Free(h[0]);
+    CHECK(hard.UsedCount() == 3 && hard.FreeCount() == 1);
+    hard.Free(h[0]); // double-free: rejected, counts unchanged
+    CHECK(hard.UsedCount() == 3 && hard.FreeCount() == 1);
+    int foreign = 0;
+    hard.Free(&foreign); // foreign stack pointer: rejected
+    CHECK(hard.UsedCount() == 3 && hard.FreeCount() == 1);
+    hard.Free(static_cast<char*>(h[1]) + 1); // interior pointer: rejected
+    CHECK(hard.UsedCount() == 3 && hard.FreeCount() == 1);
+    for (int i = 1; i < 4; ++i)
+    {
+        hard.Free(h[i]);
+    }
+    hard.Free(h[0]); // already home: rejected, no wrap-around
+    CHECK(hard.UsedCount() == 0 && hard.FreeCount() == 4);
+    hard.Destroy();
+
+    // Overflow: size math that would wrap must fail, leaving no half-state.
+    arctix::Memory::MemoryPool big;
+    constexpr std::size_t kMax = (std::numeric_limits<std::size_t>::max)();
+    CHECK(!big.Create(kMax, 2));
+    CHECK(!big.Create(kMax, kMax));
+    CHECK(!big.Create(32, kMax / 16));
+    CHECK(!big.IsCreated());
 }
 
 static void TestCApi()
