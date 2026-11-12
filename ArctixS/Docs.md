@@ -1,8 +1,8 @@
-# ArctixS — Docs
+# ArctixS - Docs
 
 **Component:** ArctixS (Arctix Studio, produces `ArctixS.exe` when implemented)
 **Developer:** Whitepoint Software Development (independent team, not a registered company or legal entity) - **Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
-**Status:** Planned — documentation placeholder. Not implemented in this task; ArctixC is the active component.
+**Status:** Planned - documentation placeholder. Not implemented in this task; ArctixC is the active component.
 
 ## Purpose
 

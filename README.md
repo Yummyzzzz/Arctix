@@ -1,8 +1,8 @@
-# Arctix — Two DLLs for Memory, Buffers, Virtual Memory, and Threads
+# Arctix - Two DLLs for Memory, Buffers, Virtual Memory, and Threads
 
 **Arctix** is a C/C++ systems toolkit designed to bring several essential low-level utilities together in one library.
 
-Its core library, **ArctixC**, ships as two standalone DLLs built from the same sources into the same folder: `arctixc.dll` for C++ and `arctixc_c.dll` for C, each with its import library (`arctixc.lib` / `arctixc_c.lib`) plus the public headers. Same namespace (`arctix::`), same headers, same behavior — only the binary you link differs. Link one import library, ship its DLL, and gain access to aligned memory allocation with statistics, O(1) memory pools, owning byte buffers, direct operating-system virtual memory control, and multithreading utilities — including a FIFO thread pool without work stealing.
+Its core library, **ArctixC**, ships as two standalone DLLs built from the same sources into the same folder: `arctixc.dll` for C++ and `arctixc_c.dll` for C, each with its import library (`arctixc.lib` / `arctixc_c.lib`) plus the public headers. Same namespace (`arctix::`), same headers, same behavior - only the binary you link differs. Link one import library, ship its DLL, and gain access to aligned memory allocation with statistics, O(1) memory pools, owning byte buffers, direct operating-system virtual memory control, and multithreading utilities - including a FIFO thread pool without work stealing.
 
 If you have ever needed multiple small libraries just to allocate aligned memory, manage byte data, and run tasks on threads, ArctixC brings those capabilities together in one tested library.
 
@@ -13,8 +13,8 @@ By downloading or using Arctix, you automatically accept the **Arctix License**.
 
 ## What You Get
 
-- **Two standalone DLLs, one for each language — plus a static lib.** `arctixc.dll` (currently version 0.2.0) carries the C++ API; `arctixc_c.dll` carries the same implementation plus the C ABI. Both are built from the same sources into the same folder. Link `arctixc.lib` for C++ or `arctixc_c.lib` for C. Prefer a single `.exe` with no DLL to ship? Link `arctixc_static.lib` instead (see "Using ArctixC in your project" below).
-- **One-header option, no include tree needed.** `sdk/cpp/arctixc.hpp` (C++ only), `sdk/cpp/arctixc_all.hpp` (C++ + C ABI), and `sdk/c/arctixc_c.h` (pure-C safe) are generated from the same headers on every build. Drop in one file plus the matching `.lib` / `.dll` — you never need the whole `ArctixC/include/` tree in your own project.
+- **Two standalone DLLs, one for each language - plus a static lib.** `arctixc.dll` (currently version 0.2.0) carries the C++ API; `arctixc_c.dll` carries the same implementation plus the C ABI. Both are built from the same sources into the same folder. Link `arctixc.lib` for C++ or `arctixc_c.lib` for C. Prefer a single `.exe` with no DLL to ship? Link `arctixc_static.lib` instead (see "Using ArctixC in your project" below).
+- **One-header option, no include tree needed.** `sdk/cpp/arctixc.hpp` (C++ only), `sdk/cpp/arctixc_all.hpp` (C++ + C ABI), and `sdk/c/arctixc_c.h` (pure-C safe) are generated from the same headers on every build. Drop in one file plus the matching `.lib` / `.dll` - you never need the whole `ArctixC/include/` tree in your own project.
 - **A ready-to-copy `sdk/` folder.** After every `ArctixC/build.ps1` run: `sdk/cpp/` (headers + `arctixc.lib` + `arctixc.dll` + `arctixc_static.lib`), `sdk/c/` (`arctixc_c.h` + `arctixc_c.lib` + `arctixc_c.dll`), `sdk/tests/` and `sdk/examples/` (runnable, DLLs already beside them).
 - **A modern, namespaced C++ API.** Functions follow a consistent structure, such as `arctix::Memory::Allocator::Allocate` and `arctix::Thread::ParallelFor`. Compiles under **C++17, C++20 and C++23** (`-DARCTIXC_CXX_STANDARD=17|20|23`, default 17).
 - **A stable C ABI that fully works from C.** The same core functionality is accessible from pure C through headers such as `arctixc/c_api/memory.h` and `arctixc/c_api/thread.h`, including NULL-safe handles. C consumers link `arctixc_c.lib` and ship `arctixc_c.dll`.
@@ -35,7 +35,7 @@ By downloading or using Arctix, you automatically accept the **Arctix License**.
 | Thread pool | `arctix::Thread::ThreadPool` | FIFO task execution, WaitIdle, per-task exception counts, and `ParallelFor` |
 | C ABI | `Arctix_*` / `ArctixC_*` | Core functionality for C consumers |
 
-## Quick Start — C++
+## Quick Start - C++
 
 ```cpp
 #include <arctixc/memory/allocator.hpp>
@@ -66,7 +66,7 @@ pool.WaitIdle();
 pool.Shutdown();
 ```
 
-## Quick Start — Pure C
+## Quick Start - Pure C
 
 ```c
 #include <arctixc/c_api/memory.h>
@@ -79,12 +79,12 @@ Arctix_Free(a, p);
 Arctix_DestroyAllocator(a);
 ```
 
-## Pure C++ vs. C++ with ArctixC — Full Example
+## Pure C++ vs. C++ with ArctixC - Full Example
 
 The same task both ways: build four 1 MB chunks, hash each chunk on a
 worker, and print the combined fingerprint. First the plain C++ version
 using only the standard library, then the same program with ArctixC.
-Both files are complete — includes to `main()` — and print the same result.
+Both files are complete - includes to `main()` - and print the same result.
 
 Pure C++ (standard library only):
 
@@ -126,7 +126,7 @@ int main() {
     for (auto h : hashes) { fingerprint ^= h; fingerprint *= 1099511628211ULL; }
     std::printf("fingerprint: %llu\n", (unsigned long long)fingerprint);
 
-    // 4. Manual cleanup — every new[] needs its delete[].
+    // 4. Manual cleanup - every new[] needs its delete[].
     for (auto* c : chunks) delete[] c;
     return 0;
 }
@@ -170,7 +170,7 @@ int main() {
         for (std::size_t i = 0; i < kSize; ++i) c[i] = static_cast<std::uint8_t>(i & 0xFF);
     }
 
-    // 2. One pool hashes all four chunks — workers stay alive, no re-spawn.
+    // 2. One pool hashes all four chunks - workers stay alive, no re-spawn.
     arctix::Thread::ThreadPool pool(4);
     std::uint64_t hashes[kChunks] = {};
     HashJob jobs[kChunks];
@@ -203,58 +203,58 @@ ArctixC version, add `ArctixC/include` to your include path and link
 
 ### Using ArctixC in your project (pick one flavor)
 
-Nothing to install. No package manager, no third-party libraries — each binary links only against Windows system libraries. The only choice you make is **how the library ships with your `.exe`**. All files below come from `sdk/` (regenerated by `ArctixC/build.ps1`).
+Nothing to install. No package manager, no third-party libraries - each binary links only against Windows system libraries. The only choice you make is **how the library ships with your `.exe`**. All files below come from `sdk/` (regenerated by `ArctixC/build.ps1`).
 
-**You have two `.lib` files in `sdk/cpp/` — they are NOT the same:**
+**You have two `.lib` files in `sdk/cpp/` - they are NOT the same:**
 
-- `arctixc.lib` is an **import library** (a few KB of stubs). It contains no code — it just forwards calls to `arctixc.dll` at runtime. Link it = you must also ship the DLL.
+- `arctixc.lib` is an **import library** (a few KB of stubs). It contains no code - it just forwards calls to `arctixc.dll` at runtime. Link it = you must also ship the DLL.
 - `arctixc_static.lib` is a **static library** (the full compiled code). Link it = everything is baked into your `.exe`, no DLL needed.
 
-**Option A — Static (simplest: one `.exe`, nothing to ship).**
+**Option A - Static (simplest: one `.exe`, nothing to ship).**
 
 1. Copy `sdk/cpp/arctixc_all.hpp` (or `arctixc.hpp` for C++-only) into your project.
 2. Link `sdk/cpp/arctixc_static.lib`.
-3. Define `ARCTIXC_STATIC` (Project Properties → C/C++ → Preprocessor, or `target_compile_definitions(myapp PRIVATE ARCTIXC_STATIC)` in CMake). This switches the API macros from `dllimport` to nothing — forget this and you get unresolved externals.
+3. Define `ARCTIXC_STATIC` (Project Properties → C/C++ → Preprocessor, or `target_compile_definitions(myapp PRIVATE ARCTIXC_STATIC)` in CMake). This switches the API macros from `dllimport` to nothing - forget this and you get unresolved externals.
 4. `#include "arctixc_all.hpp"` and build. Ship just your `.exe`.
 
 ```cmake
-# CMake — static
+# CMake - static
 add_executable(myapp main.cpp)
 target_sources(myapp PRIVATE path/to/arctixc_all.hpp)
 target_link_libraries(myapp PRIVATE path/to/arctixc_static.lib)
 target_compile_definitions(myapp PRIVATE ARCTIXC_STATIC)
-# Note: arctixc_static.lib uses /MT — build your exe with /MT too
+# Note: arctixc_static.lib uses /MT - build your exe with /MT too
 # (MultiThreaded), or you get LNK2038 mismatches.
 ```
 
-**Option B — DLL (shared, hot-swappable).**
+**Option B - DLL (shared, hot-swappable).**
 
 1. Copy `sdk/cpp/arctixc_all.hpp` (or `arctixc.hpp`) into your project.
-2. Link `sdk/cpp/arctixc.lib` — do **not** define `ARCTIXC_STATIC` (default = `dllimport`).
-3. Copy `sdk/cpp/arctixc.dll` next to your built `.exe` (same folder — Windows will not find it in `sdk/cpp/` at runtime).
+2. Link `sdk/cpp/arctixc.lib` - do **not** define `ARCTIXC_STATIC` (default = `dllimport`).
+3. Copy `sdk/cpp/arctixc.dll` next to your built `.exe` (same folder - Windows will not find it in `sdk/cpp/` at runtime).
 4. `#include "arctixc_all.hpp"` and build. Ship your `.exe` + `arctixc.dll`.
 
 ```cmake
-# CMake — DLL
+# CMake - DLL
 add_executable(myapp main.cpp)
 target_sources(myapp PRIVATE path/to/arctixc_all.hpp)
 target_link_libraries(myapp PRIVATE path/to/arctixc.lib)
 # After build: copy path/to/arctixc.dll next to myapp.exe
 ```
 
-**Pure C projects — DLL only.**
+**Pure C projects - DLL only.**
 
-1. Copy `sdk/c/arctixc_c.h` into your project (compiles as real C — verified with `cl /TC`).
+1. Copy `sdk/c/arctixc_c.h` into your project (compiles as real C - verified with `cl /TC`).
 2. Link `sdk/c/arctixc_c.lib`, `#include "arctixc_c.h"`.
-3. Copy `sdk/c/arctixc_c.dll` next to your `.exe` and ship both. There is no static C lib — C++ static covers mixed use via `arctixc_all.hpp`.
+3. Copy `sdk/c/arctixc_c.dll` next to your `.exe` and ship both. There is no static C lib - C++ static covers mixed use via `arctixc_all.hpp`.
 
-**How to tell it worked:** run `dumpbin /dependents myapp.exe` — static shows only `KERNEL32.dll` (no `arctixc*.dll`); DLL shows `arctixc.dll` / `arctixc_c.dll`. If Windows reports the DLL missing at launch, it is a staging problem (step 3), not a link problem. If you get `LNK2019 __imp_*` errors, you mixed the flavors (e.g. `ARCTIXC_STATIC` defined while linking `arctixc.lib`, or vice versa).
+**How to tell it worked:** run `dumpbin /dependents myapp.exe` - static shows only `KERNEL32.dll` (no `arctixc*.dll`); DLL shows `arctixc.dll` / `arctixc_c.dll`. If Windows reports the DLL missing at launch, it is a staging problem (step 3), not a link problem. If you get `LNK2019 __imp_*` errors, you mixed the flavors (e.g. `ARCTIXC_STATIC` defined while linking `arctixc.lib`, or vice versa).
 
 ### Compiling ArctixC from source
 
 - **Windows 10/11** with **MSVC** (Visual Studio 2022 or newer, "Desktop development with C++" workload). The virtual-memory layer also has a POSIX backend, but the tested build target is Windows + MSVC.
 - **CMake 3.20 or newer** (the copy bundled with Visual Studio works).
-- **Ninja** (ships with the Visual Studio CMake install — `build.ps1` sets it up automatically).
+- **Ninja** (ships with the Visual Studio CMake install - `build.ps1` sets it up automatically).
 - A compiler with **C++17, C++20, or C++23** support (any recent MSVC has all three; pick with `-CppStandard 17|20|23` / `-DARCTIXC_CXX_STANDARD=`).
 
 Then build with a single command (see below).
@@ -284,13 +284,13 @@ Pass `-NoTests` to skip the test run. Pass `-CppStandard 20` or `-CppStandard 23
 
 ## Tests
 
-ArctixC test suites run twice through CTest — once per DLL:
+ArctixC test suites run twice through CTest - once per DLL:
 
-- **MemoryTests / C_MemoryTests** — memory-related functionality (C++ DLL / C DLL).
-- **ThreadTests / C_ThreadTests** — thread and thread-pool functionality.
-- **ExtendedTests / C_ExtendedTests** — buffers, virtual memory, memory pools, and parallel loops. The C DLL ships its own extended-tests exe too.
-- **CApiCheckBuild** — verifies that the C ABI headers compile as actual C, not just C++ (links the C DLL).
-- **CApiTests** — pure-C end-to-end runner (allocator, pool, buffer, virtual pages, thread, pool) against `arctixc_c.dll`.
+- **MemoryTests / C_MemoryTests** - memory-related functionality (C++ DLL / C DLL).
+- **ThreadTests / C_ThreadTests** - thread and thread-pool functionality.
+- **ExtendedTests / C_ExtendedTests** - buffers, virtual memory, memory pools, and parallel loops. The C DLL ships its own extended-tests exe too.
+- **CApiCheckBuild** - verifies that the C ABI headers compile as actual C, not just C++ (links the C DLL).
+- **CApiTests** - pure-C end-to-end runner (allocator, pool, buffer, virtual pages, thread, pool) against `arctixc_c.dll`.
 
 The `ArctixC/examples/` directory contains four C++ examples plus one pure-C demo (`Example_CApiDemo.exe`, links `arctixc_c.lib`).
 
@@ -298,7 +298,7 @@ The `ArctixC/examples/` directory contains four C++ examples plus one pure-C dem
 
 ```text
 Arctix/
-  ArctixC/                  The SDK — implemented and tested
+  ArctixC/                  The SDK - implemented and tested
     include/arctixc/        Public headers (Core, Memory, Buffer, Thread, C ABI)
     src/                    Implementation (not included directly)
     tests/                  CTest suites (each runs against both DLLs, plus pure-C CApiTests)
@@ -340,9 +340,9 @@ This keeps the version consistent across the project and makes version updates a
 
 The companion projects are at different stages of development:
 
-- **ArctixI** — setup wizard installing SDK binaries, the `arctix` command and the uninstaller.
-- **ArctixCLI** — interactive `arctix>` shell with built-in commands (`version`, `bench`, `check`, `init`, …) and one-shot mode for CI.
-- **ArctixS** — planned graphical workspace and statistics viewer.
+- **ArctixI** - setup wizard installing SDK binaries, the `arctix` command and the uninstaller.
+- **ArctixCLI** - interactive `arctix>` shell with built-in commands (`version`, `bench`, `check`, `init`, …) and one-shot mode for CI.
+- **ArctixS** - planned graphical workspace and statistics viewer.
 
 These are planned companion projects. Each is intended to use ArctixC as its library rather than reimplementing its systems functionality.
 
@@ -354,7 +354,7 @@ Arctix values its community and welcomes ideas, suggestions, improvements, revie
 
 **Credit and recognition are not guaranteed.** When a community suggestion influences a change, Arctix may mention in its changelogs that the idea or suggestion came from the community. However, individual attribution is not guaranteed. The original community member's name may not be mentioned in the changelog or credited elsewhere directly.
 
-Arctix genuinely appreciates people who take the time to share ideas, suggest improvements, provide feedback, and write reviews. Constructive feedback — especially practical improvements and thoughtful reviews — is highly valued.
+Arctix genuinely appreciates people who take the time to share ideas, suggest improvements, provide feedback, and write reviews. Constructive feedback - especially practical improvements and thoughtful reviews - is highly valued.
 
 **Contributors:** Arctix may introduce contributor recognition or other ways to acknowledge people who help with the project in the future. However, public contributions are not formally established yet, and there is currently no announced public contributor program. More information may be provided if this changes.
 

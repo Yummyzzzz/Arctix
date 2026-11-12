@@ -19,21 +19,21 @@ Append `-CppStandard 20` or `-CppStandard 23` to build with C++20/C++23
 
 ## Contents
 
-- `arctixc.dll` — the C++ SDK binary (arctix::Core/Memory/Buffer/Thread)
-- `arctixc.lib` — import library for the C++ DLL
-- `arctixc.exp` — export file produced alongside the C++ import library
-- `arctixc_c.dll` — the C SDK binary (same impl + `Arctix_*`/`ArctixC_*` C ABI)
-- `arctixc_c.lib` — import library for the C DLL (C consumers link this one)
-- `arctixc_c.exp` — export file produced alongside the C import library
+- `arctixc.dll` - the C++ SDK binary (arctix::Core/Memory/Buffer/Thread)
+- `arctixc.lib` - import library for the C++ DLL
+- `arctixc.exp` - export file produced alongside the C++ import library
+- `arctixc_c.dll` - the C SDK binary (same impl + `Arctix_*`/`ArctixC_*` C ABI)
+- `arctixc_c.lib` - import library for the C DLL (C consumers link this one)
+- `arctixc_c.exp` - export file produced alongside the C import library
 - `ArctixC_MemoryTests.exe`, `ArctixC_ThreadTests.exe`,
-  `ArctixC_ExtendedTests.exe` — test programs for the C++ DLL
+  `ArctixC_ExtendedTests.exe` - test programs for the C++ DLL
 - `ArctixC_C_MemoryTests.exe`, `ArctixC_C_ThreadTests.exe`,
-  `ArctixC_C_ExtendedTests.exe`, `ArctixC_CApiTests.exe` — test programs
+  `ArctixC_C_ExtendedTests.exe`, `ArctixC_CApiTests.exe` - test programs
   for the C DLL (the C DLL carries the full implementation too, plus the
   pure-C `CApiTests` runner)
 - `Example_MemoryOnly.exe`, `Example_ThreadOnly.exe`,
-  `Example_MemoryAndThread.exe`, `Example_Extended.exe` — C++ examples
-- `Example_CApiDemo.exe` — pure-C demo (links `arctixc_c.lib`)
+  `Example_MemoryAndThread.exe`, `Example_Extended.exe` - C++ examples
+- `Example_CApiDemo.exe` - pure-C demo (links `arctixc_c.lib`)
 
 Only the files in the installer list (`kDependencies` in
 `ArctixI/src/common.hpp`) are copied during setup. This README itself is

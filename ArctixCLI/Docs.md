@@ -1,4 +1,4 @@
-# ArctixCLI — Docs
+# ArctixCLI - Docs
 
 **Component:** ArctixCLI (produces `ArctixCLI.exe`)
 **Developer:** Whitepoint Software Development (independent team, not a registered company or legal entity) - **Author / Owner:** Yummyzzzz (https://github.com/Yummyzzzz)
@@ -9,7 +9,7 @@
 `ArctixCLI.exe` looks and feels like cmd (banner, `arctix>` prompt,
 `help`, `cls`, `echo`, `exit`) but understands **only arctix commands**.
 Every command is built into the exe and runs in-process against
-`arctixc.dll` — nothing shells out to PowerShell, and nothing depends on
+`arctixc.dll` - nothing shells out to PowerShell, and nothing depends on
 `PATH`. Ship `ArctixCLI.exe` with `arctixc.dll` next to it and it runs
 anywhere. Output is colored on a real console (cyan prompt and headings,
 green names and `[PASS]`, red errors); piped output, `NO_COLOR`, and
@@ -61,7 +61,7 @@ Shell - the shell itself.
 
 | Command | What it does |
 |---------|--------------|
-| `check` | Leak / exhaustion / checksum diagnostics. Exit code 1 on failure — CI-ready. |
+| `check` | Leak / exhaustion / checksum diagnostics. Exit code 1 on failure - CI-ready. |
 | `stress [--seconds S] [--threads N]` | Hammers allocator + pool + hash on worker threads, then proves outstanding bytes are zero. |
 | `sysinfo` / `info` | Machine facts (OS, page size, RAM, cores) plus SDK version and flavor. |
 | `leak <bytes> [count]` | Intentionally leaks blocks so you can watch the detector, then frees them. |
@@ -115,7 +115,7 @@ Unknown input is rejected cmd-style:
 
 ## Relationship to ArctixC
 
-ArctixCLI contains no allocator or thread logic itself — it consumes the
+ArctixCLI contains no allocator or thread logic itself - it consumes the
 ArctixC SDK from `../ArctixC` sources at build time and links only
 `ArctixC::ArctixC`. All behavior (`Allocator`, `MemoryPool`, `Buffer`,
 `ThreadPool`, `ParallelFor`, version queries) lives in `arctixc.dll`.
