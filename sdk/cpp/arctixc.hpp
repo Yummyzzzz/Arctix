@@ -116,7 +116,7 @@ extern "C"
 {
 #endif
 
-// Returns e.g. "0.1.1". Never returns NULL.
+// Returns e.g. "0.2.0". Never returns NULL.
 ARCTIXC_CORE_API const char* ArctixC_GetVersionString(void);
 
 // Writes major/minor/patch into the non-NULL out parameters.
@@ -727,6 +727,11 @@ ARCTIXC_THREAD_API unsigned int HardwareConcurrency();
 // void(*)(void*) worker signature as arctix::Thread::Thread, so thread code and
 // pool code share worker functions. Worker exceptions are caught at the
 // worker boundary and counted (see FailedTasks()); they never escape.
+//
+// Scheduling is plain FIFO from a single shared queue: every worker pops
+// the oldest queued task. There is deliberately no work stealing (no
+// per-worker deques, no task migration). Do not describe this pool as
+// work-stealing in docs, sites, or release notes.
 //
 // Lifecycle: construct (workers start) -> Submit() any number of tasks ->
 // WaitIdle() -> Shutdown() (or just destroy: the destructor shuts down

@@ -79,7 +79,8 @@ ARCTIXC_THREAD_API unsigned int ArctixC_ThreadHardwareConcurrency(void);
 
 // --- Thread pool ---
 //
-// Fixed worker pool over a FIFO queue. Create (workers start), Submit()
+// Fixed worker pool over a single shared FIFO queue (no work stealing).
+// Create (workers start), Submit()
 // tasks, ArctixC_PoolWaitIdle(), ArctixC_PoolShutdown() (or just destroy:
 // the destructor shuts down and joins). Worker exceptions are caught per
 // task and counted (see ArctixC_PoolFailedTasks). Passing NULL where a

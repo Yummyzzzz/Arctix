@@ -146,7 +146,7 @@ ARCTIXC_MEMORY_API int ArctixC_VirtualRelease(void* address, size_t size);
 ARCTIXC_MEMORY_API int ArctixC_VirtualProtect(void* address, size_t size, int protection);
 
 // --- Version ---
-// Returns e.g. "0.1.1". Never returns NULL.
+// Returns e.g. "0.2.0". Never returns NULL.
 ARCTIXC_MEMORY_API const char* Arctix_GetVersionString(void);
 
 #ifdef __cplusplus

@@ -9,6 +9,11 @@
 // pool code share worker functions. Worker exceptions are caught at the
 // worker boundary and counted (see FailedTasks()); they never escape.
 //
+// Scheduling is plain FIFO from a single shared queue: every worker pops
+// the oldest queued task. There is deliberately no work stealing (no
+// per-worker deques, no task migration). Do not describe this pool as
+// work-stealing in docs, sites, or release notes.
+//
 // Lifecycle: construct (workers start) -> Submit() any number of tasks ->
 // WaitIdle() -> Shutdown() (or just destroy: the destructor shuts down
 // and joins every worker; prefer an explicit Shutdown()).

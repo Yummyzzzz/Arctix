@@ -1,4 +1,4 @@
-// Example: tour of the v0.1.1 additions - Buffer, virtual memory,
+// Example: tour of the v0.2.0 additions - Buffer, virtual memory,
 // ThreadPool and ParallelFor, all from the single arctixc.dll.
 
 #include <arctixc/memory/buffer.hpp>
@@ -22,7 +22,7 @@ int main()
 {
     // Buffer: stage bytes, hash them, wipe them.
     arctix::Buffer::Buffer buf;
-    if (!buf.CopyFrom("ArctixC", 7) || !buf.Append(" v0.1.1", 7))
+    if (!buf.CopyFrom("ArctixC", 7) || !buf.Append(" v0.2.0", 7))
     {
         return 1;
     }

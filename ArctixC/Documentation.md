@@ -47,7 +47,7 @@ const char* arctix::Core::GetVersionString();
 
 Arguments: takes no arguments.
 
-Returns: const char* - e.g. "0.1.1". Never NULL.
+Returns: const char* - e.g. "0.2.0". Never NULL.
 
 Example call:
 ```cpp
@@ -1354,7 +1354,7 @@ Example call:
 arctix::Thread::ThreadPool pool(4);
 ```
 
-Explanation: Fixed FIFO pool: workers start in the ctor, drain the queue, and are joined by Shutdown()/the destructor. Never starts zero workers.
+Explanation: Fixed FIFO pool with no work stealing: workers start in the ctor, drain the single shared queue, and are joined by Shutdown()/the destructor. Never starts zero workers.
 
 ### arctix::Thread::ThreadPool::IsRunning
 
@@ -1413,7 +1413,7 @@ Example call:
 pool.Submit(Work, &job);
 ```
 
-Explanation: Enqueues one task; a worker picks it up FIFO. Same worker signature as Thread, so workers are reusable.
+Explanation: Enqueues one task; a worker picks it up FIFO from the shared queue (no work stealing). Same worker signature as Thread, so workers are reusable.
 
 ### arctix::Thread::ThreadPool::WaitIdle
 
@@ -1751,7 +1751,7 @@ const char* Arctix_GetVersionString(void);
 
 Arguments: takes no arguments.
 
-Returns: const char* - e.g. "0.1.1". Never NULL.
+Returns: const char* - e.g. "0.2.0". Never NULL.
 
 Example call:
 ```cpp

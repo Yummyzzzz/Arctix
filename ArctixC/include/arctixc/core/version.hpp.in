@@ -32,7 +32,7 @@ extern "C"
 {
 #endif
 
-// Returns e.g. "0.1.1". Never returns NULL.
+// Returns e.g. "0.2.0". Never returns NULL.
 ARCTIXC_CORE_API const char* ArctixC_GetVersionString(void);
 
 // Writes major/minor/patch into the non-NULL out parameters.

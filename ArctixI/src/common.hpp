@@ -9,6 +9,8 @@
 // wizard, the CLI and the uninstaller can never disagree with each other.
 
 #define ARCTIXI_VERSION "0.1.0"
+// Bundled ArctixC library version. Must match project(ArctixC VERSION ...)
+// in ArctixC/CMakeLists.txt - update both together on every SDK bump.
 #define ARCTIXC_VERSION "0.2.0"
 
 #define ARCTIX_COMPANY "Whitepoint Software Development"
