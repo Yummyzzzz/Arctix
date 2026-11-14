@@ -68,6 +68,8 @@ public:
     bool Equals(const Buffer& other) const;
 
     // FNV-1a 64-bit hash of the current contents (0 for empty buffer).
+    // Non-cryptographic: never use for password storage, cryptographic
+    // authentication, or security-sensitive integrity verification.
     std::uint64_t Checksum() const;
 
     // Uppercase hex string of the contents, two chars per byte.

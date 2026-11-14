@@ -82,6 +82,8 @@ Shell - the shell itself.
 | `hash <text...>` | FNV-1a 64-bit hash of text (same function the SDK uses). |
 | `hash-file <path>` | Streams a file through FNV-1a, prints hash plus byte count. |
 
+FNV-1a is non-cryptographic. Never use `hash` / `hash-file` output for password storage, cryptographic authentication, or security-sensitive integrity verification - they are checksums for change detection and diagnostics only.
+
 ### Threading
 
 | Command | What it does |

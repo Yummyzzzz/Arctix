@@ -109,7 +109,9 @@ ARCTIXC_MEMORY_API void Arctix_BufferClear(ArctixBufferHandle* handle);
 // Returns 1 when both buffers hold identical bytes, else 0.
 ARCTIXC_MEMORY_API int Arctix_BufferEquals(const ArctixBufferHandle* a, const ArctixBufferHandle* b);
 
-// FNV-1a 64-bit hash of contents (0 for NULL/empty).
+// FNV-1a 64-bit hash of contents (0 for NULL/empty). Non-cryptographic:
+// never use for password storage, cryptographic authentication, or
+// security-sensitive integrity verification.
 ARCTIXC_MEMORY_API unsigned long long Arctix_BufferChecksum(const ArctixBufferHandle* handle);
 
 // Raw bytes (valid until next mutating call), NULL when NULL/empty.

@@ -29,7 +29,7 @@ By downloading or using Arctix, you automatically accept the **Arctix License**.
 | Allocator | `arctix::Memory::Allocator` | Aligned allocation, statistics, and resettable counters |
 | Memory pool | `arctix::Memory::MemoryPool` | Fixed-size O(1) blocks for frequently used objects |
 | Buffer | `arctix::Buffer::Buffer` | Owning, resizable byte array with CopyFrom, Append, Resize, Checksum, and HexEncode |
-| Memory utilities | `arctix::Memory::` | `SecureZero`, `MemEqual`, and `Fnv1aHash64` (header-only) |
+| Memory utilities | `arctix::Memory::` | `SecureZero`, `MemEqual`, and `Fnv1aHash64` (header-only, non-cryptographic - not for passwords, auth, or security-sensitive integrity) |
 | Virtual memory | `arctix::Memory::` | Reserve, Commit, Decommit, Release, ProtectMemory, and page helpers |
 | Thread | `arctix::Thread::Thread` | Move-only thread with caught worker exceptions |
 | Thread pool | `arctix::Thread::ThreadPool` | FIFO task execution from a single shared queue (no work stealing), WaitIdle, per-task exception counts, and `ParallelFor` |
@@ -285,6 +285,8 @@ Then build with a single command (see below).
 
 ## Build From Source
 
+> **License note:** Compiling the source is permitted for verification on your own machine only - reproducing the official binaries and running the test suite to verify what you run. Binaries you build yourself are not licensed Components: do not integrate them into your projects, ship them, or distribute them. Use only official WSD releases as dependencies. See `LICENSE.md` (Section 4.4) and the WSD Universal Additional License (Section 4.1) at https://whitepoint.pages.dev/#copyright.
+
 **Requirements:** Windows with MSVC and CMake 3.20 or newer.
 
 The virtual-memory layer also includes a POSIX backend, but the tested build target is Windows with MSVC and Ninja, which is available through Visual Studio.
@@ -326,7 +328,7 @@ Benchmarks ship inside ArctixCLI - they measure this SDK on your machine, nothin
 |---|---|---|
 | `bench --size 256 --iters 100000` | `Allocator` alloc/free vs system `malloc`/`free` (single-threaded), then thread-pool task throughput | ops/s |
 | `bench-pool --size 64 --count 1024 --iters 200000` | `MemoryPool` alloc/free on a fixed pool | ops/s |
-| `bench-hash --size 4096 --iters 20000` | FNV-1a over a buffer, two passes per iteration | MB/s |
+| `bench-hash --size 4096 --iters 20000` | FNV-1a (non-cryptographic) over a buffer, two passes per iteration | MB/s |
 | `bench-scale --range 2000000` | Parallel-sum sweep across 1..N workers (N = core count, capped at 64) | ms + speedup vs 1 worker |
 
 Run them from the repo root after building (`ArctixC/build.ps1`, then build ArctixCLI):

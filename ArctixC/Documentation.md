@@ -762,7 +762,7 @@ Example call:
 uint64_t h = b.Checksum();
 ```
 
-Explanation: Fast non-cryptographic fingerprint for change detection, dedup keys and test assertions. Not a security hash.
+Explanation: Fast non-cryptographic fingerprint for change detection, dedup keys and test assertions. Not a security hash: never use for password storage, cryptographic authentication, or security-sensitive integrity verification.
 
 ### arctix::Buffer::Buffer::HexEncode
 
@@ -924,7 +924,7 @@ Example call:
 uint64_t h = arctix::Memory::Fnv1aHash64(p, n);
 ```
 
-Explanation: Fast non-cryptographic hash backing arctix::Buffer::Buffer::Checksum(). Header-only; good for hash tables and change detection.
+Explanation: Fast non-cryptographic hash backing arctix::Buffer::Buffer::Checksum(). Header-only; good for hash tables and change detection. Never use for password storage, cryptographic authentication, or security-sensitive integrity verification.
 
 ## Virtual Memory (8)
 
@@ -1963,7 +1963,7 @@ Example call:
 unsigned long long h = Arctix_BufferChecksum(b);
 ```
 
-Explanation: C mirror of arctix::Buffer::Buffer::Checksum.
+Explanation: C mirror of arctix::Buffer::Buffer::Checksum. Non-cryptographic: never use for password storage, cryptographic authentication, or security-sensitive integrity verification.
 
 ### Arctix_BufferData
 

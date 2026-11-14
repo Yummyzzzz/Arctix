@@ -323,6 +323,11 @@ inline bool MemEqual(const void* a, const void* b, std::size_t size)
 
 // 64-bit FNV-1a hash of `size` bytes. Returns 0 for NULL/empty input.
 // Useful as a fast non-cryptographic checksum for buffer contents.
+//
+// WARNING: FNV-1a is NOT a cryptographic hash. Do NOT use it for password
+// storage, cryptographic authentication, or security-sensitive integrity
+// verification. Use it only for change detection, dedup keys, hash tables,
+// and test assertions.
 inline std::uint64_t Fnv1aHash64(const void* data, std::size_t size)
 {
     if (data == nullptr || size == 0)
@@ -533,6 +538,8 @@ public:
     bool Equals(const Buffer& other) const;
 
     // FNV-1a 64-bit hash of the current contents (0 for empty buffer).
+    // Non-cryptographic: never use for password storage, cryptographic
+    // authentication, or security-sensitive integrity verification.
     std::uint64_t Checksum() const;
 
     // Uppercase hex string of the contents, two chars per byte.
@@ -913,7 +920,9 @@ ARCTIXC_MEMORY_API void Arctix_BufferClear(ArctixBufferHandle* handle);
 // Returns 1 when both buffers hold identical bytes, else 0.
 ARCTIXC_MEMORY_API int Arctix_BufferEquals(const ArctixBufferHandle* a, const ArctixBufferHandle* b);
 
-// FNV-1a 64-bit hash of contents (0 for NULL/empty).
+// FNV-1a 64-bit hash of contents (0 for NULL/empty). Non-cryptographic:
+// never use for password storage, cryptographic authentication, or
+// security-sensitive integrity verification.
 ARCTIXC_MEMORY_API unsigned long long Arctix_BufferChecksum(const ArctixBufferHandle* handle);
 
 // Raw bytes (valid until next mutating call), NULL when NULL/empty.

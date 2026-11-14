@@ -92,7 +92,9 @@ The only permitted way to direct others to the source code is by sharing a link 
 
 The public availability of Arctix Source Code is intended exclusively to allow users to inspect and independently verify the authenticity and apparent integrity of the project.
 
-Public availability does not grant permission to use, modify, reproduce, redistribute, or incorporate the source code into other works.
+Public availability does not grant permission to use, modify, reproduce, redistribute, or incorporate the source code into other works, except as stated below.
+
+You may compile the unmodified Arctix Source Code on your own machine solely to verify its integrity, including running the project's own build and test steps to reproduce the official binaries or run the test suite. Binaries you produce in this way are not licensed Arctix Components: they may not be integrated into Projects, shipped, or distributed. Only official Whitepoint releases may be used as dependencies under Section 2.
 
 Access to the source code must not be interpreted as an open-source license or as a grant of additional rights.
 
