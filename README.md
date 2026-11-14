@@ -1,5 +1,7 @@
 # Arctix - Two DLLs for Memory, Buffers, Virtual Memory, and Threads
 
+[![ArctixC version](https://img.shields.io/badge/ArctixC-0.2.0-blue)](ArctixC/CMakeLists.txt) [![License](https://img.shields.io/badge/license-Arctix%20License%201.0-green)](LICENSE.md) [![Build status](https://github.com/Yummyzzzz/Arctix/actions/workflows/build.yml/badge.svg)](https://github.com/Yummyzzzz/Arctix/actions/workflows/build.yml) [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20MSVC-lightgrey)](#cross-platform-goals) [![C++](https://img.shields.io/badge/C%2B%2B-17%20%7C%2020%20%7C%2023-blue)](#compiling-arctixc-from-source) [![Docs](https://img.shields.io/badge/docs-offline%20manual-informational)](ArctixC/Documentation.html)
+
 **Arctix** is a C/C++ systems toolkit designed to bring several essential low-level utilities together in one library.
 
 Its core library, **ArctixC**, ships as two standalone DLLs built from the same sources into the same folder: `arctixc.dll` for C++ and `arctixc_c.dll` for C, each with its import library (`arctixc.lib` / `arctixc_c.lib`) plus the public headers. Same namespace (`arctix::`), same headers, same behavior - only the binary you link differs. Link one import library, ship its DLL, and gain access to aligned memory allocation with statistics, O(1) memory pools, owning byte buffers, direct operating-system virtual memory control, and multithreading utilities - including a FIFO thread pool without work stealing.
@@ -10,6 +12,30 @@ Arctix is released under the **Arctix License**, allowing use in both open-sourc
 By downloading or using Arctix, you automatically accept the **Arctix License**.
 
 **Official WSD Website:** https://whitepoint.pages.dev/ - This is the valid and real website by Whitepoint Software Development (WSD) for Arctix and other WSD projects.
+
+## Why Arctix exists
+
+Every native project eventually re-solves the same five problems: aligned allocation, fast reuse of fixed-size blocks, safe byte buffers, direct virtual-memory control, and a sane way to run work on threads. The usual answer is a handful of micro-libraries - five licenses, five build systems, five APIs that never quite fit together.
+
+ArctixC is the opposite bet: one small, dependency-free toolkit that covers exactly those five problems with one consistent API, one license, and one `sdk/` folder to drop into your project. Nothing more - it is not a framework, not a game engine, not a container library. It does the low-level plumbing so your project does not collect half-maintained utilities.
+
+## Who it is for
+
+- **C++ developers** writing games, engines, emulators, tools, servers, or any native code that allocates a lot and threads a lot.
+- **Pure-C developers** who need the same functionality through a stable ABI (`sdk/c/arctixc_c.h` compiles as real C, verified with `cl /TC`).
+- **Developers who want observability for free:** the allocator tracks current bytes, peak bytes, and allocation counts out of the box, and the pool reports pending, running, and failed tasks.
+- **Indie and commercial teams** that want one permissive license (Arctix License, open- and closed-source friendly) instead of auditing five.
+
+If you only need one `std::vector` and one `std::thread`, ArctixC is overkill. If you are writing your third custom pool allocator this year, it is for you.
+
+## Problems it solves
+
+1. **Dependency sprawl.** One toolkit replaces the typical pile of single-purpose alloc/buffer/thread helpers - zero third-party dependencies, links only against Windows system libraries.
+2. **Silent allocators.** `malloc` and `new` tell you nothing. `Allocator::GetStatistics()` tells you live bytes, peak bytes, and counts, and `ResetStatistics()` starts a clean measurement window.
+3. **Thread lifecycle boilerplate.** Spawning and joining threads per task wastes time and litters code. `ThreadPool` keeps N workers alive on a single FIFO queue; `ParallelFor` splits a range across workers with one call.
+4. **Lost worker exceptions.** An exception escaping a raw thread terminates the process. `Thread` and `ThreadPool` catch worker exceptions at the boundary and record them (`HasThrown()` / `FailedTasks()`), so failures become data instead of crashes.
+5. **Virtual-memory `#ifdef` mazes.** `VirtualReserve` / `VirtualCommit` / `VirtualDecommit` / `VirtualRelease` / `VirtualProtectMemory` expose one API with Windows and POSIX backends in-tree - no platform branches in your code.
+6. **Packaging confusion.** Static lib, import lib, C ABI, single headers: the `sdk/` folder lays out every flavor after each build, with a documented "which files ship with my .exe" table below.
 
 ## What You Get
 
@@ -30,10 +56,42 @@ By downloading or using Arctix, you automatically accept the **Arctix License**.
 | Memory pool | `arctix::Memory::MemoryPool` | Fixed-size O(1) blocks for frequently used objects |
 | Buffer | `arctix::Buffer::Buffer` | Owning, resizable byte array with CopyFrom, Append, Resize, Checksum, and HexEncode |
 | Memory utilities | `arctix::Memory::` | `SecureZero`, `MemEqual`, and `Fnv1aHash64` (header-only, non-cryptographic - not for passwords, auth, or security-sensitive integrity) |
-| Virtual memory | `arctix::Memory::` | Reserve, Commit, Decommit, Release, ProtectMemory, and page helpers |
+| Virtual memory | `arctix::Memory::` | `VirtualReserve`, `VirtualCommit`, `VirtualDecommit`, `VirtualRelease`, `VirtualProtectMemory`, plus `VirtualPageSize` / `RoundUpToPageSize` helpers |
 | Thread | `arctix::Thread::Thread` | Move-only thread with caught worker exceptions |
-| Thread pool | `arctix::Thread::ThreadPool` | FIFO task execution from a single shared queue (no work stealing), WaitIdle, per-task exception counts, and `ParallelFor` |
+| Thread pool | `arctix::Thread::ThreadPool` | FIFO task execution from a single shared queue (no work stealing), WaitIdle, pending/running/failed task counts - plus the free function `arctix::Thread::ParallelFor` for range-based loops |
 | C ABI | `Arctix_*` / `ArctixC_*` | Core functionality for C consumers |
+
+## Compared to native APIs
+
+What you stop hand-writing when you link ArctixC:
+
+| Instead of... | ArctixC gives you... |
+|---|---|
+| `malloc` / `free`, `new[]` / `delete[]` | `Allocator`: aligned allocation with live statistics (current bytes, peak bytes, counts), resettable counters, optional thread safety |
+| A hand-rolled free list for hot objects | `MemoryPool`: fixed-size O(1) blocks with zero per-allocation bookkeeping in your code |
+| Raw `new uint8_t[]` plus a manual length | `Buffer`: owning, resizable, move-only byte array (`CopyFrom`, `Append`, `Resize`, `Checksum`, `HexEncode`) - leaks impossible by construction |
+| `VirtualAlloc` on Windows, `mmap` elsewhere, `#ifdef` in your code | `VirtualReserve` / `VirtualCommit` / `VirtualDecommit` / `VirtualRelease` / `VirtualProtectMemory`: one API, both backends in-tree |
+| Spawning and joining `std::thread`s per task | `ThreadPool`: fixed workers on one FIFO queue, `WaitIdle`, `PendingTasks` / `RunningTasks` / `FailedTasks` |
+| Manual index-splitting across threads | `ParallelFor(begin, end, fn, userData)`: one call spreads a range over the hardware |
+| Exceptions escaping a worker and terminating the process | `Thread::HasThrown()` and pool-wide `FailedTasks()`: failures become countable data |
+
+ArctixC does not replace the standard library - it sits next to it for the parts the standard library leaves manual: alignment, statistics, pooling, page control, and observable threading.
+
+## Hello world (minimal)
+
+The smallest program that proves your setup works - one include, one linked lib, prints the library version:
+
+```cpp
+#include <cstdio>
+#include "arctixc_all.hpp" // sdk/cpp/arctixc_all.hpp
+
+int main() {
+    std::printf("Hello from ArctixC %s\n", arctix::Core::GetVersionString());
+    return 0;
+}
+```
+
+Build it static (one `.exe`, no DLL to ship): link `sdk/cpp/arctixc_static.lib`, define `ARCTIXC_STATIC`, and compile. Expected output: `Hello from ArctixC 0.2.0`. If you see `LNK2019 __imp_*` errors, the flavors got mixed - see "Using ArctixC in your project" below.
 
 ## Quick Start - C++
 
@@ -326,10 +384,10 @@ Benchmarks ship inside ArctixCLI - they measure this SDK on your machine, nothin
 
 | Command (defaults) | What it measures | Unit |
 |---|---|---|
-| `bench --size 256 --iters 100000` | `Allocator` alloc/free vs system `malloc`/`free` (single-threaded), then thread-pool task throughput | ops/s |
+| `bench [--size 256] [--iters 100000] [--threads N]` | `Allocator` alloc/free vs system `malloc`/`free` (single-threaded), then thread-pool task throughput (`--threads 0` = hardware thread count) | ops/s |
 | `bench-pool --size 64 --count 1024 --iters 200000` | `MemoryPool` alloc/free on a fixed pool | ops/s |
 | `bench-hash --size 4096 --iters 20000` | FNV-1a (non-cryptographic) over a buffer, two passes per iteration | MB/s |
-| `bench-scale --range 2000000` | Parallel-sum sweep across 1..N workers (N = core count, capped at 64) | ms + speedup vs 1 worker |
+| `bench-scale [--range 2000000] [--max-workers N]` | Parallel-sum sweep across 1..N workers (N = hardware thread count, capped at 64) | ms + speedup vs 1 worker |
 
 Run them from the repo root after building (`ArctixC/build.ps1`, then build ArctixCLI):
 
@@ -352,6 +410,16 @@ Credibility policy - read before quoting any number:
 | `bench-pool` | same | same | same | (paste output) |
 | `bench-hash` | same | same | same | (paste output) |
 | `bench-scale` | same | same | same | (paste table) |
+
+## Cross-platform goals
+
+Honest status, no overselling:
+
+- **Today: Windows 10/11 with MSVC is the tested target.** Every suite runs green there (each suite runs against both DLLs, plus the pure-C runner). C++17 is the default; C++20 and C++23 build with one flag.
+- **The POSIX groundwork is already in-tree.** The virtual-memory layer ships a working `mmap` backend next to the `VirtualAlloc` one - the `#ifdef`s live in ArctixC, not in your code. So the API was designed portable from day one; only the CI-kept promise is Windows so far.
+- **The goal: same headers, same behavior, more platforms.** Linux and macOS support means porting the thread and allocator backends the way virtual memory already is - no API redesign. Until a platform is tested in CI, this README will not claim it.
+
+Portability rule for contributors and consumers alike: never let platform branches leak into calling code. If you need an `#ifdef` to use ArctixC, that is a bug - file it.
 
 ## Project Structure
 
