@@ -343,7 +343,7 @@ Then build with a single command (see below).
 
 ## Build From Source
 
-> **License note:** Compiling the source is permitted for verification on your own machine only - reproducing the official binaries and running the test suite to verify what you run. Binaries you build yourself are not licensed Components: do not integrate them into your projects, ship them, or distribute them. Use only official WSD releases as dependencies. See `LICENSE.md` (Section 4.4) and the WSD Universal Additional License (Section 4.1) at https://whitepoint.pages.dev/#copyright.
+> **Not permitted.** Building from source is not permitted - use only official WSD releases as dependencies. The only exception is compiling the unmodified source on your own machine solely to verify its integrity (reproducing the official binaries and running the test suite). Binaries you build yourself are not licensed Components: do not integrate them into your projects, ship them, or distribute them. See `LICENSE.md` (Section 4.4) and the WSD Universal Additional License (Section 4.1) at https://whitepoint.pages.dev/#copyright.
 
 **Requirements:** Windows with MSVC and CMake 3.20 or newer.
 
