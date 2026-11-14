@@ -84,6 +84,7 @@ set(ARCTIXC_IMPL_SOURCES
     src/memory/statistics_manager.cpp
     src/memory/windows_memory.cpp
     src/memory/buffer.cpp
+    src/memory/ring_buffer.cpp
     src/memory/virtual_memory.cpp
     src/thread/thread.cpp
     src/thread/thread_pool.cpp
@@ -245,6 +246,7 @@ if(ARCTIXC_BUILD_STATIC)
         memory/allocator.hpp
         memory/memory_pool.hpp
         memory/buffer.hpp
+        memory/ring_buffer.hpp
         memory/virtual_memory.hpp
         thread/thread.hpp
         thread/thread_pool.hpp

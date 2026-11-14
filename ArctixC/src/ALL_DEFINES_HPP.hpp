@@ -75,6 +75,13 @@ using arctix::Buffer::Buffer;
 //   Equals, Checksum, HexEncode,
 //   Data, Size, Capacity, Empty
 
+// --- RingBuffer ------------------------------------------------------------
+using arctix::Buffer::RingBuffer;
+// RingBuffer members (call as ring.Write(...), ring.Read(...), ...):
+//   Create, Destroy, IsCreated,
+//   Write, Read, Peek, Discard, Clear,
+//   Capacity, Size, FreeSpace, Empty, Full
+
 // --- Thread ----------------------------------------------------------------
 using arctix::Thread::ThreadFunction;
 using arctix::Thread::Thread;

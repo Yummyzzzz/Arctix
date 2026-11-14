@@ -15,6 +15,7 @@
 #include "arctixc/memory/allocator.hpp"
 #include "arctixc/memory/memory_pool.hpp"
 #include "arctixc/memory/buffer.hpp"
+#include "arctixc/memory/ring_buffer.hpp"
 #include "arctixc/memory/virtual_memory.hpp"
 #include "arctixc/thread/thread.hpp"
 #include "arctixc/thread/thread_pool.hpp"

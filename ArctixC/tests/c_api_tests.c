@@ -90,6 +90,58 @@ static void TestBuffer(void)
     Arctix_BufferDestroy(0);
 }
 
+static void TestRing(void)
+{
+    ArctixRingHandle* ring = Arctix_RingCreate(0);
+    CHECK(ring == 0); /* capacity must be > 0 */
+    ring = Arctix_RingCreate(8);
+    CHECK(ring != 0);
+    if (ring == 0) return;
+
+    CHECK(Arctix_RingCapacity(ring) == 8);
+    CHECK(Arctix_RingIsEmpty(ring) == 1);
+    CHECK(Arctix_RingWrite(ring, "hello", 5) == 1);
+    CHECK(Arctix_RingSize(ring) == 5);
+    CHECK(Arctix_RingFreeSpace(ring) == 3);
+
+    char peek[5];
+    memset(peek, 0, sizeof(peek));
+    CHECK(Arctix_RingPeek(ring, peek, 5) == 1);
+    CHECK(memcmp(peek, "hello", 5) == 0);
+    CHECK(Arctix_RingSize(ring) == 5); /* peek does not consume */
+
+    CHECK(Arctix_RingWrite(ring, "123", 3) == 1);
+    CHECK(Arctix_RingIsFull(ring) == 1);
+    CHECK(Arctix_RingWrite(ring, "x", 1) == 0); /* full: must fail */
+
+    char out[8];
+    memset(out, 0, sizeof(out));
+    CHECK(Arctix_RingRead(ring, out, 5) == 1);
+    CHECK(memcmp(out, "hello", 5) == 0);
+    /* Wrap-around write past the end of the backing array. */
+    CHECK(Arctix_RingWrite(ring, "WORLD", 5) == 1);
+    memset(out, 0, sizeof(out));
+    CHECK(Arctix_RingPeek(ring, out, 8) == 1);
+    CHECK(memcmp(out, "123WORLD", 8) == 0);
+    CHECK(Arctix_RingRead(ring, out, 8) == 1);
+    CHECK(Arctix_RingIsEmpty(ring) == 1);
+
+    CHECK(Arctix_RingWrite(ring, "abcdef", 6) == 1);
+    CHECK(Arctix_RingDiscard(ring, 2) == 1);
+    CHECK(Arctix_RingSize(ring) == 4);
+    Arctix_RingClear(ring);
+    CHECK(Arctix_RingSize(ring) == 0);
+
+    /* NULL safety. */
+    CHECK(Arctix_RingWrite(0, "x", 1) == 0);
+    CHECK(Arctix_RingRead(0, out, 1) == 0);
+    CHECK(Arctix_RingSize(0) == 0);
+    Arctix_RingClear(0);
+    Arctix_RingDestroy(0);
+
+    Arctix_RingDestroy(ring);
+}
+
 static void TestVirtual(void)
 {
     size_t page = ArctixC_VirtualPageSize();
@@ -163,6 +215,7 @@ int main(void)
     TestAllocator();
     TestPool();
     TestBuffer();
+    TestRing();
     TestVirtual();
     TestThread();
     TestThreadPool();

@@ -24,6 +24,7 @@ extern "C"
 typedef struct ArctixAllocatorHandle ArctixAllocatorHandle;
 typedef struct ArctixPoolHandle ArctixPoolHandle;
 typedef struct ArctixBufferHandle ArctixBufferHandle;
+typedef struct ArctixRingHandle ArctixRingHandle;
 
 // C-compatible configuration (mirrors arctix::Memory::ArctixConfig).
 // Use 0/1 for threadSafe and enableStatistics.
@@ -119,6 +120,52 @@ ARCTIXC_MEMORY_API unsigned char* Arctix_BufferData(ArctixBufferHandle* handle);
 
 // Current size in bytes (0 for NULL).
 ARCTIXC_MEMORY_API size_t Arctix_BufferSize(const ArctixBufferHandle* handle);
+
+// --- Byte ring buffer ---
+//
+// Fixed-capacity FIFO of bytes. Write() appends at the tail, Read()
+// consumes from the head, both with wrap-around. All operations are
+// all-or-nothing: Write() fails when `size` exceeds free space,
+// Read()/Peek() fail when `size` exceeds used size. No partial I/O,
+// no overwrite mode, no blocking. Free with Arctix_RingDestroy().
+// Passing NULL where a handle is required is always safe (queries
+// return 0, mutators return 0 / do nothing).
+
+// Creates a ring holding `capacity` bytes (> 0). Free with Arctix_RingDestroy.
+ARCTIXC_MEMORY_API ArctixRingHandle* Arctix_RingCreate(size_t capacity);
+
+// Destroys a ring from Arctix_RingCreate(). Wipes unread bytes. No-op on NULL.
+ARCTIXC_MEMORY_API void Arctix_RingDestroy(ArctixRingHandle* handle);
+
+// Appends `size` bytes from `data`. Returns 1 on success, 0 when full / bad args.
+ARCTIXC_MEMORY_API int Arctix_RingWrite(ArctixRingHandle* handle, const void* data, size_t size);
+
+// Copies `size` bytes out and consumes them. Returns 1 on success.
+ARCTIXC_MEMORY_API int Arctix_RingRead(ArctixRingHandle* handle, void* out, size_t size);
+
+// Copies `size` bytes out without consuming them. Returns 1 on success.
+ARCTIXC_MEMORY_API int Arctix_RingPeek(const ArctixRingHandle* handle, void* out, size_t size);
+
+// Drops `size` bytes without copying them out. Returns 1 on success.
+ARCTIXC_MEMORY_API int Arctix_RingDiscard(ArctixRingHandle* handle, size_t size);
+
+// Drops all unread bytes (size becomes 0), keeps allocation. No-op on NULL.
+ARCTIXC_MEMORY_API void Arctix_RingClear(ArctixRingHandle* handle);
+
+// Unread bytes (0 for NULL).
+ARCTIXC_MEMORY_API size_t Arctix_RingSize(const ArctixRingHandle* handle);
+
+// Total capacity in bytes (0 for NULL).
+ARCTIXC_MEMORY_API size_t Arctix_RingCapacity(const ArctixRingHandle* handle);
+
+// Free space in bytes (0 for NULL).
+ARCTIXC_MEMORY_API size_t Arctix_RingFreeSpace(const ArctixRingHandle* handle);
+
+// Returns 1 when empty (or NULL), else 0.
+ARCTIXC_MEMORY_API int Arctix_RingIsEmpty(const ArctixRingHandle* handle);
+
+// Returns 1 when full, else 0 (NULL counts as not full).
+ARCTIXC_MEMORY_API int Arctix_RingIsFull(const ArctixRingHandle* handle);
 
 // --- Virtual memory ---
 //

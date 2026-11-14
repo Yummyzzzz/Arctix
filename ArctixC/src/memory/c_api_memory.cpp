@@ -6,6 +6,7 @@
 #include "arctixc/memory/allocator.hpp"
 #include "arctixc/memory/buffer.hpp"
 #include "arctixc/memory/memory_pool.hpp"
+#include "arctixc/memory/ring_buffer.hpp"
 #include "arctixc/memory/virtual_memory.hpp"
 
 // Private implementation-only translation unit: implements the stable C ABI
@@ -56,6 +57,11 @@ struct ArctixPoolHandle
 struct ArctixBufferHandle
 {
     arctix::Buffer::Buffer buffer;
+};
+
+struct ArctixRingHandle
+{
+    arctix::Buffer::RingBuffer ring;
 };
 
 extern "C"
@@ -255,6 +261,116 @@ ARCTIXC_MEMORY_API size_t Arctix_BufferSize(const ArctixBufferHandle* handle)
         return 0;
     }
     return handle->buffer.Size();
+}
+
+ARCTIXC_MEMORY_API ArctixRingHandle* Arctix_RingCreate(size_t capacity)
+{
+    ArctixRingHandle* handle = new (std::nothrow) ArctixRingHandle();
+    if (handle == nullptr)
+    {
+        return nullptr;
+    }
+    if (!handle->ring.Create(capacity))
+    {
+        delete handle;
+        return nullptr;
+    }
+    return handle;
+}
+
+ARCTIXC_MEMORY_API void Arctix_RingDestroy(ArctixRingHandle* handle)
+{
+    delete handle;
+}
+
+ARCTIXC_MEMORY_API int Arctix_RingWrite(ArctixRingHandle* handle, const void* data, size_t size)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Write(data, size) ? 1 : 0;
+}
+
+ARCTIXC_MEMORY_API int Arctix_RingRead(ArctixRingHandle* handle, void* out, size_t size)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Read(out, size) ? 1 : 0;
+}
+
+ARCTIXC_MEMORY_API int Arctix_RingPeek(const ArctixRingHandle* handle, void* out, size_t size)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Peek(out, size) ? 1 : 0;
+}
+
+ARCTIXC_MEMORY_API int Arctix_RingDiscard(ArctixRingHandle* handle, size_t size)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Discard(size) ? 1 : 0;
+}
+
+ARCTIXC_MEMORY_API void Arctix_RingClear(ArctixRingHandle* handle)
+{
+    if (handle == nullptr)
+    {
+        return;
+    }
+    handle->ring.Clear();
+}
+
+ARCTIXC_MEMORY_API size_t Arctix_RingSize(const ArctixRingHandle* handle)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Size();
+}
+
+ARCTIXC_MEMORY_API size_t Arctix_RingCapacity(const ArctixRingHandle* handle)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Capacity();
+}
+
+ARCTIXC_MEMORY_API size_t Arctix_RingFreeSpace(const ArctixRingHandle* handle)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.FreeSpace();
+}
+
+ARCTIXC_MEMORY_API int Arctix_RingIsEmpty(const ArctixRingHandle* handle)
+{
+    if (handle == nullptr)
+    {
+        return 1;
+    }
+    return handle->ring.Empty() ? 1 : 0;
+}
+
+ARCTIXC_MEMORY_API int Arctix_RingIsFull(const ArctixRingHandle* handle)
+{
+    if (handle == nullptr)
+    {
+        return 0;
+    }
+    return handle->ring.Full() ? 1 : 0;
 }
 
 ARCTIXC_MEMORY_API size_t ArctixC_VirtualPageSize(void)

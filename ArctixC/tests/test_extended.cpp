@@ -9,6 +9,7 @@
 #include "arctixc/memory/allocator.hpp"
 #include "arctixc/memory/buffer.hpp"
 #include "arctixc/memory/mem_utils.hpp"
+#include "arctixc/memory/ring_buffer.hpp"
 #include "arctixc/memory/virtual_memory.hpp"
 #include "arctixc/thread/thread_pool.hpp"
 
@@ -101,6 +102,96 @@ static void TestBuffer()
     arctix::Buffer::Buffer secret(16, 0xFF);
     secret.SecureWipe();
     CHECK(secret.Empty());
+}
+
+static void TestRingBuffer()
+{
+    arctix::Buffer::RingBuffer ring;
+    CHECK(!ring.IsCreated());
+    CHECK(ring.Capacity() == 0);
+    CHECK(ring.Size() == 0);
+    CHECK(ring.Empty());
+    CHECK(!ring.Full());
+    CHECK(!ring.Write("x", 1)); // not created yet
+    CHECK(!ring.Create(0)); // capacity must be > 0
+    CHECK(ring.Create(8));
+    CHECK(ring.IsCreated());
+    CHECK(!ring.Create(8)); // already created
+    CHECK(ring.Capacity() == 8);
+    CHECK(ring.FreeSpace() == 8);
+
+    CHECK(ring.Write("hello", 5));
+    CHECK(ring.Size() == 5);
+    CHECK(ring.FreeSpace() == 3);
+    CHECK(!ring.Empty());
+    CHECK(!ring.Full());
+
+    char peek[5] = {};
+    CHECK(ring.Peek(peek, 5));
+    CHECK(std::memcmp(peek, "hello", 5) == 0);
+    CHECK(ring.Size() == 5); // peek does not consume
+
+    // Fill to capacity, then overflow must fail without side effects.
+    CHECK(ring.Write("123", 3));
+    CHECK(ring.Full());
+    CHECK(!ring.Write("x", 1));
+    CHECK(ring.Size() == 8);
+
+    char out[8] = {};
+    CHECK(ring.Read(out, 5));
+    CHECK(std::memcmp(out, "hello", 5) == 0);
+    CHECK(ring.Size() == 3);
+
+    // Wrap-around: head is at 5, write 5 more bytes wraps past the end.
+    CHECK(ring.Write("WORLD", 5));
+    CHECK(ring.Full());
+    char wrapped[8] = {};
+    CHECK(ring.Peek(wrapped, 8));
+    CHECK(std::memcmp(wrapped, "123WORLD", 8) == 0);
+    CHECK(ring.Read(wrapped, 8));
+    CHECK(ring.Empty());
+
+    // Discard path.
+    CHECK(ring.Write("abcdef", 6));
+    CHECK(ring.Discard(2));
+    CHECK(ring.Size() == 4);
+    char tail[4] = {};
+    CHECK(ring.Read(tail, 4));
+    CHECK(std::memcmp(tail, "cdef", 4) == 0);
+    CHECK(!ring.Discard(1)); // empty: nothing to drop
+
+    // Zero-size ops are no-ops that succeed when created.
+    CHECK(ring.Write(nullptr, 0));
+    CHECK(ring.Read(nullptr, 0));
+    CHECK(ring.Peek(nullptr, 0));
+    CHECK(ring.Discard(0));
+
+    // Invalid args fail cleanly.
+    CHECK(!ring.Write(nullptr, 4));
+    CHECK(!ring.Read(nullptr, 4));
+    CHECK(!ring.Read(out, 1)); // empty
+    CHECK(!ring.Peek(out, 1));
+
+    // Clear keeps the allocation.
+    CHECK(ring.Write("data", 4));
+    ring.Clear();
+    CHECK(ring.Empty());
+    CHECK(ring.Capacity() == 8);
+    CHECK(ring.FreeSpace() == 8);
+
+    // Move semantics.
+    CHECK(ring.Write("move", 4));
+    arctix::Buffer::RingBuffer moved(std::move(ring));
+    CHECK(moved.Size() == 4);
+    char movedOut[4] = {};
+    CHECK(moved.Read(movedOut, 4));
+    CHECK(std::memcmp(movedOut, "move", 4) == 0);
+
+    moved.Destroy();
+    CHECK(!moved.IsCreated());
+    CHECK(moved.Capacity() == 0);
+    CHECK(moved.Create(4)); // reusable after Destroy
+    moved.Destroy();
 }
 
 static void TestMemUtils()
@@ -237,6 +328,7 @@ static void TestParallelFor()
 int main()
 {
     TestBuffer();
+    TestRingBuffer();
     TestMemUtils();
     TestVirtualMemory();
     TestThreadPool();
